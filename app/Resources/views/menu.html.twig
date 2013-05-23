@@ -1,0 +1,35 @@
+<ul class="nav nav-tabs pull-right">
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+  {% if is_granted('ROLE_ADMIN') %}     
+    {% if controller == 'members'%}
+       <li class="active"><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members">Members</a></li>   
+    {% else %}
+        <li><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members">Members</a></li>
+    {% endif %}          
+  {% endif %}     
+      
+ 
+      
+     
+    
+
+{% else %}
+   {% if controller == 'home'%}   
+        <li class="active"><a href="{{ path('_welcome')}}">Home</a></li>
+   {% else %}
+        <li><a href="{{ path('_welcome')}}">Home</a></li>
+   {% endif %}
+        
+   {% if controller == 'about'%}   
+        <li class="active"><a href="{{ path('vanessa_core_site_about')}}.html" title="About Us">About us</a></li>
+   {% else %}
+        <li><a href="{{ path('vanessa_core_site_about')}}.html" title="About Us">About us</a></li>
+   {% endif %}
+        
+   {% if controller == 'contact'%}   
+        <li class="active"><a href="{{ path('vanessa_core_site_contact')}}.html" title="Contact Us">Contact us</a></li>
+   {% else %}
+        <li><a href="{{ path('vanessa_core_site_contact')}}.html" title="Contact Us">Contact us</a></li>
+   {% endif %}
+{% endif %} 
+</ul>

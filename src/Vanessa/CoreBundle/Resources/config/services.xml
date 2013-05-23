@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="status_manager.class">Vanessa\CoreBundle\Services\StatusManager</parameter>
+        <parameter key="notification_manager.class">Vanessa\CoreBundle\Services\NotificationsManager</parameter>
+        <parameter key="email_manager.class">Vanessa\CoreBundle\Services\EmailerManager</parameter>          
+        <parameter key="excel_manager.class">Vanessa\CoreBundle\Services\ExcelManager</parameter>          
+    </parameters>
+    <services>
+        <service id="status.manager" class="%status_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service> 
+        <service id="notification.manager" class="%notification_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>    
+        <service id="email.manager" class="%email_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                      
+        <service id="excel.manager" class="%excel_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                      
+    </services>
+</container>

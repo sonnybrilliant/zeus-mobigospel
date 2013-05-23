@@ -1,0 +1,57 @@
+<section class="content">
+    <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination,'Full name', 'm.firstName') }}
+                  {% if isDirectionSet == false %}
+                      <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
+                  {% else %}
+                    {% if pagination.isSorted('m.firstName') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
+                  {% endif %} 
+                </th> 
+                <th>{{ knp_pagination_sortable(pagination,'Agency', 'm.agency') }}  {% if pagination.isSorted('m.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th>{{ knp_pagination_sortable(pagination,'Status', 'm.status') }}  {% if pagination.isSorted('m.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th>{{ knp_pagination_sortable(pagination,'Created By', 'm.createdBy') }}   {% if pagination.isSorted('m.createdBy') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th>{{ knp_pagination_sortable(pagination,'Created At', 'm.createdAt')}}    {% if pagination.isSorted('m.createdAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th>{{ knp_pagination_sortable(pagination,'Updated At', 'm.updatedAt') }}   {% if pagination.isSorted('m.updatedAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for member in pagination %}
+                <tr>
+                    <td>{{ member.getFullName()|capitalize|truncate(20)}}</td>
+                    <td><a href='{# path('sule_agency_show', {'id': member.agency.id,'agency': member.agency.slug }) #}' rel="tooltip" title="{{ member.agency.name|title|truncate(30) }}"><strong>{{ member.agency.name|title|truncate(20) }}</strong></a></td>
+                    {% if member.status.name == 'Active'  %}
+                        <td><span class="label label-info">{{member.status.name }}</span></td>
+                    {% else %}
+                       <td><span class="label">{{member.status.name }}</span></td>
+                    {% endif %}
+                    
+                    {% if member.createdBy  %} 
+                       <td>{{member.createdBy.getFullName()|capitalize|truncate(20)}}</td>
+                    {% else %}  
+                       <td>System default</td>
+                    {% endif%}   
+                    
+                    <td>{{member.createdAt|date('Y-m-d H:i A')}}</td>
+                    <td>{{member.updatedAt|date('Y-m-d H:i A')}}</td>
+                    <td>
+                        <small>
+                            <a href='{# path('sule_member_show', {'id': member.id }) #}' rel="tooltip" title="click to view" class="btn btn-mini btn-warning"><i class="icon-white icon-eye-open"></i>&nbsp;<strong>View</strong></a>
+                            <a href='{# path('sule_member_edit', {'id': member.id }) #}' rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-white icon-edit"></i>&nbsp;<strong>Edit</strong></a>
+                            <a href='{# path('sule_member_delete', {'id': member.id }) #}' onclick="if(confirm('You are about to delete member {{member.firstName}} {{member.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-mini btn-danger btn-delete"><i class="icon-white icon-trash"></i>&nbsp;<strong>Delete</strong></a>
+                        </small>
+                    </td>
+                </tr>
+          {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation pagination-right">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+</section>
+
+
+
+

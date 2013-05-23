@@ -1,0 +1,14 @@
+vanessa_core_site_about:
+    pattern:  /aboutUs.{_format}
+    defaults: { _controller: VanessaCoreBundle:Site:about , maxAge: 86400 , sharedMaxAge: 86400 , private: false , _format: html}    
+    requirements:
+        _method:  GET 
+        _format:  html
+        
+vanessa_core_site_contact:
+    pattern:  /contactUs.{_format}
+    defaults: { _controller: VanessaCoreBundle:Site:contact , maxAge: 86400 , sharedMaxAge: 86400 , private: false , _format: html}     
+    requirements:
+        _method:  GET 
+        _format:  html
+    

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <base href="{{ site_url }}" />
+    </head>
+    <body style="padding-top: 35px; padding-bottom: 35px; background-color: #DFDFDF">
+        <center>
+            <table width="550" border="0" cellpadding="0" style="background-color:#ffffff;border:1px solid #C4C4C4;">
+              <tbody>
+                <tr>
+                  <td style="text-align:center">
+                    <a href="{{ site_url }}" title="SkedApp logo">
+                        <img src="http://i24.photobucket.com/albums/c36/mlanka/mobi-gospel-site-header-email.png" width="611" height="171" border="none" title="Mobigospel" alt="Mobigospel" style="margin-top:15px">
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#565;padding-left:25px;padding-right:25px;padding-top:15px;padding-bottom:5px;text-align:left">
+                    <p>
+                      {% block body %}
+                      {% endblock %}
+                      <br><br>
+                      Thank You,
+                      <br><br>
+                      The Mobigospel Team.
+                      <br>
+                      <a href="{{ site_url }}" style="color:#4690d6;text-decoration:none"  target="_blank">www.mobigospel.co.za</a>
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:11px;padding:10px">
+                    <p style="color:#565">Copyright &copy; {{ date().format('Y') }} Mobigospel. Pretoria , Gauteng , South Africa</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </center>
+    </body>
+</html>

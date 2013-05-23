@@ -1,0 +1,11 @@
+vanessa_member:
+    resource: "@VanessaMemberBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vanessa_core:
+    resource: "@VanessaCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+_welcome:
+    pattern:  /
+    defaults: { _controller: VanessaCoreBundle:Site:index }

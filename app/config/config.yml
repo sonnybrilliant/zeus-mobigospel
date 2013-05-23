@@ -2,6 +2,27 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+parameters:
+    #site specific details
+    site_detail_url: %site_url%
+  
+    #email settings
+    mail_send_from_name: %mailer_from_name%
+    mail_send_from_email: %mailer_from_email%  
+  
+   #Site contact details
+    site_name: %website_name%
+    site_email: %contact_email%
+    site_contact: %contact_number%
+  
+    #mobi site contacts
+    mobi_site_email: %contact_email%
+    mobi_site_contact: support
+    
+    #monolog error
+    mono_log_email: %error_email%
+    mono_log_subject: %error_subject%
+
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
@@ -24,6 +45,11 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        site_email: %site_email%
+        site_contact: %site_contact%
+        site_name: %website_name%
+        site_url: %site_url%
 
 # Assetic Configuration
 assetic:
@@ -53,8 +79,34 @@ doctrine:
         # path:     %database_path%
 
     orm:
-        auto_generate_proxy_classes: %kernel.debug%
+        auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            gedmo_translatable:
+                type: annotation
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_translator:
+                type: annotation
+                prefix: Gedmo\Translator\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                is_bundle: false
+            gedmo_tree:
+                type: annotation
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                is_bundle: false              
+
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -62,4 +114,84 @@ swiftmailer:
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-    spool:     { type: memory }
+    auth_mode:  login
+    encryption: tls
+    port:  587
+    logging:  "%kernel.debug%"    
+    spool:     
+       type: file
+       path: "%kernel.root_dir%/spool"
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
+            timestampable: true
+
+knp_paginator:
+    page_range: 2                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: VanessaCoreBundle::sliding.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+genemu_form:
+    recaptcha:
+        enabled: true
+        public_key:  %recaptcha_public_key%
+        private_key: %recaptcha_private_key%            
+            
+mobile_detect:
+    redirect:
+        mobile: ~
+        tablet: ~
+    switch_device_view: ~        
+
+services:
+     twig.extension.text:
+           class: Twig_Extensions_Extension_Text
+           tags:
+              - { name: twig.extension }   
+
+ivory_google_map:
+    marker:
+        # Prefix used for the generation of the marker javascript variable
+        prefix_javascript_variable: "marker_"
+
+        # Position of the marker
+        position:
+            latitude: 0
+            longitude: 0
+            no_wrap: true
+
+        # Marker animation
+        # Available animation: bounce, drop
+        # By default, there is no animation
+        animation: "drop"
+
+        # Custom marker options
+        # By default there is no marker options
+        options:
+            clickable: true
+            flat: true
+            
+    map_type_control:
+        # Map type ids of the map type control
+        # Available map type ids : roadmap, satellite, hybrid, terrain
+        map_type_ids: ["roadmap", "satellite" ,"hybrid" ,"terrain"]     
+
+        # Map type control position
+        # Available map type control position:
+        # - top_left, top_center, top_right
+        # - left_top, left_center, left_bottom
+        # - right_top, right_center, right_bottom
+        # - bottom_left, bottom_center, bottom_right
+        control_position: "top_right"
+
+        # Map type control style
+        # Availbale map type control style : default, dropdown_menu, horizontal_bar
+        map_type_control_style: "default"            

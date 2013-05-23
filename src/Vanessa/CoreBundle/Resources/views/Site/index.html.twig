@@ -1,0 +1,66 @@
+{% extends "VanessaCoreBundle::layout.html.twig" %}
+{% block title %}Welcome{% endblock %}
+
+{% block menu %}
+      {% set vars = {'controller': 'home'} %}
+      {% include "::menu.html.twig" with vars  %}     
+{% endblock %}
+
+{% block body %}
+<div class="span12">
+    <div id="myCarousel" class="carousel slide">
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <div class="active item"><img src="{{ asset('/img/assets/carousel/music_mic.jpg')}}" title="Microphone" /></div>  
+        <div class="item"><img src="{{ asset('/img/assets/carousel/music_drums.jpg')}}" title="Drums"  /></div>        
+        <div class="item"><img src="{{ asset('/img/assets/carousel/music_headphones.jpg')}}" title="Headphones"  /></div>
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+</div>
+<div class="span8 leftContent">
+    <h3>Why Mobi Gospel?</h3>
+    <div class="row">
+        <div class="span4">
+            <p class="cntPara simpleDesign">
+                <strong class="lead">Reporting</strong>
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>            	                                                
+        </div>
+        <div class="span4">
+            <p class="cntPara itsFree">
+                <strong class="lead">Mobility</strong>
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>      
+        </div>                                        
+    </div>
+    <hr>
+    <div class="row">
+        <div class="span4">
+            <p class="cntPara secureApp">
+                <strong class="lead">Secure</strong>
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>            	                                                
+        </div>
+        <div class="span4">
+            <p class="cntPara easyUse">
+                <strong class="lead">Cashout</strong>
+                Nullam quis risus eget urna <a href="#">mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>      
+        </div>                                        
+    </div>
+</div>
+<div class="span3 sidebar well pull-right box_shadow_effect" style="margin-top: 50px;background-color: #701112">
+    <h3>Top downloads</h3>    
+    {# render url('sule_download_top_ten') #}                      
+</div>
+{% endblock %}                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

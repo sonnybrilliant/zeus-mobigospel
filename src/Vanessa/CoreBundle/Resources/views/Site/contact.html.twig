@@ -1,0 +1,31 @@
+{% extends "VanessaCoreBundle::layout.html.twig" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block menu %}
+      {% set vars = {'controller': 'contact'} %}
+      {% include "::menu.html.twig" with vars  %}     
+{% endblock %}
+
+{% block body %}
+<div class="span12 leftContent">
+    <div class="row">
+        <div class="span12">
+            {{ google_map_container(map) }}
+        </div>
+        <div class="span9">
+            <h2>Contact Us</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget quam sit amet nisl dictum blandit. Sed cursus arcu eu libero posuere suscipit.</p>
+        </div>
+        <div class="span3">
+            <h1><small>Contact</small></h1>
+            <p>Address line 1<br>Address line 2<br>City<br>ZIP/Post Code</p>
+            <p>
+	       <strong>Tel:</strong>{{ site_contact }}<br>
+	       <strong>Email:</strong> <a href="{{ site_email }}">{{ site_email }}</a>
+	    </p>
+        </div>
+    </div>
+</div>
+{{ google_map_js(map) }}
+{% endblock %}
+

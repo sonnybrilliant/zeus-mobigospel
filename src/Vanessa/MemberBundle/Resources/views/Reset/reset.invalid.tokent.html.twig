@@ -1,0 +1,22 @@
+{% extends "VanessaMemberBundle::layout.html.twig" %}
+
+{% block title %}Please check your email{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Please check your email</h3>
+           <br />
+    </div>    
+</div>
+<div class="row">
+   <div class="span9">
+       <div class="shift_30">
+        {% block alert %}
+                {% include "::alert.html.twig" %}
+        {% endblock %} 
+        
+       </div>
+   </div> 
+</div>
+{% endblock body %}

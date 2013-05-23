@@ -1,0 +1,298 @@
+html, body, hr {
+	margin:0;
+	padding:0;	
+}
+
+a{
+    color:#EE0000;
+}
+.well-hint a {
+    color:#0088cc;
+}
+
+.wrapper {
+	width:100%;	
+}
+/*******************************************************************************************************
+=> Home + Common
+*******************************************************************************************************/
+.header {
+	background:#424242;
+}
+.header .container {
+	border-top:12px solid #372F18;
+}
+.header .branding {
+	padding:25px 0;
+}
+.header .branding h1 {
+	color:#fff;
+}
+.header .branding h1 a {
+	color:#fff;
+	text-decoration:none;
+}
+.header .userInfo {
+	margin-top:10px;	
+	color:#fff;
+}
+.header .userInfo a {
+	color:#fff;
+}
+.icon-user {
+/*	background:url(../img/ico_use.png) no-repeat 0 0;*/
+}
+.header .nav {
+	margin-bottom:0px;
+}
+.header .nav-tabs {
+	border-bottom: 1px solid #4d8b35;
+}
+.header .nav-tabs > li {
+	margin-bottom: -1px;
+	margin-right:3px;
+}
+.header .nav > li > a:hover {
+  text-decoration: none;
+  background-color: #057bbf;
+}
+.header .nav-list > .active > a,
+.header .nav-list > .active > a:hover {
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  background-color: #0088cc;
+}
+.header .nav-tabs > li > a {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 18px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 4px 4px 0 0;
+     -moz-border-radius: 4px 4px 0 0;
+          border-radius: 4px 4px 0 0;
+  background:#701112;
+  color:#fff;
+  font-weight:bold;
+  padding:10px 20px;
+}
+.header .nav-tabs > li > a:hover {
+  border-color: #fff;
+}
+
+.header .nav-tabs > .active > a,
+.header .nav-tabs > .active > a:hover {
+  color: #555555;
+  cursor: default;
+  background-color: #ffffff;
+  border-bottom-color: transparent;
+}
+.header .nav li.dropdown.open .caret,
+.header .nav li.dropdown.open.active .caret, 
+.header .nav li.dropdown.open a:hover .caret {
+	border-top-color: white;
+	border-bottom-color: white;
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+.header .nav-tabs .dropdown-toggle .caret, 
+.header .nav-pills .dropdown-toggle .caret {
+	margin-top: 6px;
+	border-top-color:#fff;
+	border-bottom-color:#fff;
+	opacity: 1;
+}
+.content {
+	margin-top:30px;
+}
+.content .leftContent h2,
+.content .sidebar h2 {
+	border-bottom:1px solid #e0e0e0;
+	min-height:55px;
+	padding:5px 0px;
+}
+.content .leftContent hr {
+	margin-top:15px;
+}
+.content .leftContent p.cntPara {
+	padding:15px 0 0 65px;
+}
+.content .leftContent p.cntPara strong {
+	display:block;
+	margin:5px 0;
+}
+.content .leftContent .simpleDesign {
+	background:url(../img/assets/icons/pie-chart-icon.png) no-repeat 0 25px;
+}
+.content .leftContent .itsFree {
+	background:url(../img/assets/icons/smartphone-android-icon.png) no-repeat 0 25px;
+}
+.content .leftContent .secureApp {
+	background:url(../img/assets/icons/status-security-high-icon.png) no-repeat 0 25px;
+}
+.content .leftContent .easyUse {
+	background:url(../img/assets/icons/invoice-icon_2.png) no-repeat 0 25px;
+}
+.content .leftContent .signupTeaser {
+	margin-top:10px;
+}
+.content .leftContent .quickTour {
+	margin-top:20px;
+	margin-bottom:15px;
+}
+
+.sidebar {
+    padding: 5px;
+}
+.sidebar h3 {
+	text-align:center;
+        color: #FFF;
+}
+
+.sidebar tbody {
+    color:#FFF;
+}
+
+.footer {
+	margin-top:15px;
+}
+.footer .span12 {
+	border-top:1px solid #e0e0e0;
+	padding:15px 0;
+}
+.footer p {
+	color:#999;
+}
+.footer p {
+	color:#999;
+}
+
+/*******************************************************************************************************
+=> Responsive Styles
+*******************************************************************************************************/
+@media (max-width: 767px) {
+	.container {
+		width:96%;	
+		padding:0 2%;
+	}		
+}
+
+
+
+/*---------------------------------
+ List TABLES
+ ---------------------------------- */
+.align_header{
+    margin-left: 30px;
+    color: #424242;
+}
+
+
+.pagination{
+   margin-right: -30px;
+   margin-top: -10px;
+}
+
+section.content{
+    margin-top: -20px;
+}
+
+section.content form.display{
+    border-left:0;
+    border-right:0;
+    margin-left: 30px;
+}
+
+section.content table.display{
+    border:solid 1px #ccc;
+    border-left:0;
+    border-right:0;
+    margin-left: 30px;
+}
+
+section.content table.display tr:hover,
+section.content table.display tr.even:hover{
+    /*background:#e3e3e3;*/
+
+    -webkit-box-shadow:0 0px 5px rgba(0,0,0,.5);
+    -moz-box-shadow:0 0px 5px rgba(0,0,0,.5);
+    box-shadow:0 0px 5px rgba(0,0,0,.5);
+}
+
+section.content table.display tr{
+    color: #555; 
+}
+
+section.content table.display th{
+    text-align:left;
+    background:url(../img/assets/tables/header-alternate-background.gif) repeat-x #f1f0f0;
+    padding:4px 10px;
+    border-right:dashed 1px #ccc;
+    height:20px;
+    border-bottom:solid 3px #ccc;
+}
+
+section.content table.display th a {
+    color:#424242;
+}
+
+section.content table.display th.last{
+    border-bottom:solid 3px #ccc;
+}
+
+section.content table.display .last{
+    border-right:none;
+}
+
+section.content table.display td{
+    line-height: 18px;
+    padding: 5px 10px;
+    font-size:12px;
+    border-right:dashed 1px #ccc;
+
+}
+
+.search-button{
+    padding: 5px;
+}
+
+
+td.fit{
+    /*width:1px;*/
+    width:auto !important;
+}
+
+.well-hint {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #424242;
+  color: #FFF;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-border-radius: 10px;
+  border-radius: 10px;        
+}
+
+/**
+    override default bootstrap
+*/
+.btn-delete {
+  color: rgb(255, 255, 255); 
+  background-image: -webkit-linear-gradient(top, rgb(112, 17, 18), rgb(165, 21, 21)); 
+  background-color: rgb(165, 21, 21);
+}
+
+/*---------------------------------
+ Form
+ ---------------------------------- */
+.helper-required-field {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}

@@ -3,11 +3,86 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">        
+        <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/alertify.core.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/alertify.default.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/main.css') }}" rel="stylesheet">        
         {% block stylesheets %}{% endblock %}
+        
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src="{{ asset('/js/jquery.js') }}"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->        
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="wrapper">
+            
+        {% block header %} 
+            <div class="header">
+                <div class="container">
+                    <div class="row branding">
+                        <div class="span6" style="margin-top:-50px;margin-left: -70px;">
+                            <img src="{{ asset('/img/mobi-gospel-site-header.png') }}" border="1" width="400px" height="100px" />
+                        </div>            	
+                        <div class="span5 pull-right">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <p class="pull-right userInfo"> Welcome <strong>{{app.security.gettoken.getuser.getFirstName}} {{app.security.gettoken.getuser.getLastName}}</strong>, &nbsp;<a href="{{ path('_security_logout') }}" class="btn btn-warning" data-loading-text="Loading..." data-toggle="button"><i class="icon-off icon-white"></i>&nbsp;<strong>Logout</strong></a></p>
+
+                        {% else %}
+                                <p class="pull-right userInfo">Welcome <strong>guest!</strong> &nbsp;<a href="{{ path('_security_login') }}.html" class="btn btn-warning" data-loading-text="Loading..." data-toggle="button"><strong>Login</strong>&nbsp;<i class="icon-user icon-white"></i></a></p>
+                        {% endif %}     
+ 
+                            </div>            	
+                        </div>
+                        <div class="row navigation">
+                            <div class="span12" style="margin-top:-30px">
+                                {% block menu %}                
+                                {% endblock %}
+                            </div>
+                        </div>
+                    </div>        
+                </div>
+        {% endblock header %} 
+        <div class="container content">
+            <div class="row">
+            {% block body %}{% endblock %}
+            </div>
+                    
+            {% block footer %}
+                    <!-- start of footer container -->
+                    <div class="footer">
+                        <div class="row">
+                            <div class="span12">
+                                <p class="pull-left">&copy; {{"now"|date('Y')}} - Mobigospel - All rights reserved.</p>
+                                <p class="pull-right"><a href="#terms" role="button" data-toggle="modal" title="Terms of Use">Terms of Use</a> &nbsp;|&nbsp; <a href="#privacy" role="button" data-toggle="modal" title="Privacy Policy">Privacy Policy</a></p>
+                            </div>
+                        </div>
+                    </div>                
+                    <!-- end of footer container -->
+            {% endblock %}  
+                    
+            {% block modal_terms %}
+                {% include "::terms.html.twig" %}
+                {% include "::privacy.html.twig" %}
+            {% endblock modal_terms %}         
+            </div>
+            <script src="{{ asset('/js/google.analytics.js') }}"></script>    
+        </div>
+        <!-- Le javascript
+                ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="{{ asset('/js/bootstrap.min.js') }}"></script>            
+        <script src="{{ asset('/js/jqBootstrapValidation.js') }}"></script>            
+        <script src="{{ asset('/js/jquery.scrollUp.min.js') }}"></script>            
+        <script src="{{ asset('/js/alertify.min.js') }}"></script>            
+        <script src="{{ asset('/js/main.js') }}"></script>                  
         {% block javascripts %}{% endblock %}
     </body>
 </html>

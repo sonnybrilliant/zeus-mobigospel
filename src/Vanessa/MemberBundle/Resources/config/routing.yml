@@ -1,0 +1,61 @@
+_security_login:
+    pattern:  /login.{_format}
+    defaults: { _controller: VanessaMemberBundle:Security:login , _format: html}
+    requirements:
+        _method:  GET|POST 
+        _format:  html
+        
+_security_check:
+    pattern:  /login_check
+
+_security_logout:
+    pattern:  /logout
+
+vanessa_member_reset_password_rest:
+    pattern:  /password/reset.{_format}
+    defaults: { _controller: VanessaMemberBundle:Reset:resetPassword , _format: html}
+    requirements:
+        _method:  GET|POST 
+        _format:  html  
+        
+vanessa_member_reset_token:
+    pattern: /reset/token/{token}.{_format}
+    defaults: { _controller: VanessaMemberBundle:Reset:resetToken , _format: html}
+    requirements:
+        _method: GET|POST 
+        _format:  html  
+        
+vanessa_member_reset_email_sent:
+    pattern:  /reset/email/sent.{_format}
+    defaults: { _controller: VanessaMemberBundle:Reset:resetPasswordSuccess , _format: html}   
+    requirements:
+        _method: GET 
+        _format:  html  
+        
+vanessa_member_list:
+    pattern:  /member/list.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format:  html
+        
+vanessa_member_list_download:
+    pattern:  /member/download/list.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:download , _format: html}        
+    requirements:
+        _method: GET 
+        _format:  html   
+        
+vanessa_member_create:
+    pattern:  /member/create.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:create , _format: html}
+    requirements:
+        _method: GET|POST 
+        _format:  html       
+
+vanessa_member_new:
+    pattern:  /member/new.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:new , _format: html}  
+    requirements:
+        _method: GET 
+        _format:  html       
