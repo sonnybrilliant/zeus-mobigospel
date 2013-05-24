@@ -81,8 +81,10 @@
         <script src="{{ asset('/js/bootstrap.min.js') }}"></script>            
         <script src="{{ asset('/js/jqBootstrapValidation.js') }}"></script>            
         <script src="{{ asset('/js/jquery.scrollUp.min.js') }}"></script>            
-        <script src="{{ asset('/js/alertify.min.js') }}"></script>            
-        <script src="{{ asset('/js/main.js') }}"></script>                  
+        <script src="{{ asset('/js/alertify.min.js') }}"></script>
+        <script src="{{ asset('/js/jquery.maskedinput.min.js') }}"></script>         
+        <script src="{{ asset('/js/main.js') }}"></script>         
         {% block javascripts %}{% endblock %}
+        {% include "::javascript.alert.html.twig" %}
     </body>
 </html>

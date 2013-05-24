@@ -27,7 +27,6 @@ class Agency
 {
 
     /**
-     * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * 
      * @var integer $id
      * 
@@ -78,13 +77,13 @@ class Agency
      * @Gedmo\Versioned
      */
     protected $description;
-    
+
     /**
      * @var string
      * 
      * @ORM\Column(name="account_number", type="string", length=100, nullable=true)
      */
-    protected $accountNumber;    
+    protected $accountNumber;
 
     /**
      * @var string $address1
@@ -121,7 +120,7 @@ class Agency
      * @Gedmo\Versioned
      */
     protected $suburbCode;
-    
+
     /**
      * @var string 
      * 
@@ -157,7 +156,7 @@ class Agency
      * @ORM\Column(name="postal_code", type="string", length=6, nullable=false)
      * @Gedmo\Versioned
      */
-    protected $postalCode;    
+    protected $postalCode;
 
     /**
      * @var string 
@@ -167,7 +166,7 @@ class Agency
      * @ORM\Column(name="vat_number", type="string", length=30, nullable=true)
      * @Gedmo\Versioned
      */
-    protected $vatNumber;    
+    protected $vatNumber;
 
     /**
      * @ORM\OneToMany(targetEntity="Vanessa\CoreBundle\Entity\Member", mappedBy="agency")
@@ -188,8 +187,8 @@ class Agency
      * @ORM\Column(name="contact_person", type="string", length=50, nullable=false)
      * @Gedmo\Versioned
      */
-    protected $contactPerson; 
-    
+    protected $contactPerson;
+
     /**
      * @var string 
      * 
@@ -201,8 +200,8 @@ class Agency
      * @ORM\Column(name="contact_number", type="string", length=15, nullable=false)
      * @Gedmo\Versioned
      */
-    protected $contactNumber; 
-    
+    protected $contactNumber;
+
     /**
      * @var Vanessa\CoreBundle\Entity\Status
      *
@@ -221,7 +220,7 @@ class Agency
      * @Gedmo\Versioned
      */
     protected $isDeleted;
-    
+
     /**
      * @var Vanessa\CoreBundle\Entity\AgencyType
      *
@@ -231,7 +230,7 @@ class Agency
      * })
      * 
      */
-    protected $agencyType;  
+    protected $agencyType;
 
     /**
      * @var datetime $createdAt
@@ -279,26 +278,6 @@ class Agency
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set accountNumber
      *
      * @param string $accountNumber
@@ -308,55 +287,28 @@ class Agency
         $this->accountNumber = 'MG' . str_pad((int) $this->id, 5, "0", STR_PAD_LEFT);
     }
 
+
     /**
-     * Get accountNumber
+     * Set name
      *
-     * @return string
+     * @param string $name
+     * @return Agency
      */
-    public function getAccountNumber()
+    public function setName($name)
     {
-        return $this->accountNumber = 'MG' . str_pad((int) $this->id, 5, "0", STR_PAD_LEFT);
-        ;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
-     * Set createdAt
+     * Get name
      *
-     * @param datetime $createdAt
+     * @return string 
      */
-    public function setCreatedAt($createdAt)
+    public function getName()
     {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return datetime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param datetime $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return datetime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
+        return $this->name;
     }
 
     /**
@@ -406,6 +358,16 @@ class Agency
     }
 
     /**
+     * Get accountNumber
+     *
+     * @return string 
+     */
+    public function getAccountNumber()
+    {
+        return $this->accountNumber;
+    }
+
+    /**
      * Set address1
      *
      * @param string $address1
@@ -452,6 +414,75 @@ class Agency
     }
 
     /**
+     * Set suburbCode
+     *
+     * @param string $suburbCode
+     * @return Agency
+     */
+    public function setSuburbCode($suburbCode)
+    {
+        $this->suburbCode = $suburbCode;
+
+        return $this;
+    }
+
+    /**
+     * Get suburbCode
+     *
+     * @return string 
+     */
+    public function getSuburbCode()
+    {
+        return $this->suburbCode;
+    }
+
+    /**
+     * Set postalBox
+     *
+     * @param string $postalBox
+     * @return Agency
+     */
+    public function setPostalBox($postalBox)
+    {
+        $this->postalBox = $postalBox;
+
+        return $this;
+    }
+
+    /**
+     * Get postalBox
+     *
+     * @return string 
+     */
+    public function getPostalBox()
+    {
+        return $this->postalBox;
+    }
+
+    /**
+     * Set suburb
+     *
+     * @param string $suburb
+     * @return Agency
+     */
+    public function setSuburb($suburb)
+    {
+        $this->suburb = $suburb;
+
+        return $this;
+    }
+
+    /**
+     * Get suburb
+     *
+     * @return string 
+     */
+    public function getSuburb()
+    {
+        return $this->suburb;
+    }
+
+    /**
      * Set postalCode
      *
      * @param string $postalCode
@@ -475,36 +506,72 @@ class Agency
     }
 
     /**
-     * Add managers
+     * Set vatNumber
      *
-     * @param Vanessa\CoreBundle\Entity\Member $managers
+     * @param string $vatNumber
      * @return Agency
      */
-    public function addManager(\Vanessa\CoreBundle\Entity\Member $managers)
+    public function setVatNumber($vatNumber)
     {
-        $this->managers[] = $managers;
+        $this->vatNumber = $vatNumber;
 
         return $this;
     }
 
     /**
-     * Remove managers
+     * Get vatNumber
      *
-     * @param Vanessa\CoreBundle\Entity\Member $managers
+     * @return string 
      */
-    public function removeManager(\Vanessa\CoreBundle\Entity\Member $managers)
+    public function getVatNumber()
     {
-        $this->managers->removeElement($managers);
+        return $this->vatNumber;
     }
 
     /**
-     * Get managers
+     * Set contactPerson
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @param string $contactPerson
+     * @return Agency
      */
-    public function getManagers()
+    public function setContactPerson($contactPerson)
     {
-        return $this->managers;
+        $this->contactPerson = $contactPerson;
+
+        return $this;
+    }
+
+    /**
+     * Get contactPerson
+     *
+     * @return string 
+     */
+    public function getContactPerson()
+    {
+        return $this->contactPerson;
+    }
+
+    /**
+     * Set contactNumber
+     *
+     * @param string $contactNumber
+     * @return Agency
+     */
+    public function setContactNumber($contactNumber)
+    {
+        $this->contactNumber = $contactNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get contactNumber
+     *
+     * @return string 
+     */
+    public function getContactNumber()
+    {
+        return $this->contactNumber;
     }
 
     /**
@@ -531,58 +598,82 @@ class Agency
     }
 
     /**
-     * Set status
+     * Set createdAt
      *
-     * @param \Vanessa\CoreBundle\Entity\Status $status
+     * @param \DateTime $createdAt
      * @return Agency
      */
-    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
+    public function setCreatedAt($createdAt)
     {
-        $this->status = $status;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get status
+     * Get createdAt
      *
-     * @return \Vanessa\CoreBundle\Entity\Status 
+     * @return \DateTime 
      */
-    public function getStatus()
+    public function getCreatedAt()
     {
-        return $this->status;
+        return $this->createdAt;
     }
 
     /**
-     * Set createdBy
+     * Set updatedAt
      *
-     * @param \Vanessa\CoreBundle\Entity\Member $createdBy
+     * @param \DateTime $updatedAt
      * @return Agency
      */
-    public function setCreatedBy(\Vanessa\CoreBundle\Entity\Member $createdBy = null)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->createdBy = $createdBy;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get createdBy
+     * Get updatedAt
      *
-     * @return \Vanessa\CoreBundle\Entity\Member 
+     * @return \DateTime 
      */
-    public function getCreatedBy()
+    public function getUpdatedAt()
     {
-        return $this->createdBy;
+        return $this->updatedAt;
     }
 
     /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
+     * Add managers
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $managers
+     * @return Agency
      */
-    public function createAcc()
+    public function addManager(\Vanessa\CoreBundle\Entity\Member $managers)
     {
-        $this->setAccountNumber('MG' . str_pad((int) $this->id, 5, "0", STR_PAD_LEFT));
+        $this->managers[] = $managers;
+
+        return $this;
+    }
+
+    /**
+     * Remove managers
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $managers
+     */
+    public function removeManager(\Vanessa\CoreBundle\Entity\Member $managers)
+    {
+        $this->managers->removeElement($managers);
+    }
+
+    /**
+     * Get managers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getManagers()
+    {
+        return $this->managers;
     }
 
     /**
@@ -619,6 +710,75 @@ class Agency
     }
 
     /**
+     * Set status
+     *
+     * @param \Vanessa\CoreBundle\Entity\Status $status
+     * @return Agency
+     */
+    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Vanessa\CoreBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set agencyType
+     *
+     * @param \Vanessa\CoreBundle\Entity\AgencyType $agencyType
+     * @return Agency
+     */
+    public function setAgencyType(\Vanessa\CoreBundle\Entity\AgencyType $agencyType = null)
+    {
+        $this->agencyType = $agencyType;
+
+        return $this;
+    }
+
+    /**
+     * Get agencyType
+     *
+     * @return \Vanessa\CoreBundle\Entity\AgencyType 
+     */
+    public function getAgencyType()
+    {
+        return $this->agencyType;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $createdBy
+     * @return Agency
+     */
+    public function setCreatedBy(\Vanessa\CoreBundle\Entity\Member $createdBy = null)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -639,200 +799,5 @@ class Agency
     public function getSlug()
     {
         return $this->slug;
-    }
-
-
-    /**
-     * Set vatNumber
-     *
-     * @param string $vatNumber
-     * @return Agency
-     */
-    public function setVatNumber($vatNumber)
-    {
-        $this->vatNumber = $vatNumber;
-    
-        return $this;
-    }
-
-    /**
-     * Get vatNumber
-     *
-     * @return string 
-     */
-    public function getVatNumber()
-    {
-        return $this->vatNumber;
-    }
-
-    /**
-     * Add contactPersons
-     *
-     * @param \Vanessa\CoreBundle\Entity\Member $contactPersons
-     * @return Agency
-     */
-    public function addContactPerson(\Vanessa\CoreBundle\Entity\Member $contactPersons)
-    {
-        $this->contactPersons[] = $contactPersons;
-    
-        return $this;
-    }
-
-    /**
-     * Remove contactPersons
-     *
-     * @param \Vanessa\CoreBundle\Entity\Member $contactPersons
-     */
-    public function removeContactPerson(\Vanessa\CoreBundle\Entity\Member $contactPersons)
-    {
-        $this->contactPersons->removeElement($contactPersons);
-    }
-
-    /**
-     * Get contactPersons
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getContactPersons()
-    {
-        return $this->contactPersons;
-    }
-
-    /**
-     * Set suburbCode
-     *
-     * @param string $suburbCode
-     * @return Agency
-     */
-    public function setSuburbCode($suburbCode)
-    {
-        $this->suburbCode = $suburbCode;
-    
-        return $this;
-    }
-
-    /**
-     * Get suburbCode
-     *
-     * @return string 
-     */
-    public function getSuburbCode()
-    {
-        return $this->suburbCode;
-    }
-
-    /**
-     * Set postalBox
-     *
-     * @param string $postalBox
-     * @return Agency
-     */
-    public function setPostalBox($postalBox)
-    {
-        $this->postalBox = $postalBox;
-    
-        return $this;
-    }
-
-    /**
-     * Get postalBox
-     *
-     * @return string 
-     */
-    public function getPostalBox()
-    {
-        return $this->postalBox;
-    }
-
-    /**
-     * Set suburb
-     *
-     * @param string $suburb
-     * @return Agency
-     */
-    public function setSuburb($suburb)
-    {
-        $this->suburb = $suburb;
-    
-        return $this;
-    }
-
-    /**
-     * Get suburb
-     *
-     * @return string 
-     */
-    public function getSuburb()
-    {
-        return $this->suburb;
-    }
-
-    /**
-     * Set contactPerson
-     *
-     * @param string $contactPerson
-     * @return Agency
-     */
-    public function setContactPerson($contactPerson)
-    {
-        $this->contactPerson = $contactPerson;
-    
-        return $this;
-    }
-
-    /**
-     * Get contactPerson
-     *
-     * @return string 
-     */
-    public function getContactPerson()
-    {
-        return $this->contactPerson;
-    }
-
-    /**
-     * Set contactNumber
-     *
-     * @param string $contactNumber
-     * @return Agency
-     */
-    public function setContactNumber($contactNumber)
-    {
-        $this->contactNumber = $contactNumber;
-    
-        return $this;
-    }
-
-    /**
-     * Get contactNumber
-     *
-     * @return string 
-     */
-    public function getContactNumber()
-    {
-        return $this->contactNumber;
-    }
-
-    /**
-     * Set agencyType
-     *
-     * @param \Vanessa\CoreBundle\Entity\AgencyType $agencyType
-     * @return Agency
-     */
-    public function setAgencyType(\Vanessa\CoreBundle\Entity\AgencyType $agencyType = null)
-    {
-        $this->agencyType = $agencyType;
-    
-        return $this;
-    }
-
-    /**
-     * Get agencyType
-     *
-     * @return \Vanessa\CoreBundle\Entity\AgencyType 
-     */
-    public function getAgencyType()
-    {
-        return $this->agencyType;
     }
 }

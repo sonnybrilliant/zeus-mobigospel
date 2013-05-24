@@ -1,0 +1,23 @@
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.session.hasFlash('error') %}
+    <script type="text/javascript">
+         alertify.log('{{ app.session.flash('error') }}','error');
+    </script>
+    {% elseif app.session.hasFlash('notice') %}
+    <script type="text/javascript">
+         alertify.log('{{ app.session.flash('notice') }}','notice');
+    </script>    
+    {% elseif app.session.hasFlash('warning') %}
+    <script type="text/javascript">
+         alertify.log('{{ app.session.flash('warning') }}','warning');
+    </script>    
+    {% elseif app.session.hasFlash('success') %}
+    <script type="text/javascript">
+         alertify.log('{{ app.session.flash('success') }}','success');
+    </script> 
+    {% elseif app.session.hasFlash('info') %}
+    <script type="text/javascript">
+         alertify.log('{{ app.session.flash('info') }}','info');
+    </script> 
+    {% endif %}
+{% endif %}  

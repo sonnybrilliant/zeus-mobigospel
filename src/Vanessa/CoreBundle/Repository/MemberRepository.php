@@ -42,6 +42,11 @@ class MemberRepository extends EntityRepository
             }
         }
 
+        if ((isset($options['filterBy'])) && ($options['filterBy'] == '')) {
+            $qb->andWhere('m.isDeleted =:status')
+                ->setParameter('status', false);
+        }
+
         // search
         if ($options['searchText']) {
             if ($options['searchText'] != "search..") {

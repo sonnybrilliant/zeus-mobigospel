@@ -79,7 +79,7 @@ final class NotificationsManager
     {
         $this->em = $em;
     }
-    
+
     /**
      * member forgot password
      * 
@@ -91,6 +91,19 @@ final class NotificationsManager
         $this->logger->info("member forgot password notification");
         $this->container->get('email.manager')->memberForgotPassword($params);
         return;
-    } 
+    }
+
+    /**
+     * member creation email 
+     * 
+     * @param Array $params
+     * @return void
+     */
+    public function memberRegistration($params)
+    {
+        $this->logger->info("member registration notification");
+        $this->container->get('email.manager')->memberRegistration($params);
+        return;
+    }
 
 }

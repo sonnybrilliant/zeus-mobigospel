@@ -1,0 +1,89 @@
+<div class="shift_30">
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}    
+<form class="display helpers form-horizontal" action="{{ path('vanessa_member_create') }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><span class="label label-important">Info</span> <small>All form fields are required.</small></legend>
+      <div class="control-group {% if form_errors(form.agency) %} error {% endif %}">
+        <label class="control-label" for="agency">{{ form_label(form.agency) }}</label>
+        <div class="controls">
+          {{ form_widget(form.agency) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Assign member to an agency."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.agency)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.title) %} error {% endif %}">
+        <label class="control-label" for="title">{{ form_label(form.title) }}</label>
+        <div class="controls">
+          {{ form_widget(form.title) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide member title."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.title)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
+        <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
+        <div class="controls">
+          {{ form_widget(form.gender) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide member gender."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.gender)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+        <label class="control-label" for="firstname">{{ form_label(form.firstName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.firstName) }} 
+           <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Member first name."><i class="icon-info-sign"></i></a></span>  
+           <span class="help-inline">{{form_errors(form.firstName)}}</span>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+        <label class="control-label" for="lastname">{{ form_label(form.lastName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.lastName) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member last name."><i class="icon-info-sign"></i></a></span>  
+           <span class="help-inline">{{form_errors(form.lastName)}}</span>
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
+        <label class="control-label" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.mobileNumber) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide a unique mobile number e.g. +27 71 326-4125."><i class="icon-info-sign"></i></a></span>  
+           <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.group) %} error {% endif %}">
+        <label class="control-label" for="group">{{ form_label(form.group) }}</label>
+        <div class="controls">
+          {{ form_widget(form.group) }} 
+          <span class="help-inline"><a href="#myModal" rel="tooltip" data-placement="right" data-toggle="modal" title="Assign member a role or privilege on the platform."><i class="icon-question-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.group)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.email.first) %} error {% endif %}">
+        <label class="control-label" for="email_address">{{ form_label(form.email.first) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.first) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Add member unique email address."><i class="icon-info-sign"></i></a></span>  
+           <span class="help-inline">{{form_errors(form.email.first)}}</span>
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.email.second) %} error {% endif %}">
+        <label class="control-label" for="confirm_email_address">{{ form_label(form.email.second) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.second) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Confirm member unique email address."><i class="icon-info-sign"></i></a></span>  
+           <span class="help-inline">{{form_errors(form.email.second)}}</span>
+        </div>
+      </div>       
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('vanessa_member_list') }}.html" class="btn">Cancel</a>
+      </div> 
+      {{ form_rest(form) }}       
+  </fieldset>
+</form>
+</div>        
+
+     

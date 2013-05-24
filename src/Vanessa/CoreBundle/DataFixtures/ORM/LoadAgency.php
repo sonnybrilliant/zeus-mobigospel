@@ -22,7 +22,7 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
     public function load( ObjectManager $manager )
     {
         $internal = new Agency() ;
-        $internal->setName('Internal agency');
+        $internal->setName('Mobigospel agency');
         $internal->setSlogan('Your partner in good music.');
         $internal->setDescription('This is description');
         $internal->setAddress1('17 Forest Walk Crescent, Pretoria , Gauteng');

@@ -112,7 +112,7 @@ final class EmailerManager
             ->addPart($params['bodyTEXT'], 'text/plain');
 
         ;
-        
+
         $this->container->get('mailer')->send($message);
         return;
     }
@@ -152,5 +152,44 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
-    }    
+    }
+
+    /**
+     * Send registration email
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function memberRegistration($params)
+    {
+        $this->logger->info('sending registration email');
+        $options['subject'] = "Mobigospel: Your account has been created";
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'agency' => $member->getAgency()->getName(),
+            'password' => $params['password'],
+            'email' => $member->getEmail(),
+            'link' => $params['link']
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:member.created.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:member.created.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
 }

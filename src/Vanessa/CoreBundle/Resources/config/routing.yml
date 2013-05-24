@@ -12,3 +12,9 @@ vanessa_core_site_contact:
         _method:  GET 
         _format:  html
     
+vanessa_core_site_info_roles: 
+    pattern:  /info/roles.{_format}
+    defaults: { _controller: VanessaCoreBundle:Info:roles , maxAge: 86400 , sharedMaxAge: 86400 , private: false , _format: html}     
+    requirements:
+        _method:  GET 
+        _format:  html  

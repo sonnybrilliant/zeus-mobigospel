@@ -102,6 +102,25 @@ final class MemberManager
     }
 
     /**
+     * Get member by slug
+     * @param integer $slug
+     * @return VanessaCoreBundle:Member
+     * @throws \Exception 
+     */
+    public function getBySlug($slug)
+    {
+        $member = $this->em->getRepository('VanessaCoreBundle:Member')
+            ->findOneBySlug($slug);
+
+        if (!$member) {
+            throw new \Exception('Member not found for slug:' . $slug);
+            $this->logger->err('Failed to find member by slug:' . $slug);
+        }
+
+        return $member;
+    }
+
+    /**
      * Get all members query
      * 
      * @param array $options
@@ -250,15 +269,17 @@ final class MemberManager
     /**
      * Delete member
      * 
-     * @param integer $id
+     * @param string $slug
      * @return void
      */
-    public function delete($id)
+    public function delete($slug)
     {
-        $member = $this->getById($id);
+        $member = $this->getBySlug($slug);
         $member->setStatus($this->container->get('status.manager')->deleted());
         $member->setIsDeleted(true);
         $member->setEnabled(false);
+        $member->setDeletedAt(new \DateTime());
+        $member->setDeletedBy($this->getActiveUser());
         $this->em->persist($member);
         $this->em->flush();
         return;
@@ -322,6 +343,18 @@ final class MemberManager
             }
         }
         return $results;
+    }
+
+    /**
+     * Get active user
+     * 
+     * @return VanessaCoreBundle:Member
+     */
+    public function getActiveUser()
+    {
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        return $user;
     }
 
     /**

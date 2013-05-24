@@ -3,7 +3,7 @@ $(document).ready(function() {
     this.value = "";
   });
   
-  $('.hint').tooltip({
+  $('.helpers').tooltip({
       selector: "a[rel=tooltip]"
   });
   
@@ -21,8 +21,8 @@ $(document).ready(function() {
             activeOverlay: false // Set CSS color to display scrollUp active point, e.g '#00FFFF'
         });
    });
-  
-  alertify.log( 'hello world');
+   
+    $(".phone").mask("+27 (99) 999-9999");
  
   $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
 });

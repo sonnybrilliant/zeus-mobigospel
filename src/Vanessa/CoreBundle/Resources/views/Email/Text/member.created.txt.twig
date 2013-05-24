@@ -1,0 +1,13 @@
+{% extends "::base.mail.txt.twig" %}
+{% block body %}
+Hi {{ fullName }},
+
+Use the following details to manage your account for {{ agency }}:
+
+Email address: {{ email }}
+Password: {{ password }}
+
+Follow the link below to login to your account.
+{{ link }}
+
+{% endblock %}

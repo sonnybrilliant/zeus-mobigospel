@@ -30,36 +30,52 @@ class MemberCreateType extends AbstractType
 
         $builder
             ->add('agency', 'entity', array(
+                'empty_value' => 'Select an agency',
                 'class' => 'VanessaCoreBundle:Agency',
                 'label' => 'Agency:',
                 'attr' => array('class' => 'span4 chosen')
             ))
             ->add('group', 'entity', array(
+                'empty_value' => 'Select a role',
                 'class' => 'VanessaCoreBundle:Group',
                 'label' => 'Role:',
                 'attr' => array('class' => 'span4 chosen')
             ))
             ->add('title', 'entity', array(
+                'empty_value' => 'Select a title',
                 'class' => 'VanessaCoreBundle:Title',
                 'label' => 'Title:',
                 'attr' => array('class' => 'span4 chosen')
             ))
             ->add('gender', 'entity', array(
+                'empty_value' => 'Select a gender',
                 'class' => 'VanessaCoreBundle:Gender',
                 'label' => 'Gender:',
                 'attr' => array('class' => 'span4 chosen')
             ))
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array(
+                    'class' => 'span4',
+                    "data-validation-minlength-message" => "First name must have at least 2 characters.",
+                    "minlength" => 2,
+                    "data-validation-maxlength-message" => "First name has a limit of 100 characters.",
+                    "maxlength" => 100,
+                 )
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array(
+                    'class' => 'span4',
+                    "data-validation-minlength-message" => "Last name must have at least 2 characters.",
+                    "minlength" => 2,
+                    "data-validation-maxlength-message" => "Last name has a limit of 100 characters.",
+                    "maxlength" => 100,                    
+                )
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Cellphone:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4 phone')
             ))
             ->add('email', 'repeated', array(
                 'type' => 'email',

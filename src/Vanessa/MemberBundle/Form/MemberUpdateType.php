@@ -63,7 +63,7 @@ class MemberUpdateType extends AbstractType
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Cellphone:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4 phone')
             ))
         ;
     }

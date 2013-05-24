@@ -1,0 +1,27 @@
+<div class="modal hide fade in" id="myModal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Help: User roles</h3>
+  </div>
+  <div class="modal-body">
+    <h5>Defined User roles</h5>
+    <p>We currently have support the following list of defined user roles: </p>
+    <p>
+      <ul>
+      {% for role in roles %}
+          <li>
+            <p>
+              <strong>{{role.name}}</strong>:
+              <p>{{role.description}}</p>
+            </p>
+          </li>
+      {% endfor %}
+      </ul>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>      
+</div>
+
+

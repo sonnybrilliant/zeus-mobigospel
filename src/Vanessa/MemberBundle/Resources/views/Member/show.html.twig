@@ -1,0 +1,30 @@
+{% extends "VanessaMemberBundle::layout.html.twig" %}
+
+{% block title %}Show member details{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Profile <small>{{member.fullName}}</small></h3>
+        <div class="span6">
+           {% set vars = {'action': 'Member details'} %}
+           {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_member_edit',{'slug': member.slug })}}" class="btn btn-inverse pull-right" title="Edit member details."><i class="icon-white icon-edit"></i>&nbsp;Edit member</a>
+        </div>
+        <div class="span12">
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#" >Member details</a></li>
+                </ul>            
+            </div>
+            {% include "VanessaMemberBundle:Member:form.show.html.twig" %}   
+        </div>
+    </div>     
+</div>     
+{% block modal_info %}
+         {% render url('vanessa_core_site_info_roles') %}  
+{% endblock modal_info %}
+
+{% endblock body %}

@@ -64,7 +64,7 @@ class MemberController extends Controller
      * @return Response
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
-    public function downloadAction()
+    public function downloadExcelAction()
     {
         $this->get('logger')->info('Download list of all available members');
 
@@ -138,8 +138,7 @@ class MemberController extends Controller
                     if (1 != $member->getAgency()->getId()) {
                         $isValid = false;
                         $agency = $this->get('agency.manager')->getById(1);
-                        $this->getRequest()->getSession()->setFlash(
-                            'error', 'Could not create member,the administrator group can only be assigned to members of ' . $agency->getName() . ' agency');
+                        $this->get('utility.manager')->alert('error', 'Could not create member,the administrator group can only be assigned to members of ' . $agency->getName() . ' agency');
                     }
                 }
 
@@ -153,10 +152,8 @@ class MemberController extends Controller
                     );
                     //send mail
                     $this->get('notification.manager')->memberRegistration($arguments);
-
-                    $this->getRequest()->getSession()->setFlash(
-                        'success', 'Member was sucessfully created');
-                    return $this->redirect($this->generateUrl('sule_member_list'));
+                    $this->get('utility.manager')->alert('success', 'Member was sucessfully created');
+                    return $this->redirect($this->generateUrl('vanessa_member_list').'.html');
                 }
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -170,19 +167,19 @@ class MemberController extends Controller
     /**
      * Edit member details
      * 
-     * @param integer $id
+     * @param integer $slug
      * @return Response
      * @throws AccessDeniedException
      * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
-    public function editAction($id)
+    public function editAction($slug)
     {
-        $this->get('logger')->info('edit member id:' . $id);
+        $this->get('logger')->info('edit member slug:' . $slug);
 
         try {
-            $member = $this->get('member.manager')->getById($id);
+            $member = $this->get('member.manager')->getBySlug($slug);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
@@ -192,24 +189,24 @@ class MemberController extends Controller
 
         return $this->render('VanessaMemberBundle:Member:edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $member->getId()));
+                'member' => $member));
     }
 
     /**
      * Update member
      * 
-     * @param integer $id
+     * @param integer $slug
      * @return Response
      * @throws AccessDeniedException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
-    public function updateAction($id)
+    public function updateAction($slug)
     {
-        $this->get('logger')->info('update member id:' . $id);
+        $this->get('logger')->info('update member slug:' . $slug);
 
         try {
-            $member = $this->get('member.manager')->getById($id);
+            $member = $this->get('member.manager')->getBySlug($slug);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
@@ -227,24 +224,23 @@ class MemberController extends Controller
                     if (1 != $member->getAgency()->getId()) {
                         $isValid = false;
                         $agency = $this->get('agency.manager')->getById(1);
-                        $this->getRequest()->getSession()->setFlash(
-                            'error', 'Could not create member,the administrator group can only be assigned to members of ' . $agency->getName() . ' agency');
+                        $this->get('utility.manager')->alert('error', 'Could not create member,the administrator group can only be assigned to members of ' . $agency->getName() . ' agency');
                     }
                 }
 
                 if ($isValid) {
                     $this->get('member.manager')->update($member);
-                    $this->getRequest()->getSession()->setFlash('success', 'Member was sucessfully updated.');
+                    $this->get('utility.manager')->alert('success', 'Member was sucessfully updated.');
                     $securityContext = $this->container->get('security.context');
                     $user = $securityContext->getToken()->getUser();
 
                     if ($user->getIsAdmin()) {
-                        return $this->redirect($this->generateUrl('sule_member_list'));
+                        return $this->redirect($this->generateUrl('vanessa_member_list'));
                     } else {
-                        return $this->redirect($this->generateUrl('sule_agency_list_members', array(
-                                    'id' => $user->getAgency()->getId(),
-                                    'agency' => $user->getAgency()->getSlug()
-                                )));
+//                        return $this->redirect($this->generateUrl('sule_agency_list_members', array(
+//                                    'id' => $user->getAgency()->getId(),
+//                                    'agency' => $user->getAgency()->getSlug()
+//                                )));
                     }
                 }
             } else {
@@ -254,24 +250,24 @@ class MemberController extends Controller
 
         return $this->render('VanessaMemberBundle:Member:edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $member->getId()));
+                'member' => $member));
     }
 
     /**
-     * Sow member
+     * Show member profile
      * 
-     * @param type $id
+     * @param string $slug
      * @return type
      * @throws AccessDeniedException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
-    public function showAction($id)
+    public function profileAction($slug)
     {
-        $this->get('logger')->info('show member id:' . $id);
+        $this->get('logger')->info('show member slug:' . $slug);
 
         try {
-            $member = $this->get('member.manager')->getById($id);
+            $member = $this->get('member.manager')->getBySlug($slug);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
@@ -281,42 +277,39 @@ class MemberController extends Controller
 
         return $this->render('VanessaMemberBundle:Member:show.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $member->getId()));
+                'member' => $member));
     }
 
     /**
      * Delete member
      * 
-     * @param integer $id
+     * @param integer $slug
      * @return Response
      * @throws AccessDeniedException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
-    public function deleteAction($id)
+    public function deleteAction($slug)
     {
-        $this->get('logger')->info('delete member id:' . $id);
+        $this->get('logger')->info('delete member slug:' . $slug);
 
         try {
-            $this->get('member.manager')->delete($id);
+            $this->get('member.manager')->delete($slug);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
         }
 
-        $this->getRequest()->getSession()->setFlash(
-            'success', 'Member was sucessfully deleted');
-
-        $securityContext = $this->container->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+        $this->get('utility.manager')->alert('success', 'Member was sucessfully deleted');
+        $user = $this->get('member.manager')->getActiveUser();
 
         if ($user->getIsAdmin()) {
-            return $this->redirect($this->generateUrl('sule_member_list'));
+            return $this->redirect($this->generateUrl('vanessa_member_list').'.html');
         } else {
-            return $this->redirect($this->generateUrl('sule_agency_list_members', array(
-                        'id' => $user->getAgency()->getId(),
-                        'agency' => $user->getAgency()->getSlug()
-                    )));
+//            return $this->redirect($this->generateUrl('sule_agency_list_members', array(
+//                        'id' => $user->getAgency()->getId(),
+//                        'agency' => $user->getAgency()->getSlug()
+//                    )));
         }
     }
 

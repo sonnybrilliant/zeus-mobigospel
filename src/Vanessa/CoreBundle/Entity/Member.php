@@ -69,10 +69,15 @@ class Member implements AdvancedUserInterface, \Serializable
      * @Gedmo\Versioned
      */
     protected $lastName;
+    
+    /**
+     * @Gedmo\Slug(fields={"firstName","lastName"})
+     * @ORM\Column(name="slug" , length=150 , unique=true)
+     */
+    protected $slug;    
 
     /**
      * @var string
-     *
      *
      * @Assert\NotBlank(message = "Emailaddress cannot be blank!")
      * @Assert\Email(
@@ -125,11 +130,10 @@ class Member implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @Assert\Type(type="numeric", message="Mobile number {{ value }} is not a valid {{ type }} mobile number.")
      * @Assert\MinLength(limit= 10, message="Mobile number must have at least {{ limit }} characters.")
-     * @Assert\MaxLength(limit= 12, message="Mobile number has a limit of {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 20, message="Mobile number has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="mobile_number", type="string", length=12 , nullable=true)
+     * @ORM\Column(name="mobile_number", type="string", length=20 , nullable=true)
      * @Gedmo\Versioned
      */
     protected $mobileNumber;
@@ -265,6 +269,13 @@ class Member implements AdvancedUserInterface, \Serializable
      * @link https://github.com/stof/StofDoctrineExtensionsBundle
      */
     protected $createdAt;
+    
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime" , nullable=true)
+     */
+    protected $deletedAt;
 
     /**
      * @var datetime
@@ -280,6 +291,12 @@ class Member implements AdvancedUserInterface, \Serializable
      * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member")
      */
     protected $createdBy;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member")
+     */
+    protected $deletedBy;
 
     public function __construct()
     {
@@ -1056,5 +1073,74 @@ class Member implements AdvancedUserInterface, \Serializable
     public function removeCreatedAgency(\Vanessa\CoreBundle\Entity\Agency $createdAgencies)
     {
         $this->createdAgencies->removeElement($createdAgencies);
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Member
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Member
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Set deletedBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $deletedBy
+     * @return Member
+     */
+    public function setDeletedBy(\Vanessa\CoreBundle\Entity\Member $deletedBy = null)
+    {
+        $this->deletedBy = $deletedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getDeletedBy()
+    {
+        return $this->deletedBy;
     }
 }

@@ -38,10 +38,17 @@
                     <td>{{member.updatedAt|date('Y-m-d H:i A')}}</td>
                     <td>
                         <small>
-                            <a href='{# path('sule_member_show', {'id': member.id }) #}' rel="tooltip" title="click to view" class="btn btn-mini btn-warning"><i class="icon-white icon-eye-open"></i>&nbsp;<strong>View</strong></a>
-                            <a href='{# path('sule_member_edit', {'id': member.id }) #}' rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-white icon-edit"></i>&nbsp;<strong>Edit</strong></a>
-                            <a href='{# path('sule_member_delete', {'id': member.id }) #}' onclick="if(confirm('You are about to delete member {{member.firstName}} {{member.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-mini btn-danger btn-delete"><i class="icon-white icon-trash"></i>&nbsp;<strong>Delete</strong></a>
-                        </small>
+                            <a href='{{ path('vanessa_member_profile', {'slug': member.slug }) }}' rel="tooltip" title="click to view" class="btn btn-mini btn-warning"><i class="icon-white icon-eye-open"></i>&nbsp;<strong>View</strong></a>
+                            <a href='{{ path('vanessa_member_edit', {'slug': member.slug }) }}' rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-white icon-edit"></i>&nbsp;<strong>Edit</strong></a>
+                            <a href='#' id="member-{{ member.id}}" rel="tooltip" title="click to delete" class="btn btn-mini btn-danger" onclick="alertify.confirm('You are about to delete member {{member.firstName}} {{member.lastName}}, click ok to confirm action.', function (e) {
+                                    if (e) {
+                                       window.location.href = '{{ url('vanessa_member_delete', {'slug': member.slug }) }}';
+                                    } else {
+                                       return false;
+                                    }
+                                });"><i class="icon-white icon-trash"></i>&nbsp;<strong>Delete</strong></a>
+                        </small>  
+ 
                     </td>
                 </tr>
           {% endfor %}

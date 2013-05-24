@@ -81,6 +81,7 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        
         mappings:
             gedmo_translatable:
                 type: annotation
@@ -127,6 +128,7 @@ stof_doctrine_extensions:
         default:
             sluggable: true
             timestampable: true
+            loggable: true
 
 knp_paginator:
     page_range: 2                      # default page range used in pagination control
@@ -194,4 +196,4 @@ ivory_google_map:
 
         # Map type control style
         # Availbale map type control style : default, dropdown_menu, horizontal_bar
-        map_type_control_style: "default"            
+        map_type_control_style: "default"       

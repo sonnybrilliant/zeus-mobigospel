@@ -8,7 +8,8 @@
         <parameter key="status_manager.class">Vanessa\CoreBundle\Services\StatusManager</parameter>
         <parameter key="notification_manager.class">Vanessa\CoreBundle\Services\NotificationsManager</parameter>
         <parameter key="email_manager.class">Vanessa\CoreBundle\Services\EmailerManager</parameter>          
-        <parameter key="excel_manager.class">Vanessa\CoreBundle\Services\ExcelManager</parameter>          
+        <parameter key="excel_manager.class">Vanessa\CoreBundle\Services\ExcelManager</parameter>  
+        <parameter key="utility_manager.class">Vanessa\CoreBundle\Services\UtilityManager</parameter>         
     </parameters>
     <services>
         <service id="status.manager" class="%status_manager.class%">
@@ -26,6 +27,10 @@
         <service id="excel.manager" class="%excel_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
-        </service>                      
+        </service>   
+        <service id="utility.manager" class="%utility_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                            
     </services>
 </container>
