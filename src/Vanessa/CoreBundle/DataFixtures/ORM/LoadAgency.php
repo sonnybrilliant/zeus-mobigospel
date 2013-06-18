@@ -30,10 +30,10 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $internal->setSuburbCode('0081');
         $internal->setSuburb('Boardwalk Meander');
         $internal->setPostalBox('P.O. Box 25850');
-        $internal->setVatNumber('564532');
         $internal->setStatus($this->getReference('status-active'));
         $internal->setContactPerson('Sally Joy');
         $internal->setContactNumber('0114567894');
+        $internal->setContactEmail('info@mobigospel.co.za');        
         $internal->setAgencyType($this->getReference('agency-type-internal'));
         $manager->persist($internal) ;
         
@@ -47,9 +47,9 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $contentProvider->setSuburb('Boardwalk Meander');
         $contentProvider->setPostalCode('0081');
         $contentProvider->setStatus($this->getReference('status-active'));
-        $contentProvider->setVatNumber('664532');
         $contentProvider->setContactPerson('Nina Simone');
         $contentProvider->setContactNumber('0124567894');
+        $contentProvider->setContactEmail('gospel.gold@sulehosting.co.za');
         $contentProvider->setAgencyType($this->getReference('agency-type-content-provider'));
         $manager->persist($contentProvider) ;
         
@@ -63,9 +63,9 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $mediaPartner->setSuburb('Boardwalk Meander');
         $mediaPartner->setPostalCode('0081');
         $mediaPartner->setStatus($this->getReference('status-active'));
-        $mediaPartner->setVatNumber('664532');
         $mediaPartner->setContactPerson('Nina Simone');
         $mediaPartner->setContactNumber('0733264125');
+        $mediaPartner->setContactEmail('gospel.radio.show@sulehosting.co.za');
         $mediaPartner->setAgencyType($this->getReference('agency-type-media-partner'));
         $manager->persist($mediaPartner) ;
     

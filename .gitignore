@@ -1,0 +1,13 @@
+/app/bootstrap*
+/app/config/parameters.yml
+/nbproject/
+/src/SkedApp/CoreBundle/Entity/*.php~
+/web/bundles/
+/app/cache/
+/app/config/parameters.yml.local
+/app/logs/
+/code_coverage/
+/composer.json~
+/vendor/
+composer.lock
+/bin/
