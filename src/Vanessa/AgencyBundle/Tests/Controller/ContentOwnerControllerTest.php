@@ -28,9 +28,6 @@ class ContentOwnerControllerTest extends WebTestCase
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        
-        ladybug_dump_die($client->getResponse()->getContent());
-        exit();
 
         //check if words are available on the page
         $this->assertEquals(1, $crawler->filter('title:contains("Welcome, please login")')->count());
