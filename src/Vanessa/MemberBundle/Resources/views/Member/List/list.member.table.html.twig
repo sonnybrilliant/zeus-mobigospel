@@ -21,7 +21,7 @@
           {% for member in pagination %}
                 <tr>
                     <td>{{ member.getFullName()|capitalize|truncate(20)}}</td>
-                    <td><a href='{{ path('vanessa_agency_content_owner_profile', {'slug': member.agency.slug }) }}.html' rel="tooltip" title="{{ member.agency.name|title|truncate(20) }}"><strong>{{ member.agency.name|title|truncate(20) }}</strong></a></td>
+                    <td><a href='{{ path('vanessa_agency_content_owner_profile', {'slug': member.agency.slug }) }}.html' rel="tooltip" title="{{ member.agency.name|title|truncate(30) }}"><strong>{{ member.agency.name|title|truncate(15) }}</strong></a></td>
                     {% if member.status.name == 'Active'  %}
                         <td><span class="label label-info">{{member.status.name }}</span></td>
                     {% else %}
