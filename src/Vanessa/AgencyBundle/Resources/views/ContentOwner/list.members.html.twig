@@ -1,0 +1,69 @@
+{% extends "VanessaAgencyBundle::layout.html.twig" %}
+
+{% block title %}Profile - Members - {{contentOwner.name}}{% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Profile <small>{{contentOwner.name}}</small></h3>
+        <div class="span4">
+           {% set vars = {'action': 'Member list'} %}
+           {% include 'VanessaAgencyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span7 pull-right" style="margin-right: -25px">
+            <div class="btn-group">
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" title="Download member list.">
+                    <span class="icon-download-alt icon-white"></span>
+                    Download                    
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('vanessa_member_list_download_excel') }}.html" title="Download excel document."><i class="icon-file"></i>&nbsp;Excel</a>
+                    </li>
+                </ul>    
+            </div>
+            <a href="{{ path('vanessa_member_new') }}.html" class="btn btn-warning"><i class="icon-plus-sign icon-white"></i>&nbsp;Add a member</a>
+            <form class="form-inline pull-right">
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-filter" ></i></span>
+                    <select name="filterBy" class="span2 selectHelper" data-placeholder="filter by" >
+                        <option value="0">filter by..</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Deleted">Deleted</option>
+                        <option value="Locked">Locked</option>
+                    </select>
+                </div>
+                <div class="input-prepend input-append">
+                    <span class="add-on"><i class="icon-search" ></i></span>
+                    <input name="searchText" title="search" type="text" value="search.."  class="input-small search" />
+                    <input type="submit" value="GO!" class="btn btn-warning" />
+                </div>
+            </form>              
+        </div>
+    </div>
+    <div class="span12 pull-right">       
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li><a href="{{ path('vanessa_agency_content_owner_profile',{'slug': contentOwner.slug })}}.html" title="View content owner profile." >Content owner details</a></li>
+                <li><a href="{{ path('vanessa_agency_content_owner_account_status_show',{'slug': contentOwner.slug })}}.html" title="View content owner account status." >Account status</a></li>
+                <li class="active"><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Member list</a></li>
+            </ul>            
+        </div>
+        
+
+        </div>
+        <div class="span12 pull-right">
+        {% block alert %}
+          {% include "::alert.html.twig" %}
+                <br />  
+        {% endblock %}
+        </div>         
+        <div class="span12">
+           {% include "VanessaMemberBundle:Member:List/list.member.table.html.twig" %}
+        </div>    
+</div>
+{% endblock body %}
+
+

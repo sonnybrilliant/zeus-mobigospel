@@ -1,0 +1,121 @@
+<div class="shift_30 ">
+<form class="display helpers form-horizontal" action="{{ path('vanessa_agency_reseller_create') }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><small>Profile details</small></legend> 
+      <div class="control-group {% if form_errors(form.name) %} error {% endif %}">
+        <label class="control-label" for="name">{{ form_label(form.name) }}</label>
+        <div class="controls">
+          {{ form_widget(form.name) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller name."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.name)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.slogan) %} error {% endif %}">
+        <label class="control-label" for="slogan">{{ form_label(form.slogan) }}</label>
+        <div class="controls">
+          {{ form_widget(form.slogan) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller slogan which will be viewed on song download."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.slogan)}}</span>
+          <p class="help-block"></p> 
+        </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
+        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
+        <div class="controls">
+          {{ form_widget(form.description) }} 
+          <span class="help-inline">{{form_errors(form.description)}}</span>  
+        </div>
+      </div>   
+      <legend><small>Contact Person</small></legend>  
+       <div class="control-group {% if form_errors(form.contactPerson) %} error {% endif %}">
+        <label class="control-label" for="contact_person">{{ form_label(form.contactPerson) }}</label>
+        <div class="controls">
+          {{ form_widget(form.contactPerson) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller contact person."><i class="icon-info-sign"></i></a></span>      
+          <span class="help-inline">{{form_errors(form.contactPerson)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div> 
+      
+      <div class="control-group {% if form_errors(form.contactNumber) %} error {% endif %}">
+        <label class="control-label" for="contact_number">{{ form_label(form.contactNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.contactNumber) }}
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller contact number."><i class="icon-info-sign"></i></a></span>      
+          <span class="help-inline">{{form_errors(form.contactNumber)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div> 
+      
+      <div class="control-group {% if form_errors(form.contactEmail) %} error {% endif %}">
+        <label class="control-label" for="contact_email">{{ form_label(form.contactEmail) }}</label>
+        <div class="controls">
+          {{ form_widget(form.contactEmail) }}
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller contact email."><i class="icon-info-sign"></i></a></span>      
+          <span class="help-inline">{{form_errors(form.contactEmail)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div> 
+      
+      <legend><small>Physical address</small></legend>     
+      <div class="control-group {% if form_errors(form.address1) %} error {% endif %}">
+        <label class="control-label" for="address 1">{{ form_label(form.address1) }}</label>
+        <div class="controls">
+          {{ form_widget(form.address1) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller physical address."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.address1)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.address2) %} error {% endif %}">
+        <label class="control-label" for="address 2">{{ form_label(form.address2) }}</label>
+        <div class="controls">
+          {{ form_widget(form.address2) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller physical address."><i class="icon-info-sign"></i></a></span>                  
+          <span class="help-inline">{{form_errors(form.address2)}}</span>  
+        </div>
+      </div>  
+      <div class="control-group {% if form_errors(form.suburbCode) %} error {% endif %}">
+        <label class="control-label" for="suburb_code">{{ form_label(form.suburbCode) }}</label>
+        <div class="controls">
+          {{ form_widget(form.suburbCode) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller suburb code."><i class="icon-info-sign"></i></a></span>                  
+          <span class="help-inline">{{form_errors(form.suburbCode)}}</span> 
+          <p class="help-block"></p>
+        </div>
+      </div>      
+      <legend><small>Postal address</small></legend>  
+      <div class="control-group {% if form_errors(form.postalBox) %} error {% endif %}">
+        <label class="control-label" for="postal_box">{{ form_label(form.postalBox) }}</label>
+        <div class="controls">
+          {{ form_widget(form.postalBox) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller postal box address."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.postalBox)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.suburb) %} error {% endif %}">
+        <label class="control-label" for="suburb">{{ form_label(form.suburb) }}</label>
+        <div class="controls">
+          {{ form_widget(form.suburb) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller postal suburb / town."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.suburb)}}</span>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.postalCode) %} error {% endif %}">
+        <label class="control-label" for="postal_code">{{ form_label(form.postalCode) }}</label>
+        <div class="controls">
+          {{ form_widget(form.postalCode) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Reseller postal code."><i class="icon-info-sign"></i></a></span>                  
+          <span class="help-inline">{{form_errors(form.postalCode)}}</span> 
+          <p class="help-block"></p>
+        </div>
+      </div>      
+      {{ form_rest(form) }}       
+  </fieldset>
+</form>
+</div>        
+{{ tinymce_init() }}
+     

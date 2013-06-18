@@ -1,15 +1,15 @@
 $(document).ready(function() {
-  $('.search').focus(function() {
-    this.value = "";
-  });
+    $('.search').focus(function() {
+        this.value = "";
+    });
   
-  $('.helpers').tooltip({
-      selector: "a[rel=tooltip]"
-  });
+    $('.helpers').tooltip({
+        selector: "a[rel=tooltip]"
+    });
   
-  $('.carousel').carousel()
+    $('.carousel').carousel()
   
-  $(function () {
+    $(function () {
         $.scrollUp({
             scrollName: 'scrollUp', // Element ID
             topDistance: '300', // Distance from top before showing element (px)
@@ -20,9 +20,14 @@ $(document).ready(function() {
             scrollText: 'Scroll to top', // Text for element
             activeOverlay: false // Set CSS color to display scrollUp active point, e.g '#00FFFF'
         });
-   });
+    });
    
     $(".phone").mask("+27 (99) 999-9999");
+    
+    $('select.chosen').chosen(); 
+    $('span.chosen select').chosen();
  
-  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+    $(function () {
+        $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+    } );
 });

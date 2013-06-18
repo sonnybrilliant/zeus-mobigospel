@@ -1,0 +1,34 @@
+<div class="shift_30">
+    <form class="display helpers form-horizontal" action="" method="POST">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="active">Active</label>
+          <div class="controls">
+              <input type="checkbox" {% if (member.isEnabled == true) and ( member.isDeleted == false) and (member.status.name == "Active")  %} checked {% endif %} disabled="disabled" />
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Account is active."><i class="icon-info-sign"></i></a></span>  
+          </div>
+        </div> 
+        <div class="control-group">
+          <label class="control-label" for="active">Locked</label>
+          <div class="controls">
+              <input type="checkbox" {% if member.isEnabled != 'false' %} checked {% endif %} disabled="disabled" />
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Account is locked, member cannot login."><i class="icon-info-sign"></i></a></span>  
+          </div>
+        </div> 
+        <div class="control-group">
+          <label class="control-label" for="active">Expired</label>
+          <div class="controls">
+              <input type="checkbox" {% if member.expired == true %} checked {% endif %} disabled="disabled" />
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Account has expired, member cannot login."><i class="icon-info-sign"></i></a></span>  
+          </div>
+        </div> 
+        <div class="control-group">
+          <label class="control-label" for="active">Deleted</label>
+          <div class="controls">
+              <input type="checkbox" {% if member.isDeleted == true %} checked {% endif %} disabled="disabled" />
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Account has been deleted, member cannot login."><i class="icon-info-sign"></i></a></span>  
+          </div>
+        </div> 
+      </fieldset>
+    </form>
+</div>        

@@ -85,7 +85,7 @@ final class StatusManager
      * 
      * @param type $statusName
      * @return 
-     * @throws \LogicException 
+     * @throws \Exception 
      */
     public function getStatusByName($statusName)
     {
@@ -97,7 +97,7 @@ final class StatusManager
 
         if (!$status) {
             $this->logger->err('Failed to get ' . $statusName . ' status');
-            throw new \Exception('Logical exception, no ' . $statusName . ' status found');
+            throw new \Exception('Exception, no ' . $statusName . ' status found');
         }
 
         return $status;
@@ -151,6 +151,16 @@ final class StatusManager
     {
         $this->logger->info('get completed status');
         return $this->getStatusByName('Completed');
+    }    
+    
+    /**
+     * get completed status
+     * @return object 
+     */
+    public function locked()
+    {
+        $this->logger->info('get locked status');
+        return $this->getStatusByName('Locked');
     }    
     
 }

@@ -10,6 +10,7 @@
         <parameter key="email_manager.class">Vanessa\CoreBundle\Services\EmailerManager</parameter>          
         <parameter key="excel_manager.class">Vanessa\CoreBundle\Services\ExcelManager</parameter>  
         <parameter key="utility_manager.class">Vanessa\CoreBundle\Services\UtilityManager</parameter>         
+        <parameter key="agency_type_manager.class">Vanessa\CoreBundle\Services\AgencyTypeManager</parameter>         
     </parameters>
     <services>
         <service id="status.manager" class="%status_manager.class%">
@@ -29,6 +30,10 @@
             <argument type="service" id="logger" />
         </service>   
         <service id="utility.manager" class="%utility_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                            
+        <service id="agency.type.manager" class="%agency_type_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>                            

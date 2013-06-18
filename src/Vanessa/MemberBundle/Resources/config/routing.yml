@@ -86,4 +86,19 @@ vanessa_member_profile:
     defaults: { _controller: VanessaMemberBundle:Member:profile , _format: html}  
     requirements:
         _method: GET 
+        _format: html   
+        
+        
+vanessa_member_account_status_show:
+    pattern:  /member/account/status/show/{slug}.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:accountStatus , _format: html}  
+    requirements:
+        _method: GET 
+        _format: html
+        
+vanessa_member_account_status_edit:
+    pattern:  /member/account/status/edit/{slug}.{_format}
+    defaults: { _controller: VanessaMemberBundle:Member:accountStatusEdit , _format: html}  
+    requirements:
+        _method: GET|POST 
         _format: html        

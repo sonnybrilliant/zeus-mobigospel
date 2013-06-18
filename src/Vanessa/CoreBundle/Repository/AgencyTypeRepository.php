@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class AgencyTypeRepository extends EntityRepository
 {
+
+    /**
+     * Get by name
+     *
+     * @param string $name
+     * @return type
+     */
+    public function getByName($name)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->where('a.type = :name')
+            ->setParameter('name', $name);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
 }

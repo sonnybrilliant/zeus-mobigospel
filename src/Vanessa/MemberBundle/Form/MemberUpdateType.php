@@ -11,8 +11,8 @@ use Vanessa\MemberBundle\Form\EventListener\AddAgencyFieldSubscriber;
 /**
  * Vanessa\MemberBundle\Form\MemberUpdateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
- * @package VanessaMemberBundle
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
+ * @package VanessaLabelBundle
  * @subpackage Form
  * @version 0.0.1
  */
@@ -55,11 +55,23 @@ class MemberUpdateType extends AbstractType
             ))
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array(
+                    'class' => 'span4',
+                    "data-validation-minlength-message" => "First name must have at least 2 characters.",
+                    "minlength" => 2,
+                    "data-validation-maxlength-message" => "First name has a limit of 100 characters.",
+                    "maxlength" => 100,
+                 )
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array(
+                    'class' => 'span4',
+                    "data-validation-minlength-message" => "Last name must have at least 2 characters.",
+                    "minlength" => 2,
+                    "data-validation-maxlength-message" => "Last name has a limit of 100 characters.",
+                    "maxlength" => 100,                    
+                )
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Cellphone:',

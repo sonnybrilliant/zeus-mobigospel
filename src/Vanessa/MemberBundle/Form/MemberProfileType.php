@@ -8,14 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Vanessa\MemberBundle\Form\MemberViewType
+ * Vanessa\MemberBundle\Form\MemberProfileType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
- * @package VanessaMemberBundle
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
+ * @package VanessaLabelBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class MemberViewType extends AbstractType
+class MemberProfileType extends AbstractType
 {
 
     /**
@@ -32,6 +32,11 @@ class MemberViewType extends AbstractType
             ->add('agency', 'entity', array(
                 'class' => 'VanessaCoreBundle:Agency',
                 'label' => 'Agency:',
+                'attr' => array('class' => 'span4 chosen' , 'disabled'=>'disabled')
+            ))
+            ->add('status', 'entity', array(
+                'class' => 'VanessaCoreBundle:Status',
+                'label' => 'Account Status:',
                 'attr' => array('class' => 'span4 chosen' , 'disabled'=>'disabled')
             ))
             ->add('group', 'entity', array(
@@ -51,6 +56,10 @@ class MemberViewType extends AbstractType
             ))
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
+                'attr' => array('class' => 'span4 disabled', 'disabled'=>'disabled')
+            ))
+            ->add('email', 'email', array(
+                'label' => 'Email address:',
                 'attr' => array('class' => 'span4 disabled', 'disabled'=>'disabled')
             ))
             ->add('lastName', 'text', array(

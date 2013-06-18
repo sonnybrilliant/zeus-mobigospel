@@ -79,7 +79,7 @@ class Member implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "Emailaddress cannot be blank!")
+     * @Assert\NotBlank(message = "Email address cannot be blank!")
      * @Assert\Email(
      *   message = "The email '{{ value }}' is not a valid email.",
      *   checkMX = false
@@ -210,6 +210,7 @@ class Member implements AdvancedUserInterface, \Serializable
      * @var boolean
      *
      * @ORM\Column(name="expired", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $expired;
 

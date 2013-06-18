@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
+            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
@@ -29,6 +30,7 @@ class AppKernel extends Kernel
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
             new Vanessa\CoreBundle\VanessaCoreBundle(),
             new Vanessa\MemberBundle\VanessaMemberBundle(),
+            new Vanessa\AgencyBundle\VanessaAgencyBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

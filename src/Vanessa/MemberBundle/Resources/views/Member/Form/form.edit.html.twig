@@ -2,9 +2,8 @@
 {% block alert %}
     {% include "::alert.html.twig" %}
 {% endblock %}    
-    <form class="display helpers form-horizontal" action="{{ path('vanessa_member_update',{'slug' : member.slug}) }}" method="POST" {{ form_enctype(form) }}>
+    <form class="display helpers form-horizontal" action="{{ path('vanessa_member_update',{'slug' : member.slug}) }}.html" method="POST" {{ form_enctype(form) }}>
       <fieldset>
-          <legend><span class="label label-important">Info</span> <small>All form fields are required.</small></legend>
           {% if form.agency is defined %}
           <div class="control-group {% if form_errors(form.agency) %} error {% endif %}">
             <label class="control-label" for="agency">{{ form_label(form.agency) }}</label>

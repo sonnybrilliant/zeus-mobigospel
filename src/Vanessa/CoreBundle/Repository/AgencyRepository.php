@@ -12,4 +12,55 @@ use Doctrine\ORM\EntityRepository;
  */
 class AgencyRepository extends EntityRepository
 {
+
+    /**
+     * Get all members query
+     *
+     * @return type
+     */
+    public function getAllByAgencyTypeQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'a.name',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('a');
+        $qb->select();
+        $qb->andWhere('a.agencyType =:agencyType')
+            ->setParameter('agencyType', $options['agency_type']);
+        
+        if (isset($options['filterBy'])) {
+            if (isset($options['status'])) {
+                $qb->andWhere('a.status =:status')
+                    ->setParameter('status', $options['status']);
+            }
+        }
+
+        if ((isset($options['filterBy'])) && ($options['filterBy'] == '')) {
+            $qb->andWhere('a.isDeleted =:status')
+                ->setParameter('status', false);
+        }
+
+        // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('a.name', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                        $qb->expr()->like('a.accountNumber', $qb->expr()->literal('%' . $options['searchText'] . '%'))                        
+                    ));
+            }
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
 }

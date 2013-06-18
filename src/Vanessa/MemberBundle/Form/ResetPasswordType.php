@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * Vanessa\MemberBundle\Form\ResetPasswordType
  *
  * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
- * @package VanessaMemberBundle
+ * @package VanessaLabelBundle
  * @subpackage Form
  * @version 0.0.1
  */

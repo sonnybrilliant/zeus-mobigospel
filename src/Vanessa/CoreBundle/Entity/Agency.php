@@ -15,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\AgencyRepository")
  * @ORM\HasLifecycleCallbacks
  * 
- * @DoctrineAssert\UniqueEntity(fields={"name"}, message="Agency name must be unique, please choose another name.")
+ * 
  * @Gedmo\Loggable
  * 
  * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
@@ -159,16 +159,6 @@ class Agency
     protected $postalCode;
 
     /**
-     * @var string 
-     * 
-     * @Assert\MaxLength(limit= 30, message="Vat number has a limit of {{ limit }} characters.")
-     * 
-     * @ORM\Column(name="vat_number", type="string", length=30, nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $vatNumber;
-
-    /**
      * @ORM\OneToMany(targetEntity="Vanessa\CoreBundle\Entity\Member", mappedBy="agency")
      */
     protected $managers;
@@ -193,14 +183,26 @@ class Agency
      * @var string 
      * 
      * @Assert\NotBlank(message = "Contact number cannot be blank!")
-     * @Assert\Type(type="numeric", message="Contact number {{ value }} is not a valid {{ type }} telephone number.")
-     * @Assert\MinLength(limit= 10, message="Contact number must have at least {{ limit }} characters.")
-     * @Assert\MaxLength(limit= 12, message="Contact number has a limit of {{ limit }} characters.")
+     * @Assert\MinLength(limit= 14, message="Contact number must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 20, message="Contact number has a limit of {{ limit }} characters.")
      * 
-     * @ORM\Column(name="contact_number", type="string", length=15, nullable=false)
+     * @ORM\Column(name="contact_number", type="string", length=20, nullable=false)
      * @Gedmo\Versioned
      */
     protected $contactNumber;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message = "Email address cannot be blank!")
+     * @Assert\Email(
+     *   message = "The email '{{ value }}' is not a valid email.",
+     *   checkMX = false
+     * )
+     * @ORM\Column(name="contant_email", type="string", length=254)
+     * @Gedmo\Versioned
+     */
+    protected $contactEmail;
 
     /**
      * @var Vanessa\CoreBundle\Entity\Status
@@ -212,6 +214,14 @@ class Agency
      * @Gedmo\Versioned
      */
     protected $status;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $enabled;
 
     /**
      * @var boolean
@@ -231,6 +241,13 @@ class Agency
      * 
      */
     protected $agencyType;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime" , nullable=true)
+     */
+    protected $deletedAt;
 
     /**
      * @var datetime $createdAt
@@ -254,8 +271,15 @@ class Agency
      */
     protected $createdBy;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member")
+     */
+    protected $deletedBy;
+
     public function __construct()
     {
+        $this->enabled = true;
         $this->managers = new ArrayCollection();
         $this->contactPersons = new ArrayCollection();
         $this->artists = new ArrayCollection();
@@ -286,7 +310,6 @@ class Agency
     {
         $this->accountNumber = 'MG' . str_pad((int) $this->id, 5, "0", STR_PAD_LEFT);
     }
-
 
     /**
      * Set name
@@ -364,6 +387,9 @@ class Agency
      */
     public function getAccountNumber()
     {
+        if ($this->accountNumber == "") {
+            $this->accountNumber = 'MG' . str_pad((int) $this->id, 5, "0", STR_PAD_LEFT);
+        }
         return $this->accountNumber;
     }
 
@@ -503,29 +529,6 @@ class Agency
     public function getPostalCode()
     {
         return $this->postalCode;
-    }
-
-    /**
-     * Set vatNumber
-     *
-     * @param string $vatNumber
-     * @return Agency
-     */
-    public function setVatNumber($vatNumber)
-    {
-        $this->vatNumber = $vatNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get vatNumber
-     *
-     * @return string 
-     */
-    public function getVatNumber()
-    {
-        return $this->vatNumber;
     }
 
     /**
@@ -800,4 +803,102 @@ class Agency
     {
         return $this->slug;
     }
+
+    /**
+     * Set contactEmail
+     *
+     * @param string $contactEmail
+     * @return Agency
+     */
+    public function setContactEmail($contactEmail)
+    {
+        $this->contactEmail = $contactEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get contactEmail
+     *
+     * @return string 
+     */
+    public function getContactEmail()
+    {
+        return $this->contactEmail;
+    }
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Agency
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * Set deletedBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $deletedBy
+     * @return Agency
+     */
+    public function setDeletedBy(\Vanessa\CoreBundle\Entity\Member $deletedBy = null)
+    {
+        $this->deletedBy = $deletedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getDeletedBy()
+    {
+        return $this->deletedBy;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Agency
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
 }

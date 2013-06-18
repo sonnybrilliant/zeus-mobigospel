@@ -103,9 +103,9 @@ class SecurityAdminControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Welcome")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Welcome Mfana Conco")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Manage members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 

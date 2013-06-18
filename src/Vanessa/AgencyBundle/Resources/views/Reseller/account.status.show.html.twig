@@ -1,0 +1,38 @@
+{% extends "VanessaAgencyBundle::layout.reseller.html.twig" %}
+
+{% block title %}Account status - {{reseller.name}}{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Account status <small>{{reseller.name}}</small></h3>
+        <div class="span6">
+           {% set vars = {'action': 'Account status'} %}
+           {% include 'VanessaAgencyBundle::breadcrumb.reseller.html.twig' with vars  %}
+        </div>
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_agency_reseller_account_status_edit',{'slug': reseller.slug })}}.html" class="btn btn-warning pull-right" title="Edit reseller details."><i class="icon-white icon-edit"></i>&nbsp;Edit reseller</a>
+        </div>
+        <div class="span12">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_agency_reseller_profile',{'slug': reseller.slug })}}.html" title="View reseller profile." >Reseller details</a></li>
+                    <li class="active"><a href="{{ path('vanessa_agency_reseller_account_status_show',{'slug': reseller.slug })}}.html" title="View reseller account status." >Account status</a></li>
+                    <li><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Member list</a></li>
+                </ul>            
+            </div>
+            <div class="span8">
+                {% include "VanessaAgencyBundle:Reseller:Form/form.account.status.show.html.twig" %} 
+            </div> 
+            <div class="span3 pull-right">
+             {% include "VanessaAgencyBundle:Reseller:Hint/form.account.status.html.twig" %} 
+            </div>                  
+              
+        </div>
+    </div>     
+</div>     
+
+{% endblock body %}

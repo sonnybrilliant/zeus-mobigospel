@@ -1,32 +1,38 @@
 {% extends "VanessaMemberBundle::layout.html.twig" %}
 
-{% block title %}Edit a member{% endblock %}
+{% block title %}Edit member - {{member.fullName}}{% endblock %}
 
 {% block body %}
 <div class="row">
    <div class="span12">
-        <h3 class="align_header">Edit a member</h3>
+       <h3 class="align_header">Edit member - <small>{{member.fullName}}</small></h3>
         <div class="span6">
-           {% set vars = {'action': 'Edit member'} %}
+           {% set vars = {'action': 'Edit'} %}
            {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}
         </div>
-   </div>    
-   <div class="span9">
-        {% include "VanessaMemberBundle:Member:form.edit.html.twig" %}
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_member_profile',{'slug': member.slug })}}.html" class="btn btn-warning pull-right" title="View member details."><i class="icon-white icon-edit"></i>&nbsp;View member</a>
+        </div>
    </div> 
-   <div class="span3 pull-right">
-        <div class="well well-hint">
-            <h4><i class="icon-info-sign icon-white"></i>&nbsp; Hint</h4>
-            <br />
-            <p class="pull-right">
-                    <ol style="list-style-type:square ">
-                        <li><span class="label label-important">Cellphone</span> must be unique.</li>
-                        <br />
-                        <li>Click <a href="#myModal" data-toggle="modal">here</a> to learn more about <span class="label label-important">Roles</span> the system currently suppots.</li>
-                    </ol>
-            </p>
-        </div>        
-    </div>  
+   <div class="span12">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="{{ path('vanessa_member_edit',{'slug': member.slug})}}.html" title="Edit member details." >Member details</a></li>
+                    <li><a href="{{ path('vanessa_member_account_status_edit',{'slug': member.slug})}}.html" title="Edit account status.">Account status</a></li>
+                </ul>            
+            </div>
+            
+            <div class="span8">
+                {% include "VanessaMemberBundle:Member:Form/form.edit.html.twig" %}
+            </div> 
+            <div class="span3 pull-right">
+             {% include "VanessaMemberBundle:Member:Hint/form.create.html.twig" %} 
+            </div>  
+   </div>     
+  
 </div>
 {% block modal_info %}
          {% render url('vanessa_core_site_info_roles') %}  

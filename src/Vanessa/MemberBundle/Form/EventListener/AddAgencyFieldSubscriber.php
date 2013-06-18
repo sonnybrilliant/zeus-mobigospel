@@ -10,8 +10,8 @@ use Symfony\Component\Form\FormEvents;
 /**
  * Add agency field 
  * 
- * @author Ronald Conco <ronald.conco@gmail.com>
- * @package VanessaArtistBundle
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
+ * @package VanessaLabelBundle
  * @subpackage Form/EventListener
  * @version 0.0.1
  */

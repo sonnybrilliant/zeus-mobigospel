@@ -5,15 +5,23 @@
           <label class="control-label" for="agency">{{ form_label(form.agency) }}</label>
           <div class="controls">
             {{ form_widget(form.agency) }} 
-            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Assign member to an agency."><i class="icon-info-sign"></i></a></span>  
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member company."><i class="icon-info-sign"></i></a></span>  
             <span class="help-inline">{{form_errors(form.agency)}}</span>  
+          </div>
+        </div> 
+        <div class="control-group {% if form_errors(form.status) %} error {% endif %}">
+          <label class="control-label" for="status">{{ form_label(form.status) }}</label>
+          <div class="controls">
+            {{ form_widget(form.status) }} 
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Account status."><i class="icon-info-sign"></i></a></span>  
+            <span class="help-inline">{{form_errors(form.status)}}</span>  
           </div>
         </div> 
         <div class="control-group {% if form_errors(form.title) %} error {% endif %}">
           <label class="control-label" for="title">{{ form_label(form.title) }}</label>
           <div class="controls">
             {{ form_widget(form.title) }} 
-            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide member title."><i class="icon-info-sign"></i></a></span>  
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member title."><i class="icon-info-sign"></i></a></span>  
             <span class="help-inline">{{form_errors(form.title)}}</span>  
           </div>
         </div> 
@@ -21,7 +29,7 @@
           <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
           <div class="controls">
             {{ form_widget(form.gender) }} 
-            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide member gender."><i class="icon-info-sign"></i></a></span>  
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member gender."><i class="icon-info-sign"></i></a></span>  
             <span class="help-inline">{{form_errors(form.gender)}}</span>  
           </div>
         </div> 
@@ -41,11 +49,19 @@
              <span class="help-inline">{{form_errors(form.lastName)}}</span>
           </div>
         </div>       
+        <div class="control-group {% if form_errors(form.email) %} error {% endif %}">
+          <label class="control-label" for="email">{{ form_label(form.email) }}</label>
+          <div class="controls">
+            {{ form_widget(form.email) }} 
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member email address."><i class="icon-info-sign"></i></a></span>  
+             <span class="help-inline">{{form_errors(form.email)}}</span>
+          </div>
+        </div> 
         <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
           <label class="control-label" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
           <div class="controls">
             {{ form_widget(form.mobileNumber) }} 
-            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Provide a unique mobile number."><i class="icon-info-sign"></i></a></span>  
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member mobile number."><i class="icon-info-sign"></i></a></span>  
              <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>
           </div>
         </div> 
@@ -53,7 +69,7 @@
           <label class="control-label" for="group">{{ form_label(form.group) }}</label>
           <div class="controls">
             {{ form_widget(form.group) }} 
-            <span class="help-inline"><a href="#myModal" rel="tooltip" data-placement="right" data-toggle="modal" title="Assign member a role or privilege on the platform."><i class="icon-question-sign"></i></a></span>  
+            <span class="help-inline"><a href="#myModal" rel="tooltip" data-placement="right" data-toggle="modal" title="Member assigned role or privilege on the platform."><i class="icon-question-sign"></i></a></span>  
             <span class="help-inline">{{form_errors(form.group)}}</span>  
           </div>
         </div>

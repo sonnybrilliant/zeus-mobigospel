@@ -1,14 +1,31 @@
 <ul class="nav nav-tabs pull-right">
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+  
+  {% if app.user.isAdmin == true %} 
+        {% if controller == 'label'%}
+            <li class="active"><a href="{{ path('vanessa_agency_content_owner_list')}}.html" title="Click to view content owners.">Content Owners</a></li>   
+        {% else %}
+            <li><a href="{{ path('vanessa_agency_content_owner_list')}}.html" title="Click to view content owners.">Content Owners</a></li>
+        {% endif %}   
+   {% endif %}  
+  
+  {% if app.user.isAdmin == true %} 
+        {% if controller == 'reseller'%}
+            <li class="active"><a href="{{ path('vanessa_agency_reseller_list')}}.html" title="Click to view resellers.">Resellers</a></li>   
+        {% else %}
+            <li><a href="{{ path('vanessa_agency_reseller_list')}}.html" title="Click to view resellers.">Resellers</a></li>
+        {% endif %}   
+   {% endif %}  
+
   {% if is_granted('ROLE_ADMIN') %}     
     {% if controller == 'members'%}
-       <li class="active"><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members">Members</a></li>   
+       <li class="active"><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members.">Members</a></li>   
     {% else %}
-        <li><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members">Members</a></li>
+        <li><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members.">Members</a></li>
     {% endif %}          
   {% endif %}     
       
- 
+
       
      
     

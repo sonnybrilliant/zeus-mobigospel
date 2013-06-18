@@ -47,7 +47,7 @@ final class MemberManager
     {
         $this->setContainer($container);
         $this->setLogger($logger);
-        $this->setEm($container->get('doctrine')->getEntityManager('default'));
+        $this->setEm($container->get('doctrine')->getManager('default'));
 
         return;
     }
@@ -90,6 +90,7 @@ final class MemberManager
      */
     public function getById($id)
     {
+        $this->logger->info('get member by id:' . $id);
         $member = $this->em->getRepository('VanessaCoreBundle:Member')
             ->find($id);
 
@@ -109,6 +110,7 @@ final class MemberManager
      */
     public function getBySlug($slug)
     {
+        $this->logger->info('get member by slug:' . $slug);
         $member = $this->em->getRepository('VanessaCoreBundle:Member')
             ->findOneBySlug($slug);
 
@@ -128,6 +130,8 @@ final class MemberManager
      */
     public function listAll($options = array())
     {
+        $this->logger->info('get all members');
+
         if (isset($options['filterBy'])) {
             if ($options['filterBy'] != '0') {
                 $status = $this->getContainer()->get('status.manager')->getStatusByName($options['filterBy']);
@@ -150,6 +154,7 @@ final class MemberManager
      */
     public function listAgencyMembers($options = array())
     {
+        $this->logger->info('get all agency members');
         if (isset($options['filterBy'])) {
             if ($options['filterBy'] != '0') {
                 $status = $this->getContainer()->get('status.manager')->getStatusByName($options['filterBy']);
@@ -172,7 +177,7 @@ final class MemberManager
      */
     public function createDefaultMember($params)
     {
-
+        $this->logger->info('create default member');
         $member = new Member();
 
         $member->setFirstName($params['firstName']);
@@ -214,6 +219,7 @@ final class MemberManager
      */
     public function createNewMember($member)
     {
+        $this->logger->info('create a new member');
         //set status
         $member->setStatus($this->container->get('status.manager')->active());
 
@@ -247,6 +253,7 @@ final class MemberManager
      */
     public function update($member)
     {
+        $this->logger->info('update member ' . $member->getFullName());
         //reset roles
         $member->getMemberRoles()->clear();
         //assign roles
@@ -269,17 +276,20 @@ final class MemberManager
     /**
      * Delete member
      * 
-     * @param string $slug
+     * @param \Vanessa\CoreBundle\Entities\Member $member
      * @return void
      */
-    public function delete($slug)
+    public function delete($member)
     {
-        $member = $this->getBySlug($slug);
+        $this->logger->info('delete member slug:' . $member->getSlug());
         $member->setStatus($this->container->get('status.manager')->deleted());
         $member->setIsDeleted(true);
         $member->setEnabled(false);
         $member->setDeletedAt(new \DateTime());
         $member->setDeletedBy($this->getActiveUser());
+        //remove email
+        $member->setEmail(time() . '-' . $member->getEmail());
+        $member->setUsername(time() . '-' . $member->getEmail());
         $this->em->persist($member);
         $this->em->flush();
         return;
@@ -293,6 +303,7 @@ final class MemberManager
      */
     public function getByEmail($email)
     {
+        $this->logger->info('get member by email:' . $email);
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->findByEmail($email);
 
@@ -309,6 +320,7 @@ final class MemberManager
      */
     public function getByToken($token)
     {
+        $this->logger->info('get member by token:' . $token);
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->findByConfirmationToken($token);
 
@@ -326,7 +338,6 @@ final class MemberManager
     public function getAllAdmin($exception = false)
     {
         $this->logger->info('get all admin users');
-
         $results = array();
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->findByIsAdmin(true);
@@ -352,6 +363,7 @@ final class MemberManager
      */
     public function getActiveUser()
     {
+        $this->logger->info('get active user');
         $securityContext = $this->container->get('security.context');
         $user = $securityContext->getToken()->getUser();
         return $user;
@@ -365,6 +377,7 @@ final class MemberManager
      */
     public function getDefault()
     {
+        $this->logger->info('get default member');
         $id = 1;
         $member = $this->em->getRepository('VanessaCoreBundle:Member')
             ->find($id);
@@ -376,5 +389,118 @@ final class MemberManager
 
         return $member;
     }
+
+    /**
+     * Activate member account
+     * 
+     * @param VanessaCoreBundle:Member
+     * @return void
+     */
+    public function activateMember($member)
+    {
+        $member->setStatus($this->container->get('status.manager')->active());
+        $member->setIsDeleted(false);
+        $member->setEnabled(true);
+        $this->em->persist($member);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * disable/lock member account
+     * 
+     * @param VanessaCoreBundle:Member
+     * @return void
+     */
+    public function lockMember($member)
+    {
+        $member->setStatus($this->container->get('status.manager')->locked());
+        $member->setEnabled(false);
+        $this->em->persist($member);
+        $this->em->flush();
+        return;
+    }
+    
+
+    /**
+     * Activate all members by agency
+     * 
+     * @param \Vanessa\CoreBundle\Entities\Agency $agency
+     * @return void
+     */
+    public function activateAllByAgency($agency)
+    {
+        $this->logger->info('activate members by agency slug:' . $agency->getSlug());
+
+        $options = array('searchText' => '',
+            'sort' => 'm.id',
+            'direction' => 'asc',
+            'filterBy' => '',
+            'agency' => $agency
+        );
+
+        $members = $this->em->getRepository('VanessaCoreBundle:Member')
+            ->getAllAgencyMembersQuery($options);
+
+        foreach ($members as $member) {
+            $this->activateMember($member);
+        }
+
+        return;
+    }
+
+    /**
+     * Lock all members by agency
+     * 
+     * @param \Vanessa\CoreBundle\Entities\Agency $agency
+     * @return void
+     */
+    public function lockAllByAgency($agency)
+    {
+        $this->logger->info('lock members by agency slug:' . $agency->getSlug());
+
+        $options = array('searchText' => '',
+            'sort' => 'm.id',
+            'direction' => 'asc',
+            'filterBy' => '',
+            'agency' => $agency
+        );
+
+        $members = $this->em->getRepository('VanessaCoreBundle:Member')
+            ->getAllAgencyMembersQuery($options);
+
+        foreach ($members as $member) {
+            $this->lockMember($member);
+        }
+
+        return;
+    }
+    
+    /**
+     * Delete all members by agency
+     * 
+     * @param \Vanessa\CoreBundle\Entities\Agency $agency
+     * @return void
+     */
+    public function deleteAllByAgency($agency)
+    {
+        $this->logger->info('delete members by agency slug:' . $agency->getSlug());
+
+        $options = array('searchText' => '',
+            'sort' => 'm.id',
+            'direction' => 'asc',
+            'filterBy' => '',
+            'agency' => $agency
+        );
+
+        $members = $this->em->getRepository('VanessaCoreBundle:Member')
+            ->getAllAgencyMembersQuery($options);
+
+        foreach ($members as $member) {
+            $this->delete($member);
+        }
+
+        return;
+    }    
 
 }

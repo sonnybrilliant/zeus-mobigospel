@@ -7,13 +7,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Vanessa\MemberBundle\Form\MemberCreateType;
 use Vanessa\MemberBundle\Form\MemberUpdateType;
-use Vanessa\MemberBundle\Form\MemberViewType;
+use Vanessa\MemberBundle\Form\MemberProfileType;
+use Vanessa\MemberBundle\Form\AccountStatusUpdateType;
 use Vanessa\CoreBundle\Entity\Member;
 
 /**
  * Member manager 
  * 
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
  * @package VanessaMemberBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -58,42 +59,10 @@ class MemberController extends Controller
     }
 
     /**
-     * Download list of all available members
-     * 
-     * @param integer $page
-     * @return Response
-     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
-     */
-    public function downloadExcelAction()
-    {
-        $this->get('logger')->info('Download list of all available members');
-
-
-        $searchText = $this->get('request')->query->get('searchText');
-        $sort = $this->get('request')->query->get('sort', 'm.id');
-        $direction = $this->get('request')->query->get('direction', 'asc');
-        $filterBy = $this->get('request')->query->get('filterBy', 0);
-
-        $options = array('searchText' => $searchText,
-            'sort' => $sort,
-            'direction' => $direction,
-            'filterBy' => $filterBy
-        );
-
-        $members = $this->get('member.manager')->listAll($options);
-
-        $excel = $this->get('excel.manager');
-        
-        $response = $excel->memberList($members);
-        
-        return $response;
-    }
-
-    /**
      * Create a new member
      * 
      * @return Response
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN")
      */
@@ -110,7 +79,7 @@ class MemberController extends Controller
      * Create a new member
      * 
      * @return Response
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN")
      */
@@ -153,7 +122,7 @@ class MemberController extends Controller
                     //send mail
                     $this->get('notification.manager')->memberRegistration($arguments);
                     $this->get('utility.manager')->alert('success', 'Member was sucessfully created');
-                    return $this->redirect($this->generateUrl('vanessa_member_list').'.html');
+                    return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
                 }
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -169,7 +138,7 @@ class MemberController extends Controller
      * 
      * @param integer $slug
      * @return Response
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
@@ -197,7 +166,7 @@ class MemberController extends Controller
      * 
      * @param integer $slug
      * @return Response
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
@@ -223,7 +192,7 @@ class MemberController extends Controller
                 if (1 == $member->getGroup()->getId()) {
                     if (1 != $member->getAgency()->getId()) {
                         $isValid = false;
-                        $agency = $this->get('agency.manager')->getById(1);
+                        $agency = $this->get('content.owner.manager')->getById(1);
                         $this->get('utility.manager')->alert('error', 'Could not create member,the administrator group can only be assigned to members of ' . $agency->getName() . ' agency');
                     }
                 }
@@ -234,14 +203,8 @@ class MemberController extends Controller
                     $securityContext = $this->container->get('security.context');
                     $user = $securityContext->getToken()->getUser();
 
-                    if ($user->getIsAdmin()) {
-                        return $this->redirect($this->generateUrl('vanessa_member_list'));
-                    } else {
-//                        return $this->redirect($this->generateUrl('sule_agency_list_members', array(
-//                                    'id' => $user->getAgency()->getId(),
-//                                    'agency' => $user->getAgency()->getSlug()
-//                                )));
-                    }
+                    return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
+
                 }
             } else {
                 $this->getRequest()->getSession()->setFlash('error', 'Could not update member, please fix form errors!');
@@ -258,7 +221,7 @@ class MemberController extends Controller
      * 
      * @param string $slug
      * @return type
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
@@ -273,11 +236,112 @@ class MemberController extends Controller
             return $this->createNotFoundException($e->getMessage());
         }
 
-        $form = $this->createForm(new MemberViewType(), $member);
+        if ($member->getStatus()->getName() == "Deleted") {
+            $deletedBy = $member->getDeletedBy();
+            $deletedDate = $member->getDeletedAt();
+            $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
+            $this->getRequest()->getSession()->setFlash('notice', $message);
+        }
 
-        return $this->render('VanessaMemberBundle:Member:show.html.twig', array(
+        $form = $this->createForm(new MemberProfileType(), $member);
+
+        return $this->render('VanessaMemberBundle:Member:profile.html.twig', array(
                 'form' => $form->createView(),
                 'member' => $member));
+    }
+
+    /**
+     * Show member account status
+     * 
+     * @param string $slug
+     * @return type
+     * @throws createNotFoundException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
+     */
+    public function accountStatusAction($slug)
+    {
+        $this->get('logger')->info('member account status slug:' . $slug);
+
+        try {
+            $member = $this->get('member.manager')->getBySlug($slug);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        if ($member->getStatus()->getName() == "Deleted") {
+            $deletedBy = $member->getDeletedBy();
+            $deletedDate = $member->getDeletedAt();
+            $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
+            $this->getRequest()->getSession()->setFlash('notice', $message);
+        }
+
+
+
+        return $this->render('VanessaMemberBundle:Member:account.status.show.html.twig', array(
+                'member' => $member));
+    }
+
+    /**
+     * Edit member account status
+     * 
+     * @param string $slug
+     * @return type
+     * @throws createNotFoundException
+     * 
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function accountStatusEditAction($slug)
+    {
+        $this->get('logger')->info('edit member account status slug:' . $slug);
+
+        try {
+            $member = $this->get('member.manager')->getBySlug($slug);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        if ($member->getStatus()->getName() == "Deleted") {
+            $deletedBy = $member->getDeletedBy();
+            $deletedDate = $member->getDeletedAt();
+            $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
+            $this->getRequest()->getSession()->setFlash('notice', $message);
+        }
+
+        $form = $this->createForm(new AccountStatusUpdateType());
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+            if ($form->isValid()) {
+                if ($member->getStatus()->getName() == "Deleted") {
+                    $this->getRequest()->getSession()->setFlash('error', 'Could not update member status - deleted accounts can only be restored manually, consult administrator!');
+                } else {
+                    $data = $form->getData();
+                    $accountStatus = $data['accountStatus'];
+                    if ($accountStatus != '') {
+                        if ($accountStatus == 'activate') {
+                            $this->get('member.manager')->activateMember($member);
+                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully activated member account.');
+                        } elseif ($accountStatus == 'lock') {
+                            $this->get('member.manager')->lockMember($member);
+                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully locked member account.');
+                        }
+                        return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
+                    } else {
+                        $this->getRequest()->getSession()->setFlash('error', 'Could not update member status, please fix form errors!');
+                    }
+                }
+            } else {
+                $this->getRequest()->getSession()->setFlash('error', 'Could not update member status, please fix form errors!');
+            }
+        }
+
+        return $this->render('VanessaMemberBundle:Member:edit.account.status.html.twig', array(
+                'member' => $member,
+                'form' => $form->createView(),
+            ));
     }
 
     /**
@@ -285,7 +349,7 @@ class MemberController extends Controller
      * 
      * @param integer $slug
      * @return Response
-     * @throws AccessDeniedException
+     * @throws createNotFoundException
      * 
      * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
      */
@@ -294,7 +358,8 @@ class MemberController extends Controller
         $this->get('logger')->info('delete member slug:' . $slug);
 
         try {
-            $this->get('member.manager')->delete($slug);
+            $member = $this->get('member.manager')->getBySlug($slug);
+            $this->get('member.manager')->delete($member);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
@@ -304,13 +369,45 @@ class MemberController extends Controller
         $user = $this->get('member.manager')->getActiveUser();
 
         if ($user->getIsAdmin()) {
-            return $this->redirect($this->generateUrl('vanessa_member_list').'.html');
+            return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
         } else {
 //            return $this->redirect($this->generateUrl('sule_agency_list_members', array(
 //                        'id' => $user->getAgency()->getId(),
 //                        'agency' => $user->getAgency()->getSlug()
 //                    )));
         }
+    }
+
+    /**
+     * Download list of all available members
+     * 
+     * @param integer $page
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
+     */
+    public function downloadExcelAction()
+    {
+        $this->get('logger')->info('Download list of all available members');
+
+
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'm.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,
+            'filterBy' => $filterBy
+        );
+
+        $members = $this->get('member.manager')->listAll($options);
+
+        $excel = $this->get('excel.manager');
+
+        $response = $excel->memberList($members);
+
+        return $response;
     }
 
 }

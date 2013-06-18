@@ -21,11 +21,11 @@ class StatusRepository extends EntityRepository
      */
     public function getStatus($status)
     {
-        $objQueuryBuilder = $this->createQueryBuilder('s')
+        $qb = $this->createQueryBuilder('s')
             ->where('s.name = :status_name')
             ->setParameter('status_name', $status);
 
-        return $objQueuryBuilder->getQuery()->getSingleResult();
+        return $qb->getQuery()->getSingleResult();
     }
 
 }

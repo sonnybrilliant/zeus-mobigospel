@@ -1,0 +1,21 @@
+{% extends "VanessaAgencyBundle::layout.html.twig" %}
+
+{% block title %}Create a content owner{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="span12">
+        <h3 class="align_header">Create a content owner</h3>
+        <div class="span6">
+           {% set vars = {'action': 'Create'} %}
+           {% include 'VanessaAgencyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+   </div>    
+   <div class="span9">
+        {% include "VanessaAgencyBundle:ContentOwner:Form/form.create.html.twig" %}
+   </div> 
+   <div class="span3 pull-right">
+       {% include "VanessaAgencyBundle:ContentOwner:Hint/form.create.html.twig" %}
+   </div>     
+</div>
+{% endblock body %}

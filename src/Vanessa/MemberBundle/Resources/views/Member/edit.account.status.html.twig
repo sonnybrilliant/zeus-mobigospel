@@ -1,0 +1,37 @@
+{% extends "VanessaMemberBundle::layout.html.twig" %}
+
+{% block title %}Edit member - {{member.fullName}}{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Edit member - <small>{{member.fullName}}</small></h3>
+        <div class="span6">
+           {% set vars = {'action': 'Edit account status'} %}
+           {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_member_profile',{'slug': member.slug })}}.html" class="btn btn-warning pull-right" title="View member details."><i class="icon-white icon-edit"></i>&nbsp;View member</a>
+        </div>
+        <div class="span12">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_member_edit',{'slug': member.slug})}}.html" title="Edit member details" >Member details</a></li>
+                    <li class="active"><a href="{{ path('vanessa_member_account_status_edit',{'slug': member.slug})}}.html" title="Account status">Account status</a></li>
+                </ul>            
+            </div>
+            
+            <div class="span8">
+                {% include "VanessaMemberBundle:Member:Form/form.account.status.edit.html.twig" %}   
+            </div> 
+            <div class="span3 pull-right">
+             {% include "VanessaMemberBundle:Member:Hint/form.account.status.edit.html.twig" %} 
+            </div>      
+        </div>
+    </div>     
+</div>     
+
+{% endblock body %}

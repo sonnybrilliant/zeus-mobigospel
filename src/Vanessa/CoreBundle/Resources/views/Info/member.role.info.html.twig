@@ -7,16 +7,13 @@
     <h5>Defined User roles</h5>
     <p>We currently have support the following list of defined user roles: </p>
     <p>
-      <ul>
+      <dl>
       {% for role in roles %}
-          <li>
-            <p>
-              <strong>{{role.name}}</strong>:
-              <p>{{role.description}}</p>
-            </p>
-          </li>
+            <dt>{{role.name}}</dt>
+            <dd>{{role.description}}</dd>
+            <br />
       {% endfor %}
-      </ul>
+      </dl>
     </p>
   </div>
   <div class="modal-footer">

@@ -10,8 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * Vanessa\MemberBundle\Form\PasswordUpdateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
- * @package VanessaMemberBundle
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
+ * @package VanessaLabelBundle
  * @subpackage Form
  * @version 0.0.1
  */
