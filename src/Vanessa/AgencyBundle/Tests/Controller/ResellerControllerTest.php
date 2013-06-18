@@ -1,6 +1,6 @@
 <?php
 
-namespace Vanessa\MemberBundle\Tests\Controller;
+namespace Vanessa\AgencyBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
