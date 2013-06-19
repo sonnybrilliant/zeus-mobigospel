@@ -22,12 +22,16 @@
                 <tr>
                     <td><a href='{{ path('vanessa_agency_content_owner_profile', {'slug': agency.slug }) }}.html' rel="tooltip" title="{{agency.name}}">{{agency.name|title|truncate(14)}}</a></td>
                     <td>{{agency.accountNumber}}</td> 
+                    
                     {% if agency.status.name == 'Active'  %}
                         <td><span class="label label-info">{{agency.status.name }}</span></td>
+                    {% elseif agency.status.name == 'Deleted'  %}    
+                        <td><span class="label label-important">{{agency.status.name }}</span></td>
+                    {% elseif agency.status.name == 'Inactive'  %}    
+                        <td><span class="label">{{agency.status.name }}</span></td>                    
                     {% else %}
-                        <td><span class="label">{{agency.status.name }}</span></td>
-                    {% endif %}
-                    
+                        <td><span class="label label-inverse">{{agency.status.name }}</span></td>
+                    {% endif %}  
                      
                     {% if agency.createdBy is empty %}
                     <td>System default</td>

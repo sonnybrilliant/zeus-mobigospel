@@ -76,9 +76,9 @@ class ContentOwnerController extends Controller
             $sort = $this->get('request')->query->get('sort', 'm.id');
             $direction = $this->get('request')->query->get('direction', 'asc');
             $filterBy = $this->get('request')->query->get('filterBy', 0);
-            
+
             $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
-            
+
             $options = array('searchText' => $searchText,
                 'sort' => $sort,
                 'direction' => $direction,
@@ -89,14 +89,57 @@ class ContentOwnerController extends Controller
             $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
                 $this->container->get('member.manager')->listAgencyMembers($options), $this->getRequest()->query->get('page', $page), 10);
-
-            
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
         }
 
         return $this->render('VanessaAgencyBundle:ContentOwner:list.members.html.twig', array(
+                'pagination' => $pagination,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet,
+                'contentOwner' => $contentOwner
+            ));
+    }
+
+    /**
+     * List all available content owner artists
+     * 
+     * @param string $slug
+     * @param integer $page
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
+     */
+    public function listArtistsAction($slug, $page = 1)
+    {
+        $this->get('logger')->info('list all content owner artists');
+
+        try {
+            $isDirectionSet = $this->get('request')->query->get('direction', false);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'a.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->container->get('artist.manager')->listAgencyArtists($options), $this->getRequest()->query->get('page', $page), 10);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        return $this->render('VanessaAgencyBundle:ContentOwner:list.artists.html.twig', array(
                 'pagination' => $pagination,
                 'direction' => $direction,
                 'isDirectionSet' => $isDirectionSet,
@@ -144,7 +187,7 @@ class ContentOwnerController extends Controller
                 $this->get('utility.manager')->alert('success', 'Content owner was sucessfully created');
                 return $this->redirect($this->generateUrl('vanessa_agency_content_owner_list') . '.html');
             } else {
-                $this->getRequest()->getSession()->setFlash(
+                $this->get('utility.manager')->alert(
                     'error', 'Could not create content owner, please fix form errors!');
             }
         }
@@ -209,7 +252,7 @@ class ContentOwnerController extends Controller
                 $this->get('utility.manager')->alert('success', 'Content owner was sucessfully updated');
                 return $this->redirect($this->generateUrl('vanessa_agency_content_owner_list') . '.html');
             } else {
-                $this->getRequest()->getSession()->setFlash(
+                $this->get('utility.manager')->alert(
                     'error', 'Could not update content owner, please fix form errors!');
             }
         }
@@ -241,7 +284,7 @@ class ContentOwnerController extends Controller
             $deletedBy = $contentOwner->getDeletedBy();
             $deletedDate = $contentOwner->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new ContentOwnerProfileType(), $contentOwner);
@@ -302,7 +345,7 @@ class ContentOwnerController extends Controller
             $deletedBy = $contentOwner->getDeletedBy();
             $deletedDate = $contentOwner->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
 
@@ -334,7 +377,7 @@ class ContentOwnerController extends Controller
             $deletedBy = $contentOwner->getDeletedBy();
             $deletedDate = $contentOwner->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new ContentOwnerAccountStatusUpdateType());
@@ -343,25 +386,25 @@ class ContentOwnerController extends Controller
             $form->bindRequest($this->getRequest());
             if ($form->isValid()) {
                 if ($contentOwner->getStatus()->getName() == "Deleted") {
-                    $this->getRequest()->getSession()->setFlash('error', 'Could not update content owner status - deleted accounts can only be restored manually, consult administrator!');
+                    $this->get('utility.manager')->alert('error', 'Could not update content owner status - deleted accounts can only be restored manually, consult administrator!');
                 } else {
                     $data = $form->getData();
                     $accountStatus = $data['accountStatus'];
                     if ($accountStatus != '') {
                         if ($accountStatus == 'activate') {
                             $this->get('content.owner.manager')->activate($contentOwner);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully activated content owner account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully activated content owner account.');
                         } elseif ($accountStatus == 'lock') {
                             $this->get('content.owner.manager')->lock($contentOwner);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully locked content owner account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully locked content owner account.');
                         }
                         return $this->redirect($this->generateUrl('vanessa_agency_content_owner_list') . '.html');
                     } else {
-                        $this->getRequest()->getSession()->setFlash('error', 'Could not update content owner status, please fix form errors!');
+                        $this->get('utility.manager')->alert('error', 'Could not update content owner status, please fix form errors!');
                     }
                 }
             } else {
-                $this->getRequest()->getSession()->setFlash('error', 'Could not update content owner status, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not update content owner status, please fix form errors!');
             }
         }
 
@@ -398,6 +441,78 @@ class ContentOwnerController extends Controller
         $excel = $this->get('excel.manager');
         $response = $excel->contentOwnerList($contentOwners);
 
+        return $response;
+    }
+
+    /**
+     * Download list of all available artists
+     * 
+     * @param string $slug
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function downloadArtistsExcelAction($slug)
+    {
+        $this->get('logger')->info('Download list of all available artist per content owner');
+
+        try {
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'a.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $artists = $this->get('artist.manager')->listAgencyArtists($options);
+            $excel = $this->get('excel.manager');
+            $response = $excel->artistList($artists);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * Download list of all available memberw
+     * 
+     * @param string $slug
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function downloadMembersExcelAction($slug)
+    {
+        $this->get('logger')->info('Download list of all available members for content owner:'.$slug);
+
+        try {
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'm.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $members = $this->get('member.manager')->listAgencyMembers($options);
+            $excel = $this->get('excel.manager');
+            $response = $excel->memberList($members);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
         return $response;
     }
 

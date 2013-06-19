@@ -1,0 +1,75 @@
+<section class="content">
+    <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Stage Name', 'a.stageName') }}
+                  {% if isDirectionSet == false %}
+                      <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
+                  {% else %}
+                    {% if pagination.isSorted('a.stageName') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
+                  {% endif %} 
+                </th>  
+                {% if is_granted('ROLE_ADMIN') %}
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Agency', 'a.agency') }}{% if pagination.isSorted('a.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                {% endif%}
+                <th scope="col" width="7%">{{ knp_pagination_sortable(pagination,'Status', 'a.status') }}{% if pagination.isSorted('a.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="5%">Songs</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Created By', 'a.createdBy') }}{% if pagination.isSorted('a.createdBy') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="14%">{{ knp_pagination_sortable(pagination,'Created At', 'a.createdAt') }}{% if pagination.isSorted('a.createdAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="14%">{{ knp_pagination_sortable(pagination,'Updated At', 'a.updatedAt') }}{% if pagination.isSorted('a.updatedAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for artist in pagination %}
+                <tr>
+                    <td><a href='{{ path('vanessa_artist_edit', {'slug': artist.slug }) }}.html' rel="tooltip" title="{{artist.stageName}}">{{artist.stageName|title|truncate(14)}}</a></td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td><a href='{{ path('vanessa_agency_reseller_profile', {'slug': artist.agency.slug }) }}.html' rel="tooltip" title="{{artist.agency.name}}">{{artist.agency.name|title|truncate(14)}}</a></td>   
+                    {% endif%}
+
+                    {% if artist.status.name == 'Active'  %}
+                        <td><span class="label label-info">{{artist.status.name }}</span></td>
+                    {% elseif artist.status.name == 'Deleted'  %}    
+                        <td><span class="label label-important">{{artist.status.name }}</span></td>
+                    {% elseif artist.status.name == 'Inactive'  %}    
+                        <td><span class="label">{{artist.status.name }}</span></td>                    
+                    {% else %}
+                        <td><span class="label label-inverse">{{artist.status.name }}</span></td>
+                    {% endif %}                     
+                    
+                    <td><span class="badge badge-inverse">0</span></td>    
+                        
+                    {% if artist.createdBy is empty %}
+                    <td>System default</td>
+                    {% else %}
+                    <td>{{ artist.createdBy.fullName|title|truncate(14)}} </td>
+                    {% endif %}
+                    
+                    <td>{{artist.createdAt|date('Y-m-d H:i A')}}</td>
+                    <td>{{artist.updatedAt|date('Y-m-d H:i A')}}</td>
+                    <td>
+                        <small>
+                            <a href='{{ path('vanessa_artist_profile', {'slug': artist.slug }) }}.html' rel="tooltip" title="click to view" class="btn btn-mini btn-warning"><i class="icon-white icon-eye-open"></i>&nbsp;<strong>View</strong></a>
+                            <a href='{{ path('vanessa_artist_edit', {'slug': artist.slug }) }}.html' rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-white icon-edit"></i>&nbsp;<strong>Edit</strong></a>
+                            <a href='#' rel="tooltip" title="click to delete" class="btn btn-mini btn-danger" onclick="alertify.confirm('You are about to delete {{artist.stageName}}, click ok to confirm action. <br />NB<br /> all songs belonging to the artist will also be deleted.', function (e) {
+                                    if (e) {
+                                       window.location.href = '{{ url('vanessa_artist_delete', {'slug': artist.slug }) }}.html';
+                                    } else {
+                                       return false;
+                                    }
+                                });"><i class="icon-white icon-trash"></i>&nbsp;<strong>Delete</strong></a>
+                        </small>  
+                    </td>
+                </tr>
+          {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation pagination-right">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+</section>
+
+
+
+

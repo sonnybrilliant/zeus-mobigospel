@@ -372,12 +372,12 @@ class ResellerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit reseller: test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit reseller: test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - test base records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Edit")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Reseller details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Hint")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
@@ -491,7 +491,7 @@ class ResellerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('html:contains("Profile")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Reseller details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 
@@ -530,12 +530,12 @@ class ResellerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Account status - test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Account status - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Profile - test base records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Reseller details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 
@@ -574,12 +574,12 @@ class ResellerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit reseller: test locked records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit reseller: test locked records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - test locked records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - test locked records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains(" Edit")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Reseller details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
         // select the account status edit form
@@ -642,10 +642,10 @@ class ResellerControllerTest extends WebTestCase
         //check if words are not available on the page
         $this->assertEquals(1, $crawler->filter('title:contains("Profile - Members - test base records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Profile test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Reseller details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 

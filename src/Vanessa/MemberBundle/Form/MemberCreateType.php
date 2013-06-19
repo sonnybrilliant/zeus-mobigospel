@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Vanessa\MemberBundle\Form\MemberCreateType
@@ -33,7 +34,12 @@ class MemberCreateType extends AbstractType
                 'empty_value' => 'Select an agency',
                 'class' => 'VanessaCoreBundle:Agency',
                 'label' => 'Agency:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->where('a.enabled = :enabled')
+                        ->setParameter('enabled',true);
+                },
             ))
             ->add('group', 'entity', array(
                 'empty_value' => 'Select a role',

@@ -8,7 +8,7 @@
     <div class="span12">
         <h3 class="align_header">Profile <small>{{reseller.name}}</small></h3>
         <div class="span3">
-           {% set vars = {'action': 'Member list'} %}
+           {% set vars = {'action': 'Members'} %}
            {% include 'VanessaAgencyBundle::breadcrumb.reseller.html.twig' with vars  %}
         </div>
         <div class="span8 pull-right" style="margin-right: -25px">
@@ -48,7 +48,7 @@
             <ul class="nav nav-tabs">
                 <li><a href="{{ path('vanessa_agency_reseller_profile',{'slug': reseller.slug })}}.html" title="View reseller profile." >Reseller details</a></li>
                 <li><a href="{{ path('vanessa_agency_reseller_account_status_show',{'slug': reseller.slug })}}.html" title="View reseller account status." >Account status</a></li>
-                <li class="active"><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Member list</a></li>
+                <li class="active"><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Members</a></li>
             </ul>            
         </div>
         

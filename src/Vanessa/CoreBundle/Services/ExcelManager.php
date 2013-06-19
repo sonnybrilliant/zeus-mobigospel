@@ -317,6 +317,89 @@ final class ExcelManager
         $sheet->setTitle('Reseller listing');
         return;
     }
+    
+    /**
+     * Create artists sheet
+     * 
+     * @param array $artists
+     * @param integer $index
+     * @return void
+     */
+    private function artistSheet($artists,$index = 0)
+    {
+        $sheet = $this->excel->excelObj->createSheet($index);
+        
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(10);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(20);
+        $sheet->getColumnDimension('J')->setWidth(10);
+        $sheet->getColumnDimension('K')->setWidth(10);
+        $sheet->getColumnDimension('L')->setWidth(10);
+        $sheet->getColumnDimension('M')->setWidth(20);
+        $sheet->getColumnDimension('N')->setWidth(20);
+        $sheet->getColumnDimension('O')->setWidth(20);
+        $sheet->getColumnDimension('P')->setWidth(20);
+
+        $this->excel->excelObj->setActiveSheetIndex($index)
+            ->setCellValue('A1', "#Id")
+            ->setCellValue('B1', "Stage name")
+            ->setCellValue('C1', "First name")
+            ->setCellValue('D1', "Middle name")
+            ->setCellValue('E1', "Last name")
+            ->setCellValue('F1', "Gender")
+            ->setCellValue('G1', "Status")
+            ->setCellValue('H1', "Genres")
+            ->setCellValue('I1', "Agency")
+            ->setCellValue('J1', "Is Deleted")
+            ->setCellValue('K1', "Is Enabled")
+            ->setCellValue('L1', "Songs")
+            ->setCellValue('M1', "Created By")
+            ->setCellValue('N1', "Created At")
+            ->setCellValue('O1', "Updated At")
+            ->setCellValue('P1', "");
+        $sheet->getStyle('A1:B1')->getFont()->setBold(true);
+        $sheet->getStyle('C1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('E1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('G1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('I1:J1')->getFont()->setBold(true);
+        $sheet->getStyle('K1:L1')->getFont()->setBold(true);
+        $sheet->getStyle('M1:N1')->getFont()->setBold(true);
+        $sheet->getStyle('O1:P1')->getFont()->setBold(true);
+        $counter = 2;
+        foreach ($artists as $artist) {
+            $genres = "";
+            foreach($artist->getGenres() as $genre){
+               $genres .= '['.$genre->getName().']'; 
+            }
+            $this->excel->excelObj->setActiveSheetIndex($index)
+                ->setCellValue('A' . $counter, $artist->getId())
+                ->setCellValue('B' . $counter, $artist->getStageName())
+                ->setCellValue('C' . $counter, $artist->getFirstName())
+                ->setCellValue('D' . $counter, $artist->getMiddleName())
+                ->setCellValue('E' . $counter, $artist->getLastName())
+                ->setCellValue('F' . $counter, $artist->getGender()->getName())
+                ->setCellValue('G' . $counter, $artist->getStatus()->getName())
+                ->setCellValue('H' . $counter, $genres)
+                ->setCellValue('I' . $counter, $artist->getAgency()->getName())
+                ->setCellValue('J' . $counter, $artist->getIsDeleted())
+                ->setCellValue('K' . $counter, $artist->getEnabled())
+                ->setCellValue('L' . $counter, 0)
+                ->setCellValue('M' . $counter, $artist->getCreatedBy()->getFullName())
+                ->setCellValue('N' . $counter, $artist->getCreatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('O' . $counter, $artist->getUpdatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('P' . $counter, '');
+            $counter++;
+        }
+
+        $sheet->setTitle('Artist listing');
+        return;
+    }
 
     /**
      * Excel member list
@@ -393,6 +476,35 @@ final class ExcelManager
         $fileName = 'reseller-list-' . date('Y-m-d') . '-' . sizeof($reseller) . '.xlsx';
 
         $this->resellerSheet($reseller, 0);
+        
+        //create the response
+        $response = $this->excel->getResponse();
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $fileName);
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
+    }
+
+    /**
+     * Excel artist list
+     * 
+     * @param array $artists
+     * @return Response
+     */
+    public function artistList($artists)
+    {
+        $this->excel->excelObj->getProperties()->setTitle($this->container->getParameter('site_name') . " Artist listing")
+            ->setSubject(" Artist Listing")
+            ->setDescription("A deatiled list of all Artists loaded on " . $this->container->getParameter('site_name'))
+            ->setKeywords("")
+            ->setCategory("List");
+
+        $fileName = 'artists-list-' . date('Y-m-d') . '-' . sizeof($artists) . '.xlsx';
+
+        $this->artistSheet($artists, 0);
         
         //create the response
         $response = $this->excel->getResponse();

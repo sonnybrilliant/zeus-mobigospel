@@ -130,8 +130,8 @@ final class UtilityManager
      */
     public function alert($type,$message)
     {
-        $this->session->setFlash($type,$message);
-        $this->session->setFlash('alert-'.$type,$message);
+        $this->session->getFlashBag()->add($type,$message);
+        $this->session->getFlashBag()->add('alert-'.$type,$message);
         return;
     }
 

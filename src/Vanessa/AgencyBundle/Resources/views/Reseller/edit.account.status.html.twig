@@ -1,11 +1,11 @@
 {% extends "VanessaAgencyBundle::layout.reseller.html.twig" %}
 
-{% block title %}Edit reseller: {{reseller.name}}{% endblock %}
+{% block title %}Edit - {{reseller.name}}{% endblock %}
 
 {% block body %}
 <div class="row">
    <div class="span12">
-        <h3 class="align_header">Edit reseller: {{reseller.name}}</h3>
+        <h3 class="align_header">Edit - {{reseller.name}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Edit'} %}
            {% include 'VanessaAgencyBundle::breadcrumb.reseller.html.twig' with vars  %}
@@ -22,7 +22,7 @@
                 <ul class="nav nav-tabs">
                     <li><a href="{{ path('vanessa_agency_reseller_edit',{'slug': reseller.slug})}}.html" title="Edit reseller details." >Reseller details</a></li>
                     <li class="active"><a href="{{ path('vanessa_agency_reseller_account_status_edit',{'slug': reseller.slug })}}.html" title="Edit account status.">Account status</a></li>
-                    <li><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Member list</a></li>
+                    <li><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Members</a></li>
                 </ul>            
             </div>
             

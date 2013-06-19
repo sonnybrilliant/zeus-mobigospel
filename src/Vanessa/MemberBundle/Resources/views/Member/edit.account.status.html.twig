@@ -1,11 +1,11 @@
 {% extends "VanessaMemberBundle::layout.html.twig" %}
 
-{% block title %}Edit member - {{member.fullName}}{% endblock %}
+{% block title %}Edit - {{member.fullName}}{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Edit member - <small>{{member.fullName}}</small></h3>
+        <h3 class="align_header">Edit - {{member.fullName}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Edit account status'} %}
            {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}

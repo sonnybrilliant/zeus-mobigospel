@@ -68,6 +68,21 @@ class Artist
     protected $lastName;
 
     /**
+     * @var string
+     *
+     * @Assert\MinLength(limit= 2, message="Middle name must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Middle name has a limit of {{ limit }} characters.")
+     * @Assert\Regex(pattern="/\d/",
+     *               match=false,
+     *               message="Middle Name cannot contain a number"
+     *  )
+     *
+     * @ORM\Column(name="middle_name", type="string", length=100 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $middleName;
+
+    /**
      * @var string 
      * 
      * @Assert\NotBlank(message = "Stage name cannot be blank!")
@@ -150,6 +165,14 @@ class Artist
     protected $isDeleted;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $enabled;
+
+    /**
      * @var string
      * 
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -166,6 +189,13 @@ class Artist
      * )
      */
     public $picture;
+    
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime" , nullable=true)
+     */
+    protected $deletedAt;    
 
     /**
      * @var datetime $createdAt
@@ -189,10 +219,17 @@ class Artist
      */
     protected $createdBy;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member")
+     */
+    protected $deletedBy;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
-        $this->setIsDeleted(false);       
+        $this->setIsDeleted(false);
+        $this->setEnabled(true);
     }
 
     public function __toString()
@@ -208,6 +245,11 @@ class Artist
     public function getId()
     {
         return $this->id;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 
     /**
@@ -538,7 +580,7 @@ class Artist
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
 
-        $this->picture->move($this->getUploadRootDir(), $this->id . '.' . $this->picture->guessExtension());
+        $this->picture->move($this->getUploadRootDir(), $this->slug .'-'.$this->id.'.' . $this->picture->guessExtension());
         unset($this->picture);
     }
 
@@ -554,9 +596,8 @@ class Artist
 
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->id . '.' . $this->path;
+        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->slug .'-'.$this->id.'.' . $this->path;
     }
-
 
     /**
      * Set path
@@ -567,7 +608,7 @@ class Artist
     public function setPath($path)
     {
         $this->path = $path;
-    
+
         return $this;
     }
 
@@ -590,7 +631,7 @@ class Artist
     public function setShortBiography($shortBiography)
     {
         $this->shortBiography = $shortBiography;
-    
+
         return $this;
     }
 
@@ -602,5 +643,103 @@ class Artist
     public function getShortBiography()
     {
         return $this->shortBiography;
+    }
+
+    /**
+     * Set middleName
+     *
+     * @param string $middleName
+     * @return Artist
+     */
+    public function setMiddleName($middleName)
+    {
+        $this->middleName = $middleName;
+
+        return $this;
+    }
+
+    /**
+     * Get middleName
+     *
+     * @return string 
+     */
+    public function getMiddleName()
+    {
+        return $this->middleName;
+    }
+
+    /**
+     * Set deletedBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $deletedBy
+     * @return Artist
+     */
+    public function setDeletedBy(\Vanessa\CoreBundle\Entity\Member $deletedBy = null)
+    {
+        $this->deletedBy = $deletedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getDeletedBy()
+    {
+        return $this->deletedBy;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Artist
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+    
+    public function getImageName()
+    {
+        return $this->slug .'-'.$this->id;
+    }
+
+
+    /**
+     * Set deletedAt
+     *
+     * @param \DateTime $deletedAt
+     * @return Artist
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get deletedAt
+     *
+     * @return \DateTime 
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
     }
 }

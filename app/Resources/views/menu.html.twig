@@ -24,6 +24,14 @@
         <li><a href="{{ path('vanessa_member_list') }}.html" title="Click to view members.">Members</a></li>
     {% endif %}          
   {% endif %}     
+
+  {% if is_granted('ROLE_ADMIN') %}     
+    {% if controller == 'artists'%}
+       <li class="active"><a href="{{ path('vanessa_artist_list') }}.html" title="Click to view artists.">Artists</a></li>   
+    {% else %}
+        <li><a href="{{ path('vanessa_artist_list') }}.html" title="Click to view artists.">Artists</a></li>   
+    {% endif %}          
+  {% endif %}     
       
 
       

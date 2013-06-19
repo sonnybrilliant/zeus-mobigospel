@@ -1,0 +1,19 @@
+<div class="shift_30">
+    <form class="display helpers form-horizontal" action="{{ path('vanessa_artist_account_status_edit',{'slug' : artist.slug}) }}.html" method="POST" {{ form_enctype(form) }}>
+      <fieldset>
+      <div class="control-group {% if form_errors(form.accountStatus) %} error {% endif %}">
+        <label class="control-label" for="accountStatus">{{ form_label(form.accountStatus) }}</label>
+        <div class="controls">
+          {{ form_widget(form.accountStatus) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Apply state to artist account."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.accountStatus)}}</span>  
+        </div>
+      </div> 
+      <div class="form-actions">
+              <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                        &nbsp;&nbsp;<a href="{{ path('vanessa_artist_list') }}.html" class="btn">Cancel</a>
+      </div> 
+      {{ form_rest(form) }}                
+      </fieldset>
+    </form>
+</div>        

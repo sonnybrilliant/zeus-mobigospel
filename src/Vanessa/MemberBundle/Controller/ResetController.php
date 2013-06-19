@@ -66,7 +66,7 @@ class ResetController extends Controller
                 $haystack = $form->getErrorsAsString();
                 $needle = "Unable to check the captcha from the server";                
                 if(strstr($haystack,$needle)){
-                    $this->getRequest()->getSession()->setFlash('error', 'Recaptcha is invalid, please try again.');
+                    $this->get('utility.manager')->alert('error', 'Recaptcha is invalid, please try again.');
                 }
             }
         }
@@ -121,10 +121,10 @@ class ResetController extends Controller
 
                     if (strlen($password) <= 5) {
                         $isValid = false;
-                        $this->getRequest()->getSession()->setFlash('error', 'Password must have at least 6 characters.');
+                        $this->get('utility.manager')->alert('error', 'Password must have at least 6 characters.');
                     } elseif (strlen($password) >= 16) {
                         $isValid = false;
-                        $this->getRequest()->getSession()->setFlash('error', 'Password has a limit of 16 characters.');
+                        $this->get('utility.manager')->alert('error', 'Password has a limit of 16 characters.');
                     }
 
                     if ($isValid) {
@@ -133,7 +133,7 @@ class ResetController extends Controller
                         $member->setConfirmationToken('');
                         $this->container->get('member.manager')->update($member);
 
-                        $this->getRequest()->getSession()->setFlash('success', 'Password change was successfully.');
+                        $this->get('utility.manager')->alert('success', 'Password change was successfully.');
                         return $this->redirect($this->generateUrl('_security_login'));
                     }
                 }
@@ -144,7 +144,7 @@ class ResetController extends Controller
                     'form' => $form->createView(),
                     'token' => $token));
         }
-        $this->getRequest()->getSession()->setFlash('error', 'Invalid link, Please follow the instructions sent you via email.');
+        $this->get('utility.manager')->alert('error', 'Invalid link, Please follow the instructions sent you via email.');
         
         return $this->render('VanessaMemberBundle:Reset:reset.invalid.tokent.html.twig');
     }

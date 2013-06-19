@@ -192,14 +192,14 @@ final class ContentOwnerManager
 
         //delete all members who belong to content owners
         $this->container->get('member.manager')->deleteAllByAgency($contentOwner);
+        $this->container->get('artist.manager')->deleteAllByAgency($contentOwner);
 
         //TODO
-        //delete artist
         //delete codes
-        //delete songs
 
         $contentOwner->setStatus($this->container->get('status.manager')->deleted());
         $contentOwner->setIsDeleted(true);
+        $contentOwner->setEnabled(false);
         $contentOwner->setName($contentOwner->getName() . '-' . time());
         $contentOwner->setDeletedAt(new \DateTime());
         $contentOwner->setDeletedBy($this->container->get('member.manager')->getActiveUser());
@@ -221,11 +221,10 @@ final class ContentOwnerManager
 
         //activate all agency members
         $this->container->get('member.manager')->activateAllByAgency($contentOwner);
+        $this->container->get('artist.manager')->activateAllByAgency($contentOwner);
 
         //TODO
-        //activate artist
         //activate codes
-        //activate songs        
         
         $contentOwner->setStatus($this->container->get('status.manager')->active());
         $contentOwner->setIsDeleted(false);
@@ -247,11 +246,10 @@ final class ContentOwnerManager
 
         //lock all agency members
         $this->container->get('member.manager')->lockAllByAgency($contentOwner);
+        $this->container->get('artist.manager')->lockAllByAgency($contentOwner);
 
         //TODO
-        //lock artist
         //lock codes
-        //lock songs        
         
         $contentOwner->setStatus($this->container->get('status.manager')->locked());
         $contentOwner->setEnabled(false);

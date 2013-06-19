@@ -420,7 +420,6 @@ final class MemberManager
         $this->em->flush();
         return;
     }
-    
 
     /**
      * Activate all members by agency
@@ -442,10 +441,15 @@ final class MemberManager
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->getAllAgencyMembersQuery($options);
 
-        foreach ($members as $member) {
-            $this->activateMember($member);
-        }
+        $status = $this->container->get('status.manager')->active();
 
+        foreach ($members as $member) {
+            $member->setStatus($status);
+            $member->setIsDeleted(false);
+            $member->setEnabled(true);
+            $this->em->persist($member);
+        }
+        $this->em->flush();
         return;
     }
 
@@ -469,13 +473,17 @@ final class MemberManager
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->getAllAgencyMembersQuery($options);
 
-        foreach ($members as $member) {
-            $this->lockMember($member);
-        }
+        $status = $this->container->get('status.manager')->locked();
 
+        foreach ($members as $member) {
+            $member->setStatus($status);
+            $member->setEnabled(false);
+            $this->em->persist($member);
+        }
+        $this->em->flush();
         return;
     }
-    
+
     /**
      * Delete all members by agency
      * 
@@ -496,11 +504,21 @@ final class MemberManager
         $members = $this->em->getRepository('VanessaCoreBundle:Member')
             ->getAllAgencyMembersQuery($options);
 
-        foreach ($members as $member) {
-            $this->delete($member);
-        }
+        $status = $this->container->get('status.manager')->deleted();
 
+        foreach ($members as $member) {
+            $member->setStatus($status);
+            $member->setIsDeleted(true);
+            $member->setEnabled(false);
+            $member->setDeletedAt(new \DateTime());
+            $member->setDeletedBy($this->getActiveUser());
+            //remove email
+            $member->setEmail(time() . '-' . $member->getEmail());
+            $member->setUsername(time() . '-' . $member->getEmail());
+            $this->em->persist($member);
+        }
+        $this->em->flush();
         return;
-    }    
+    }
 
 }

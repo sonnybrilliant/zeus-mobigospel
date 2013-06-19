@@ -125,7 +125,7 @@ class MemberController extends Controller
                     return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
                 }
             } else {
-                $this->getRequest()->getSession()->setFlash(
+                $this->get('utility.manager')->alert(
                     'error', 'Could not create member, please fix form errors!');
             }
         }
@@ -207,7 +207,7 @@ class MemberController extends Controller
 
                 }
             } else {
-                $this->getRequest()->getSession()->setFlash('error', 'Could not update member, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not update member, please fix form errors!');
             }
         }
 
@@ -240,7 +240,7 @@ class MemberController extends Controller
             $deletedBy = $member->getDeletedBy();
             $deletedDate = $member->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new MemberProfileType(), $member);
@@ -274,7 +274,7 @@ class MemberController extends Controller
             $deletedBy = $member->getDeletedBy();
             $deletedDate = $member->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
 
@@ -307,7 +307,7 @@ class MemberController extends Controller
             $deletedBy = $member->getDeletedBy();
             $deletedDate = $member->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new AccountStatusUpdateType());
@@ -316,25 +316,25 @@ class MemberController extends Controller
             $form->bindRequest($this->getRequest());
             if ($form->isValid()) {
                 if ($member->getStatus()->getName() == "Deleted") {
-                    $this->getRequest()->getSession()->setFlash('error', 'Could not update member status - deleted accounts can only be restored manually, consult administrator!');
+                    $this->get('utility.manager')->alert('error', 'Could not update member status - deleted accounts can only be restored manually, consult administrator!');
                 } else {
                     $data = $form->getData();
                     $accountStatus = $data['accountStatus'];
                     if ($accountStatus != '') {
                         if ($accountStatus == 'activate') {
                             $this->get('member.manager')->activateMember($member);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully activated member account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully activated member account.');
                         } elseif ($accountStatus == 'lock') {
                             $this->get('member.manager')->lockMember($member);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully locked member account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully locked member account.');
                         }
                         return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
                     } else {
-                        $this->getRequest()->getSession()->setFlash('error', 'Could not update member status, please fix form errors!');
+                        $this->get('utility.manager')->alert('error', 'Could not update member status, please fix form errors!');
                     }
                 }
             } else {
-                $this->getRequest()->getSession()->setFlash('error', 'Could not update member status, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not update member status, please fix form errors!');
             }
         }
 
@@ -359,18 +359,26 @@ class MemberController extends Controller
 
         try {
             $member = $this->get('member.manager')->getBySlug($slug);
-            $this->get('member.manager')->delete($member);
+            
+            if($member->getIsDeleted()){
+              $this->get('utility.manager')->alert('error', 'Member already deleted');  
+            }else{
+              $this->get('member.manager')->delete($member);  
+              $this->get('utility.manager')->alert('success', 'Member was sucessfully deleted'); 
+            }
+            
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());
         }
 
-        $this->get('utility.manager')->alert('success', 'Member was sucessfully deleted');
+        
         $user = $this->get('member.manager')->getActiveUser();
 
         if ($user->getIsAdmin()) {
             return $this->redirect($this->generateUrl('vanessa_member_list') . '.html');
         } else {
+//TODO            
 //            return $this->redirect($this->generateUrl('sule_agency_list_members', array(
 //                        'id' => $user->getAgency()->getId(),
 //                        'agency' => $user->getAgency()->getSlug()

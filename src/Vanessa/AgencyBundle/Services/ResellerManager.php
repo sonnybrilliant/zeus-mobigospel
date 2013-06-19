@@ -91,15 +91,15 @@ final class ResellerManager
     public function getById($id)
     {
         $this->logger->info('get reseller by id:' . $id);
-        $contentOwner = $this->em->getRepository('VanessaCoreBundle:Agency')
+        $reseller = $this->em->getRepository('VanessaCoreBundle:Agency')
             ->find($id);
 
-        if (!$contentOwner) {
+        if (!$reseller) {
             throw new \Exception('Reseller not found for id:' . $id);
             $this->logger->err('Failed to find reseller by id:' . $id);
         }
 
-        return $contentOwner;
+        return $reseller;
     }
 
     /**
@@ -111,15 +111,15 @@ final class ResellerManager
     public function getBySlug($slug)
     {
         $this->logger->info('get reseller by slug:' . $slug);
-        $contentOwner = $this->em->getRepository('VanessaCoreBundle:Agency')
+        $reseller = $this->em->getRepository('VanessaCoreBundle:Agency')
             ->findOneBySlug($slug);
 
-        if (!$contentOwner) {
+        if (!$reseller) {
             throw new \Exception('Reseller not found for slug:' . $slug);
             $this->logger->err('Failed to find reseller by slug:' . $slug);
         }
 
-        return $contentOwner;
+        return $reseller;
     }
 
     /**
@@ -200,6 +200,7 @@ final class ResellerManager
 
         $reseller->setStatus($this->container->get('status.manager')->deleted());
         $reseller->setIsDeleted(true);
+        $reseller->setEnabled(false);
         $reseller->setName($reseller->getName() . '-' . time());
         $reseller->setDeletedAt(new \DateTime());
         $reseller->setDeletedBy($this->container->get('member.manager')->getActiveUser());

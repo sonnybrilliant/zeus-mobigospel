@@ -1,23 +1,23 @@
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    {% if app.session.hasFlash('error') %}
-    <script type="text/javascript">
-         alertify.log('{{ app.session.flash('error') }}','error');
-    </script>
-    {% elseif app.session.hasFlash('notice') %}
-    <script type="text/javascript">
-         alertify.log('{{ app.session.flash('notice') }}','notice');
-    </script>    
-    {% elseif app.session.hasFlash('warning') %}
-    <script type="text/javascript">
-         alertify.log('{{ app.session.flash('warning') }}','warning');
-    </script>    
-    {% elseif app.session.hasFlash('success') %}
-    <script type="text/javascript">
-         alertify.log('{{ app.session.flash('success') }}','success');
-    </script> 
-    {% elseif app.session.hasFlash('info') %}
-    <script type="text/javascript">
-         alertify.log('{{ app.session.flash('info') }}','info');
-    </script> 
-    {% endif %}
+<script type="text/javascript">
+    {% for flashMessage in app.session.flashbag.get('alert-error') %}
+         alertify.log('{{ flashMessage }}','error');
+    {% endfor %}
+        
+    {% for flashMessage in app.session.flashbag.get('alert-notice') %}
+         alertify.log('{{ flashMessage }}','notice');
+    {% endfor %}
+    
+    {% for flashMessage in app.session.flashbag.get('alert-warning') %}
+         alertify.log('{{ flashMessage }}','warning');
+    {% endfor %}
+        
+    {% for flashMessage in app.session.flashbag.get('alert-success') %}
+         alertify.log('{{ flashMessage }}','success');
+    {% endfor %}
+        
+    {% for flashMessage in app.session.flashbag.get('alert-info') %}
+         alertify.log('{{ flashMessage }}','info');
+    {% endfor %}
+</script>     
 {% endif %}  

@@ -1,0 +1,78 @@
+<div class="shift_30 ">
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}    
+<form class="display helpers form-horizontal" action="{{ path('vanessa_artist_create') }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      {% if form.agency is defined %}
+      <div class="control-group {% if form_errors(form.agency) %} error {% endif %}">
+        <label class="control-label" for="agency">{{ form_label(form.agency) }}</label>
+        <div class="controls">
+          {{ form_widget(form.agency) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist agency"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.agency)}}</span>  
+        </div>
+      </div>       
+      {% endif %}
+      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+        <label class="control-label" for="first_name">{{ form_label(form.firstName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.firstName) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist first name"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.firstName)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.middleName) %} error {% endif %}">
+        <label class="control-label" for="middle_name">{{ form_label(form.middleName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.middleName) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist middle name"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.middleName)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+        <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.lastName) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist last name"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.lastName)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.stageName) %} error {% endif %}">
+        <label class="control-label" for="stage_name">{{ form_label(form.stageName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.stageName) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist stage name"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.stageName)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
+        <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
+        <div class="controls">
+          {{ form_widget(form.gender) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist gender"><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.gender)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.genres) %} error {% endif %}">
+        <label class="control-label" for="genres">{{ form_label(form.genres) }}</label>
+        <div class="controls">
+          {% for genre in artist.genres %}
+              <span class="label {{ cycle(['label-info', 'label-important'], loop.index) }}">{{ genre.name }}</span>
+          {% endfor%}
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.shortBiography) %} error {% endif %}">
+        <label class="control-label" for="profile_picture">{{ form_label(form.shortBiography) }}</label>
+        <div class="controls">
+          {{ form_widget(form.shortBiography) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="artist biography"></a></span>  
+          <span class="help-inline">{{form_errors(form.shortBiography)}}</span>  
+        </div>
+      </div> 
+      
+  </fieldset>
+</form>
+</div>        
+{{ tinymce_init() }}
+     

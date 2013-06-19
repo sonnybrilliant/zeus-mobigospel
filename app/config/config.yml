@@ -22,6 +22,8 @@ parameters:
     #monolog error
     mono_log_email: %error_email%
     mono_log_subject: %error_subject%
+    
+    web_path: %kernel.root_dir%/../web
 
 framework:
     #esi:             ~
@@ -46,6 +48,7 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
     globals:
+        web_path: %web_path%      
         site_email: %site_email%
         site_contact: %site_contact%
         site_name: %website_name%

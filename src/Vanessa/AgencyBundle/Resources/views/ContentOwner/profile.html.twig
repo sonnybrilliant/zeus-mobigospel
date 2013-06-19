@@ -5,7 +5,7 @@
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Profile - <small>{{contentOwner.name}}</small></h3>
+        <h3 class="align_header">Profile - {{contentOwner.name}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Profile'} %}
            {% include 'VanessaAgencyBundle::breadcrumb.html.twig' with vars  %}
@@ -21,7 +21,8 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="{{ path('vanessa_agency_content_owner_profile',{'slug': contentOwner.slug })}}.html" title="View content owner profile." >Content owner details</a></li>
                     <li><a href="{{ path('vanessa_agency_content_owner_account_status_show',{'slug': contentOwner.slug })}}.html" title="View content owner account status." >Account status</a></li>
-                    <li><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Member list</a></li>
+                    <li><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Members</a></li>
+                    <li><a href="{{ path('vanessa_agency_content_owner_list_artists',{'slug': contentOwner.slug })}}.html" title="Artist list">Artists</a></li>
                 </ul>            
             </div>
             {% include "VanessaAgencyBundle:ContentOwner:Form/form.profile.html.twig" %}   

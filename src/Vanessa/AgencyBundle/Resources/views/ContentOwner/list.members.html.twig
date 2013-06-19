@@ -1,14 +1,14 @@
 {% extends "VanessaAgencyBundle::layout.html.twig" %}
 
-{% block title %}Profile - Members - {{contentOwner.name}}{% endblock %}
+{% block title %}Profile - {{contentOwner.name}}{% endblock %}
 
 
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Profile <small>{{contentOwner.name}}</small></h3>
+        <h3 class="align_header">Profile - {{contentOwner.name}}</h3>
         <div class="span3">
-           {% set vars = {'action': 'Member list'} %}
+           {% set vars = {'action': 'Members'} %}
            {% include 'VanessaAgencyBundle::breadcrumb.html.twig' with vars  %}
         </div>
         <div class="span8 pull-right" style="margin-right: -25px">
@@ -19,7 +19,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ path('vanessa_member_list_download_excel') }}.html" title="Download excel document."><i class="icon-file"></i>&nbsp;Excel</a>
+                        <a href="{{ path('vanessa_agency_content_owner_list_download_members_excel',{'slug':contentOwner.slug}) }}.html" title="Download excel document."><i class="icon-file"></i>&nbsp;Excel</a>
                     </li>
                 </ul>    
             </div>
@@ -48,7 +48,8 @@
             <ul class="nav nav-tabs">
                 <li><a href="{{ path('vanessa_agency_content_owner_profile',{'slug': contentOwner.slug })}}.html" title="View content owner profile." >Content owner details</a></li>
                 <li><a href="{{ path('vanessa_agency_content_owner_account_status_show',{'slug': contentOwner.slug })}}.html" title="View content owner account status." >Account status</a></li>
-                <li class="active"><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Member list</a></li>
+                <li class="active"><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Members</a></li>
+                <li><a href="{{ path('vanessa_agency_content_owner_list_artists',{'slug': contentOwner.slug })}}.html" title="Artist list">Artists</a></li>
             </ul>            
         </div>
         

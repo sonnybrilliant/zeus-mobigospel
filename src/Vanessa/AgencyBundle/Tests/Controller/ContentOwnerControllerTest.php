@@ -372,12 +372,12 @@ class ContentOwnerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit content owner: test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit content owner: test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - test base records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Edit")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Hint")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
@@ -503,7 +503,7 @@ class ContentOwnerControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('html:contains("Profile")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 
@@ -542,12 +542,12 @@ class ContentOwnerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Account status - test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Account status - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Profile - test base records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 
@@ -586,12 +586,12 @@ class ContentOwnerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit content owner: test locked records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit content owner: test locked records")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - test locked records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - test locked records")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains(" Edit")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
         // select the account status edit form
@@ -652,12 +652,56 @@ class ContentOwnerControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Profile - Members - test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Profile test base records")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Member list")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
+    }
+
+    /**
+     * Test content owner artist list "/content/owner/artists/test-base-records.html"
+     */
+    public function testArtistList()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        $crawler = $client->request('GET', '/login.html');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //check if words are available on the page
+        $this->assertEquals(1, $crawler->filter('title:contains("Welcome, please login")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Please Login")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Forgot password ?")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Having login trouble?")')->count());
+
+        // select the login form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            '_username' => 'ronald.conco@mobigospel.co.za',
+            '_password' => '654321',
+            )
+        );
+
+        $crawler = $client->request('GET', '/content/owner/artists/test-base-records.html');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        //check if words are not available on the page
+        $this->assertEquals(1, $crawler->filter('title:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Profile - test base records")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Artists")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Content owner details")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Members")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
 

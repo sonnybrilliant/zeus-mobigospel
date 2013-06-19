@@ -1,0 +1,40 @@
+{% extends "VanessaArtistBundle::layout.html.twig" %}
+
+{% block title %}Profile - {{artist.stageName}}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('/css/polaroid.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="row">
+   <div class="span12">
+        <h3 class="align_header">Profile - {{artist.stageName}}</h3>
+        <div class="span6">
+           {% set vars = {'action': 'Account status'} %}
+           {% include 'VanessaArtistBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_artist_account_status_edit',{'slug': artist.slug })}}.html" class="btn btn-warning pull-right" title="Edit artist details."><i class="icon-white icon-eye-open"></i>&nbsp;Edit artist</a>
+        </div>
+        <div class="span12">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_artist_profile',{'slug': artist.slug})}}.html" title="Artist details." >Artist details</a></li>
+                    <li class="active"><a href="{{ path('vanessa_artist_account_status_show',{'slug': artist.slug })}}.html" title="Account status.">Account status</a></li>
+                </ul>            
+            </div>
+
+            <div class="span8">
+                {% include "VanessaArtistBundle:Artist:Form/form.account.status.show.html.twig" %}
+            </div> 
+            <div class="span3 pull-right">
+                {% include "VanessaArtistBundle:Artist:Hint/form.account.status.show.html.twig" %}
+            </div>      
+        </div>
+   </div>    
+</div>
+{% endblock body %}

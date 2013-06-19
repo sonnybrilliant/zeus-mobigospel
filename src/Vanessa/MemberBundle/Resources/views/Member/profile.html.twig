@@ -5,7 +5,7 @@
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Profile - <small>{{member.fullName}}</small></h3>
+        <h3 class="align_header">Profile - {{member.fullName}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Profile'} %}
            {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}

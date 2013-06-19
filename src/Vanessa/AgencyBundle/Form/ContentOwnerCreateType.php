@@ -102,6 +102,7 @@ class ContentOwnerCreateType extends AbstractType
                 ))
             ->add('address2', 'text', array(
                 'label' => 'Address line 2:',
+                'required' => false,
                 'attr' => array (
                     'class' => 'span4',
                     'placeholder' => 'address line 2',

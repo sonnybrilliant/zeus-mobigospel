@@ -1,3 +1,7 @@
+vanessa_artist:
+    resource: "@VanessaArtistBundle/Resources/config/routing.yml"
+    prefix:   /
+
 vanessa_agency:
     resource: "@VanessaAgencyBundle/Resources/config/routing.yml"
     prefix:   /

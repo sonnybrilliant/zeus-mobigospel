@@ -12,4 +12,111 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArtistRepository extends EntityRepository
 {
+
+    /**
+     * Get all artist query
+     *
+     * @return type
+     */
+    public function getAllArtistsQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'a.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = null;
+
+        if (!$options['is_admin']) {
+            $qb = $this->createQueryBuilder('a')
+                ->select('a')
+                ->where('a.agency = :agency')
+                ->setParameter('agency', $options['agency']);
+        } else {
+            $qb = $this->createQueryBuilder('a')
+                ->select('a');
+        }
+
+        if (isset($options['filterBy'])) {
+            if (isset($options['status'])) {
+                $qb->andWhere('a.status =:status')
+                    ->setParameter('status', $options['status']);
+            }
+        }
+
+        if ((isset($options['filterBy'])) && ($options['filterBy'] == '')) {
+            $qb->andWhere('a.isDeleted =:status')
+                ->setParameter('status', false);
+        }
+
+        // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('a.stageName', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                    ));
+            }
+        }
+
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Get all artist by agency query
+     *
+     * @return type
+     */
+    public function getAllArtistsByAgencyQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'a.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.agency = :agency')
+            ->setParameter('agency', $options['agency']);
+
+         if (isset($options['filterBy'])) {
+            if (isset($options['status'])) {
+                $qb->andWhere('a.status =:status')
+                    ->setParameter('status', $options['status']);
+            }
+        }
+
+        if ((isset($options['filterBy'])) && ($options['filterBy'] == '')) {
+            $qb->andWhere('a.isDeleted =:status')
+                ->setParameter('status', false);
+        }       
+
+        // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('a.stageName', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                    ));
+            }
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
 }

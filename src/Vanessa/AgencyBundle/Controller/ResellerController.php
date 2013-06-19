@@ -144,8 +144,7 @@ class ResellerController extends Controller
                 $this->get('utility.manager')->alert('success', 'Reseller was sucessfully created');
                 return $this->redirect($this->generateUrl('vanessa_agency_reseller_list') . '.html');
             } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Could not create reseller, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not create reseller, please fix form errors!');
             }
         }
         return $this->render('VanessaAgencyBundle:Reseller:create.html.twig', array('form' => $form->createView()));
@@ -162,7 +161,7 @@ class ResellerController extends Controller
      */
     public function editAction($slug)
     {
-        $this->get('logger')->info('reseller:' . $slug);
+        $this->get('logger')->info('edit reseller:' . $slug);
 
         try {
             $reseller = $this->get('reseller.manager')->getBySlug($slug);
@@ -209,8 +208,7 @@ class ResellerController extends Controller
                 $this->get('utility.manager')->alert('success', 'Reseller was sucessfully updated');
                 return $this->redirect($this->generateUrl('vanessa_agency_reseller_list') . '.html');
             } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Could not update reseller, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not update reseller, please fix form errors!');
             }
         }
         return $this->render('VanessaAgencyBundle:Reseller:update.html.twig', array('form' => $form->createView()));
@@ -241,7 +239,7 @@ class ResellerController extends Controller
             $deletedBy = $reseller->getDeletedBy();
             $deletedDate = $reseller->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new ResellerProfileType(), $reseller);
@@ -302,7 +300,7 @@ class ResellerController extends Controller
             $deletedBy = $reseller->getDeletedBy();
             $deletedDate = $reseller->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
 
@@ -334,7 +332,7 @@ class ResellerController extends Controller
             $deletedBy = $reseller->getDeletedBy();
             $deletedDate = $reseller->getDeletedAt();
             $message = 'NB, This account was deleted by "' . $deletedBy->getFullName() . '" on ' . $deletedDate->format('Y-m-d H:i A') . '.';
-            $this->getRequest()->getSession()->setFlash('notice', $message);
+            $this->get('utility.manager')->alert('notice', $message);
         }
 
         $form = $this->createForm(new ResellerAccountStatusUpdateType());
@@ -343,25 +341,25 @@ class ResellerController extends Controller
             $form->bindRequest($this->getRequest());
             if ($form->isValid()) {
                 if ($reseller->getStatus()->getName() == "Deleted") {
-                    $this->getRequest()->getSession()->setFlash('error', 'Could not update reseller status - deleted accounts can only be restored manually, consult administrator!');
+                    $this->get('utility.manager')->alert('error', 'Could not update reseller status - deleted accounts can only be restored manually, consult administrator!');
                 } else {
                     $data = $form->getData();
                     $accountStatus = $data['accountStatus'];
                     if ($accountStatus != '') {
                         if ($accountStatus == 'activate') {
                             $this->get('reseller.manager')->activate($reseller);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully activated reseller account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully activated reseller account.');
                         } elseif ($accountStatus == 'lock') {
                             $this->get('reseller.manager')->lock($reseller);
-                            $this->getRequest()->getSession()->setFlash('success', 'You have successfully locked reseller account.');
+                            $this->get('utility.manager')->alert('success', 'You have successfully locked reseller account.');
                         }
                         return $this->redirect($this->generateUrl('vanessa_agency_reseller_list') . '.html');
                     } else {
-                        $this->getRequest()->getSession()->setFlash('error', 'Could not update reseller status, please fix form errors!');
+                        $this->get('utility.manager')->alert('error', 'Could not update reseller status, please fix form errors!');
                     }
                 }
             } else {
-                $this->getRequest()->getSession()->setFlash('error', 'Could not update reseller status, please fix form errors!');
+                $this->get('utility.manager')->alert('error', 'Could not update reseller status, please fix form errors!');
             }
         }
 

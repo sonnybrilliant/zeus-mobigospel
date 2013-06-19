@@ -323,8 +323,8 @@ class MemberControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit member")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit member")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - Test User")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - Test User")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
         // select the register account form
@@ -439,7 +439,8 @@ class MemberControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Account status - Test User")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Profile - Test User")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Profile - Test User")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Account status")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
     }
@@ -483,8 +484,8 @@ class MemberControllerTest extends WebTestCase
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         //check if words are not available on the page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit member")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Edit account status")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit - Test Locked")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Edit - Test Locked")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Logout")')->count());
 
         // select the account status form

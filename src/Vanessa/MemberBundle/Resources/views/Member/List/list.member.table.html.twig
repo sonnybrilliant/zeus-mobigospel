@@ -22,11 +22,16 @@
                 <tr>
                     <td>{{ member.getFullName()|capitalize|truncate(20)}}</td>
                     <td><a href='{{ path('vanessa_agency_content_owner_profile', {'slug': member.agency.slug }) }}.html' rel="tooltip" title="{{ member.agency.name|title|truncate(30) }}"><strong>{{ member.agency.name|title|truncate(15) }}</strong></a></td>
+                    
                     {% if member.status.name == 'Active'  %}
                         <td><span class="label label-info">{{member.status.name }}</span></td>
+                    {% elseif member.status.name == 'Deleted'  %}    
+                        <td><span class="label label-important">{{member.status.name }}</span></td>
+                    {% elseif member.status.name == 'Inactive'  %}    
+                        <td><span class="label">{{member.status.name }}</span></td>                    
                     {% else %}
-                       <td><span class="label">{{member.status.name }}</span></td>
-                    {% endif %}
+                        <td><span class="label label-inverse">{{member.status.name }}</span></td>
+                    {% endif %}  
                     
                     {% if member.createdBy  %} 
                        <td>{{member.createdBy.getFullName()|capitalize|truncate(20)}}</td>

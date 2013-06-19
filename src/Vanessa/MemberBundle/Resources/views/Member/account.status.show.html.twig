@@ -1,11 +1,11 @@
 {% extends "VanessaMemberBundle::layout.html.twig" %}
 
-{% block title %}Account status - {{member.fullName}}{% endblock %}
+{% block title %}Profile - {{member.fullName}}{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Account status - <small>{{member.fullName}}</small></h3>
+        <h3 class="align_header">Profile - {{member.fullName}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Account status'} %}
            {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}

@@ -1,11 +1,11 @@
 {% extends "VanessaAgencyBundle::layout.reseller.html.twig" %}
 
-{% block title %}Account status - {{reseller.name}}{% endblock %}
+{% block title %}Profile - {{reseller.name}}{% endblock %}
 
 {% block body %}
 <div class="row">
     <div class="span12">
-        <h3 class="align_header">Account status <small>{{reseller.name}}</small></h3>
+        <h3 class="align_header">Profile - {{reseller.name}}</h3>
         <div class="span6">
            {% set vars = {'action': 'Account status'} %}
            {% include 'VanessaAgencyBundle::breadcrumb.reseller.html.twig' with vars  %}
@@ -21,7 +21,7 @@
                 <ul class="nav nav-tabs">
                     <li><a href="{{ path('vanessa_agency_reseller_profile',{'slug': reseller.slug })}}.html" title="View reseller profile." >Reseller details</a></li>
                     <li class="active"><a href="{{ path('vanessa_agency_reseller_account_status_show',{'slug': reseller.slug })}}.html" title="View reseller account status." >Account status</a></li>
-                    <li><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Member list</a></li>
+                    <li><a href="{{ path('vanessa_agency_reseller_list_members',{'slug': reseller.slug })}}.html" title="Member list">Members</a></li>
                 </ul>            
             </div>
             <div class="span8">
