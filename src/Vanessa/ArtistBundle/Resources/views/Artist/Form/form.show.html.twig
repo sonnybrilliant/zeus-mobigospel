@@ -14,7 +14,7 @@
         </div>
       </div>       
       {% endif %}
-      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %} {%if isGroup == true %} hideBand {% endif %}">
         <label class="control-label" for="first_name">{{ form_label(form.firstName) }}</label>
         <div class="controls">
           {{ form_widget(form.firstName) }} 
@@ -22,7 +22,7 @@
           <span class="help-inline">{{form_errors(form.firstName)}}</span>  
         </div>
       </div> 
-      <div class="control-group {% if form_errors(form.middleName) %} error {% endif %}">
+      <div class="control-group {% if form_errors(form.middleName) %} error {% endif %} {%if isGroup == true %} hideBand {% endif %}">
         <label class="control-label" for="middle_name">{{ form_label(form.middleName) }}</label>
         <div class="controls">
           {{ form_widget(form.middleName) }} 
@@ -30,7 +30,7 @@
           <span class="help-inline">{{form_errors(form.middleName)}}</span>  
         </div>
       </div> 
-      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %} {%if isGroup == true %} hideBand {% endif %}">
         <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
         <div class="controls">
           {{ form_widget(form.lastName) }} 
@@ -46,7 +46,7 @@
           <span class="help-inline">{{form_errors(form.stageName)}}</span>  
         </div>
       </div> 
-      <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
+      <div class="control-group {% if form_errors(form.gender) %} error {% endif %} {%if isGroup == true %} hideBand {% endif %}">
         <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
         <div class="controls">
           {{ form_widget(form.gender) }} 

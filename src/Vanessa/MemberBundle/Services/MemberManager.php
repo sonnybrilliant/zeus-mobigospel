@@ -182,6 +182,7 @@ final class MemberManager
 
         $member->setFirstName($params['firstName']);
         $member->setLastName($params['lastName']);
+        $member->setIdNumber($params['idNumber']);
         $member->setEmail($params['email']);
         $member->setMobileNumber($params['mobile']);
         $member->setPassword($params['password']);

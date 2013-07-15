@@ -40,6 +40,7 @@ class LoadMediaPartners extends AbstractFixture implements OrderedFixtureInterfa
         $ludwig = array(
             'firstName' => 'Ludwig',
             'lastName' => 'van Beethoven',
+            'idNumber' => '8502205463080',
             'email' => 'admin.media@sulehosting.co.za',
             'mobile' => '27725184762',
             'password' => '654321',
@@ -55,6 +56,7 @@ class LoadMediaPartners extends AbstractFixture implements OrderedFixtureInterfa
         $nina = array(
             'firstName' => 'Nina',
             'lastName' => 'Simone',
+            'idNumber' => '8502205463080',
             'email' => 'manager.media@sulehosting.co.za',
             'mobile' => '27713264129',
             'password' => '654321',

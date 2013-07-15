@@ -31,7 +31,7 @@ class MemberProfileType extends AbstractType
         $builder
             ->add('agency', 'entity', array(
                 'class' => 'VanessaCoreBundle:Agency',
-                'label' => 'Agency:',
+                'label' => 'Organization:',
                 'attr' => array('class' => 'span4 chosen' , 'disabled'=>'disabled')
             ))
             ->add('status', 'entity', array(
@@ -64,6 +64,10 @@ class MemberProfileType extends AbstractType
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
+                'attr' => array('class' => 'span4' , 'disabled'=>'disabled')
+            ))
+            ->add('idNumber', 'text', array(
+                'label' => 'ID / Passport number:',
                 'attr' => array('class' => 'span4' , 'disabled'=>'disabled')
             ))
             ->add('mobileNumber', 'text', array(

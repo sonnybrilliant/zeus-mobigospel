@@ -77,6 +77,10 @@ class MemberUpdateType extends AbstractType
                 'label' => 'Cellphone:',
                 'attr' => array('class' => 'span4 phone')
             ))
+            ->add('idNumber', 'text', array(
+                'label' => 'ID / Passport number:',
+                'attr' => array('class' => 'span4')
+            ))
         ;
     }
 

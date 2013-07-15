@@ -241,7 +241,8 @@ class ArtistController extends Controller
 
         return $this->render('VanessaArtistBundle:Artist:profile.html.twig', array(
                 'form' => $form->createView(),
-                'artist' => $artist
+                'artist' => $artist,
+                'isGroup' => $artist->getIsGroup()
             ));
     }
 

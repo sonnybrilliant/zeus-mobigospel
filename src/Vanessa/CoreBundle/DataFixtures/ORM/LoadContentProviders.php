@@ -41,6 +41,7 @@ class LoadContentProviders extends AbstractFixture implements OrderedFixtureInte
         $handel = array(
             'firstName' => 'George',
             'lastName' => 'Handel',
+            'idNumber' => '8502205463080',
             'email' => 'admin.label@sulehosting.co.za',
             'mobile' => '27725184761',
             'password' => '654321',
@@ -56,6 +57,7 @@ class LoadContentProviders extends AbstractFixture implements OrderedFixtureInte
         $miles = array(
             'firstName' => 'Miles',
             'lastName' => 'Davies',
+            'idNumber' => '8502205463080',
             'email' => 'manager.label@sulehosting.co.za',
             'mobile' => '27713264126',
             'password' => '654321',

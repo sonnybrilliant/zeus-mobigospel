@@ -23,7 +23,7 @@
         <tbody>
           {% for artist in pagination %}
                 <tr>
-                    <td><a href='{{ path('vanessa_artist_edit', {'slug': artist.slug }) }}.html' rel="tooltip" title="{{artist.stageName}}">{{artist.stageName|title|truncate(14)}}</a></td>
+                    <td><a href='{{ path('vanessa_artist_profile', {'slug': artist.slug }) }}.html' rel="tooltip" title="{{artist.stageName}}">{{artist.stageName|title|truncate(14)}}</a></td>
                     {% if is_granted('ROLE_ADMIN') %}
                     <td><a href='{{ path('vanessa_agency_reseller_profile', {'slug': artist.agency.slug }) }}.html' rel="tooltip" title="{{artist.agency.name}}">{{artist.agency.name|title|truncate(14)}}</a></td>   
                     {% endif%}

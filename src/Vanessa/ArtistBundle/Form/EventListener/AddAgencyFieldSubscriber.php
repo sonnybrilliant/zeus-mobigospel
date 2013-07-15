@@ -55,6 +55,7 @@ class AddAgencyFieldSubscriber implements EventSubscriberInterface
             if ($this->container->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $form->add($this->factory->createNamed(
                         'agency', 'entity', null, array(
+                        'label' => 'Content owner:',    
                         'class' => 'VanessaCoreBundle:Agency',
                         'attr' => array('class' => 'span4 chosen'),
                         'query_builder' => function(EntityRepository $er) {

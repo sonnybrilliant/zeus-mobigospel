@@ -9,7 +9,7 @@
             <label class="control-label" for="agency">{{ form_label(form.agency) }}</label>
             <div class="controls">
               {{ form_widget(form.agency) }} 
-<span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Assign member to an agency."><i class="icon-info-sign"></i></a></span>              <span class="help-inline">{{form_errors(form.agency)}}</span>  
+<span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Assign member to an organization."><i class="icon-info-sign"></i></a></span>              <span class="help-inline">{{form_errors(form.agency)}}</span>  
             </div>
           </div>       
           {% endif %}
@@ -45,6 +45,14 @@
                <span class="help-inline">{{form_errors(form.lastName)}}</span>
             </div>
           </div>       
+          <div class="control-group {% if form_errors(form.idNumber) %} error {% endif %}">
+          <label class="control-label" for="idNumber">{{ form_label(form.idNumber) }}</label>
+          <div class="controls">
+            {{ form_widget(form.idNumber) }} 
+            <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" title="Member ID / Passport number."><i class="icon-info-sign"></i></a></span>  
+             <span class="help-inline">{{form_errors(form.idNumber)}}</span>
+          </div>
+          </div>     
           <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
             <label class="control-label" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
             <div class="controls">

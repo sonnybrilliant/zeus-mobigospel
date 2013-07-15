@@ -31,9 +31,9 @@ class MemberCreateType extends AbstractType
 
         $builder
             ->add('agency', 'entity', array(
-                'empty_value' => 'Select an agency',
+                'empty_value' => 'Select an organization',
                 'class' => 'VanessaCoreBundle:Agency',
-                'label' => 'Agency:',
+                'label' => 'Orginazation:',
                 'attr' => array('class' => 'span4 chosen'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('a')
@@ -76,6 +76,16 @@ class MemberCreateType extends AbstractType
                     "data-validation-minlength-message" => "Last name must have at least 2 characters.",
                     "minlength" => 2,
                     "data-validation-maxlength-message" => "Last name has a limit of 100 characters.",
+                    "maxlength" => 100,                    
+                )
+            ))
+            ->add('idNumber', 'text', array(
+                'label' => 'ID / Passport number:',
+                'attr' => array(
+                    'class' => 'span4',
+                    "data-validation-minlength-message" => "ID / Passport number must have at least 10 characters.",
+                    "minlength" => 2,
+                    "data-validation-maxlength-message" => "ID / Passport number has a limit of 20 characters.",
                     "maxlength" => 100,                    
                 )
             ))

@@ -71,6 +71,17 @@ class Member implements AdvancedUserInterface, \Serializable
     protected $lastName;
     
     /**
+     * @var string $idNumber
+     * 
+     * @Assert\MinLength(limit= 8, message="Id or Passort number must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Id or Passort number has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="id_number", type="string", length=100, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $idNumber;    
+    
+    /**
      * @Gedmo\Slug(fields={"firstName","lastName"})
      * @ORM\Column(name="slug" , length=150 , unique=true)
      */
@@ -1143,5 +1154,28 @@ class Member implements AdvancedUserInterface, \Serializable
     public function getDeletedBy()
     {
         return $this->deletedBy;
+    }
+
+    /**
+     * Set idNumber
+     *
+     * @param string $idNumber
+     * @return Member
+     */
+    public function setIdNumber($idNumber)
+    {
+        $this->idNumber = $idNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get idNumber
+     *
+     * @return string 
+     */
+    public function getIdNumber()
+    {
+        return $this->idNumber;
     }
 }

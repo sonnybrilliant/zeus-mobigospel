@@ -46,20 +46,22 @@ class ArtistUpdateType extends AbstractType
             ->addEventSubscriber($subscriber)
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
-            ))
-            ->add('middleName', 'text', array(
-                'label' => 'Middle name:',
                 'attr' => array('class' => 'span4'),
-            ))            
-            ->add('lastName', 'text', array(
-                'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'required' => false
             ))
             ->add('middleName', 'text', array(
                 'label' => 'Middle name:',
                 'attr' => array('class' => 'span4'),
                 'required' => false
+            ))            
+            ->add('lastName', 'text', array(
+                'label' => 'Last name:',
+                'attr' => array('class' => 'span4'),
+                'required' => false
+            ))
+            ->add('isGroup', 'checkbox', array(
+                'label' => 'Is Band?',
+                'attr' => array('class' => 'span4 isGroup')
             ))            
             ->add('stageName', 'text', array(
                 'label' => 'Stage name:',

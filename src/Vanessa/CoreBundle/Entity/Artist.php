@@ -38,7 +38,6 @@ class Artist
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "First name cannot be blank!")
      * @Assert\MinLength(limit= 2, message="First name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 100, message="First name has a limit of {{ limit }} characters.")
      * @Assert\Regex(pattern="/\d/",
@@ -46,7 +45,7 @@ class Artist
      *               message="First Name cannot contain a number"
      *  )
      *
-     * @ORM\Column(name="first_name", type="string", length=100)
+     * @ORM\Column(name="first_name", type="string", length=100 , nullable=true)
      * @Gedmo\Versioned
      */
     protected $firstName;
@@ -54,7 +53,6 @@ class Artist
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "Last name cannot be blank!")
      * @Assert\MinLength(limit= 2, message="Last name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 100, message="Last name has a limit of {{ limit }} characters.")
      * @Assert\Regex(pattern="/\d/",
@@ -62,7 +60,7 @@ class Artist
      *               message="Last Name cannot contain a number"
      *  )
      *
-     * @ORM\Column(name="last_name", type="string", length=100)
+     * @ORM\Column(name="last_name", type="string", length=100 , nullable=true)
      * @Gedmo\Versioned
      */
     protected $lastName;
@@ -163,6 +161,14 @@ class Artist
      * @Gedmo\Versioned
      */
     protected $isDeleted;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_group", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $isGroup;    
 
     /**
      * @var boolean
@@ -741,5 +747,28 @@ class Artist
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Set isGroup
+     *
+     * @param boolean $isGroup
+     * @return Artist
+     */
+    public function setIsGroup($isGroup)
+    {
+        $this->isGroup = $isGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get isGroup
+     *
+     * @return boolean 
+     */
+    public function getIsGroup()
+    {
+        return $this->isGroup;
     }
 }

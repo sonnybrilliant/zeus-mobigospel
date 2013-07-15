@@ -49,6 +49,28 @@ class Agency
     protected $name;
 
     /**
+     * @var string $vatNumber
+     * 
+     * @Assert\MinLength(limit= 2, message="Vat number must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Vat number has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="vat_number", type="string", length=100, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $vatNumber;
+
+    /**
+     * @var string $registraionNumber
+     * 
+     * @Assert\MinLength(limit= 2, message="Registration number must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Registration number has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="registration_number", type="string", length=100, nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $registraionNumber;
+
+    /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(name="slug" , length=150 , unique=true)
      */
@@ -901,4 +923,50 @@ class Agency
         return $this->enabled;
     }
 
+
+    /**
+     * Set vatNumber
+     *
+     * @param string $vatNumber
+     * @return Agency
+     */
+    public function setVatNumber($vatNumber)
+    {
+        $this->vatNumber = $vatNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get vatNumber
+     *
+     * @return string 
+     */
+    public function getVatNumber()
+    {
+        return $this->vatNumber;
+    }
+
+    /**
+     * Set registraionNumber
+     *
+     * @param string $registraionNumber
+     * @return Agency
+     */
+    public function setRegistraionNumber($registraionNumber)
+    {
+        $this->registraionNumber = $registraionNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get registraionNumber
+     *
+     * @return string 
+     */
+    public function getRegistraionNumber()
+    {
+        return $this->registraionNumber;
+    }
 }

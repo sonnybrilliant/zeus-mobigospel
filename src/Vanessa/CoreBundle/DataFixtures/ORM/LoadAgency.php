@@ -33,7 +33,9 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $internal->setStatus($this->getReference('status-active'));
         $internal->setContactPerson('Sally Joy');
         $internal->setContactNumber('0114567894');
-        $internal->setContactEmail('info@mobigospel.co.za');        
+        $internal->setContactEmail('info@mobigospel.co.za'); 
+        $internal->setRegistraionNumber('2013/09485/47');
+        $internal->setVatNumber('4020248995');        
         $internal->setAgencyType($this->getReference('agency-type-internal'));
         $manager->persist($internal) ;
         
@@ -50,6 +52,8 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $contentProvider->setContactPerson('Nina Simone');
         $contentProvider->setContactNumber('0124567894');
         $contentProvider->setContactEmail('gospel.gold@sulehosting.co.za');
+        $contentProvider->setRegistraionNumber('2013/09485/47');
+        $contentProvider->setVatNumber('4020248995');         
         $contentProvider->setAgencyType($this->getReference('agency-type-content-provider'));
         $manager->persist($contentProvider) ;
         
@@ -66,6 +70,8 @@ class LoadAgency extends AbstractFixture implements OrderedFixtureInterface
         $mediaPartner->setContactPerson('Nina Simone');
         $mediaPartner->setContactNumber('0733264125');
         $mediaPartner->setContactEmail('gospel.radio.show@sulehosting.co.za');
+        $mediaPartner->setRegistraionNumber('2013/09485/47');
+        $mediaPartner->setVatNumber('4020248995');         
         $mediaPartner->setAgencyType($this->getReference('agency-type-media-partner'));
         $manager->persist($mediaPartner) ;
     

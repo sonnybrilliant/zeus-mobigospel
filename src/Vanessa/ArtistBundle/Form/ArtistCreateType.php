@@ -46,7 +46,8 @@ class ArtistCreateType extends AbstractType
             ->addEventSubscriber($subscriber)
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4'),
+                'required' => false
             ))
             ->add('middleName', 'text', array(
                 'label' => 'Middle name:',
@@ -55,7 +56,12 @@ class ArtistCreateType extends AbstractType
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4'),
+                'required' => false
+            ))
+            ->add('isGroup', 'checkbox', array(
+                'label' => 'Is Band?',
+                'attr' => array('class' => 'span4 isGroup')
             ))
             ->add('stageName', 'text', array(
                 'label' => 'Stage name:',
@@ -64,7 +70,8 @@ class ArtistCreateType extends AbstractType
             ->add('gender', 'entity', array(
                 'class' => 'VanessaCoreBundle:Gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span4 chosen'),
+                'required' => false
             ))
             ->add('genres', 'entity', array(
                 'class' => 'VanessaCoreBundle:Genre',

@@ -3,6 +3,25 @@ $(document).ready(function() {
         this.value = "";
     });
   
+    $('.isGroup').click(function(){
+       var checked = $(this).is(":checked");
+       
+       if(checked){
+           //hide first, middle  and last name fields
+           isBand();
+       }else{
+           isArtist();
+       }
+       
+    });
+    
+    
+    if($('.isGroup').is(":checked")){
+        isBand();
+    }
+    
+    $('.hideBand').hide();  
+  
     $('.helpers').tooltip({
         selector: "a[rel=tooltip]"
     });
@@ -31,3 +50,12 @@ $(document).ready(function() {
         $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
     } );
 });
+
+
+function isBand(){
+    $('.isBand').hide();    
+}
+
+function isArtist(){
+    $('.isBand').show();
+}

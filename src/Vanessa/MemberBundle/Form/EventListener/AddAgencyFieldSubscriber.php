@@ -6,6 +6,7 @@ use Symfony\Component\Form\Event\DataEvent;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Add agency field 
@@ -55,7 +56,15 @@ class AddAgencyFieldSubscriber implements EventSubscriberInterface
             $form->add($this->factory->createNamed(
                     'agency', 'entity', null, array(
                     'class' => 'VanessaCoreBundle:Agency',
-                    'attr' => array('class' => 'span4 chosen')
+                    'label' => 'Organization:',      
+                    'attr' => array('class' => 'span4 chosen'),
+                    'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('a')
+                                    ->where('a.enabled = :enabled')                                    
+                                    ->setParameters(array(
+                                        'enabled' => true,
+                                        ));
+                        },    
                 )));
             $form->add($this->factory->createNamed(
                     'group', 'entity', null, array(

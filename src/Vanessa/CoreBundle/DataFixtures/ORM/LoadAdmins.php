@@ -40,6 +40,7 @@ class LoadAdmins extends AbstractFixture implements OrderedFixtureInterface, Con
         $ronald = array(
             'firstName' => 'Mfana',
             'lastName' => 'Conco',
+            'idNumber' => '8202205463080',
             'email' => 'ronald.conco@mobigospel.co.za',
             'mobile' => '27713264125',
             'password' => '654321',
@@ -55,6 +56,7 @@ class LoadAdmins extends AbstractFixture implements OrderedFixtureInterface, Con
         $mxolisi = array(
             'firstName' => 'Mxolisi',
             'lastName' => 'Khutama',
+            'idNumber' => '8002205463080',
             'email' => 'mxolisi.khutama@mobigospel.co.za',
             'mobile' => '27721101642',
             'password' => 'mrx26021',
@@ -71,6 +73,7 @@ class LoadAdmins extends AbstractFixture implements OrderedFixtureInterface, Con
         $don = array(
             'firstName' => 'Don',
             'lastName' => 'Khutama',
+            'idNumber' => '8502205463080',
             'email' => 'don@mobigospel.co.za',
             'mobile' => '27725184768',
             'password' => '654321',
