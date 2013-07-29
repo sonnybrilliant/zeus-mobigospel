@@ -11,7 +11,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Vanessa\CoreBundle\Entity\Agency
  *
- * @ORM\Table(name="agency")
+ * @ORM\Table(name="agency",
+ *      indexes={@ORM\Index(name="search_context", columns={"name","vat_number"})}
+ * )
+ * 
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\AgencyRepository")
  * @ORM\HasLifecycleCallbacks
  * 

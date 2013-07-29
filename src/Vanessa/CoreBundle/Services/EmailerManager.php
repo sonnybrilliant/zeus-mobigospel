@@ -41,6 +41,12 @@ final class EmailerManager
     private $template;
 
     /**
+     * Router
+     * @var object
+     */
+    private $router;
+
+    /**
      * Class construct
      * 
      * @param ContainerInterface $container
@@ -48,12 +54,13 @@ final class EmailerManager
      * @return void 
      */
     public function __construct(
-    ContainerInterface $container, Logger $logger)
+    ContainerInterface $container, Logger $logger , $router)
     {
         $this->setContainer($container);
         $this->setLogger($logger);
         $this->setEm($container->get('doctrine')->getEntityManager('default'));
         $this->setTemplate($container->get('templating'));
+        $this->setRouter($router);
         return;
     }
 
@@ -90,6 +97,16 @@ final class EmailerManager
     public function setTemplate($template)
     {
         $this->template = $template;
+    }
+
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    public function setRouter($router)
+    {
+        $this->router = $router;
     }
 
     /**
@@ -181,6 +198,158 @@ final class EmailerManager
 
         $emailBodyTxt = $this->template->render(
             'VanessaCoreBundle:Email/Text:member.created.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Pending song
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function songPending($params)
+    {
+        $this->logger->info('sending song pending approval email');
+        $song = $params['song'];
+
+        $options['subject'] = "Mobigospel: Song " . $song->getTitle() . ' by ' . $song->getArtist()->getStageName() . ' pending approval';
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'link' => $this->router->generate("vanessa_pending_list",array(),true).".html",
+            'song' => $song
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:song.pending.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:song.pending.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Song preview encode
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function songPreviewEncode($params)
+    {
+        $this->logger->info('sending song preview encode email');
+        $song = $params['song'];
+
+        $options['subject'] = "Mobigospel: Error on song preview encode " . $song->getTitle() . ' by ' . $song->getArtist()->getStageName();
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'link' => $this->router->generate("vanessa_pending_list",array(),true).".html",
+            'song' => $song
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:song.error.preview.encode.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:song.error.preview.encode.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Song rejected
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function songRejected($params)
+    {
+        $this->logger->info('sending song rejected email');
+        $song = $params['song'];
+
+        $options['subject'] = "Mobigospel: Song " . $song->getTitle() . ' by ' . $song->getArtist()->getStageName() . ' was rejected';
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'link' => $this->router->generate("vanessa_pending_show",array('slug'=>$song->getSlug()),true).".html",
+            'song' => $song
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:song.rejected.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:song.rejected.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Song ready
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function songReady($params)
+    {
+        $this->logger->info('sending song encoded successful email');
+        $song = $params['song'];
+
+        $options['subject'] = "Mobigospel: Song " . $song->getTitle() . ' by ' . $song->getArtist()->getStageName() . ' has been approved';
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'link' => $this->router->generate("vanessa_pending_show",array('slug'=>$song->getSlug()),true).".html",
+            'song' => $song
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:song.ready.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:song.ready.txt.twig', $arguments
         );
 
         $options['bodyHTML'] = $emailBodyHtml;

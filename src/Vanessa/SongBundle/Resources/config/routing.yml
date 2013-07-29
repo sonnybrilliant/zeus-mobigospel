@@ -1,0 +1,76 @@
+vanessa_song_list:
+    pattern:  /songs/active/list.{_format}
+    defaults: { _controller: VanessaSongBundle:Song:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html
+        
+vanessa_song_list_download_excel:
+    pattern:  /songs/active/download/excel/list.{_format}
+    defaults: { _controller: VanessaSongBundle:Song:downloadExcel , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html         
+        
+vanessa_pending_list:
+    pattern:  /songs/pending/list.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html  
+        
+vanessa_pending_new:
+    pattern:  /songs/add.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:new , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html        
+        
+vanessa_pending_create:
+    pattern:  /songs/add.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:add , _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html   
+        
+vanessa_pending_edit:
+    pattern:  /songs/pending/edit/{slug}.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:edit , _format: html}        
+    requirements:
+        _method: GET
+        _format: html   
+        
+vanessa_pending_update:
+    pattern:  /songs/pending/update/{slug}.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:update, _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html     
+        
+vanessa_pending_reject:
+    pattern:  /songs/pending/reject/{slug}.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:reject, _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html      
+        
+vanessa_pending_approve:
+    pattern:  /songs/pending/approve/{slug}.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:approve, _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html        
+        
+vanessa_pending_show:
+    pattern:  /songs/pending/profile/{slug}.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:show, _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html        
+
+vanessa_pending_list_download_excel:
+    pattern:  /songs/pending/download/excel/list.{_format}
+    defaults: { _controller: VanessaSongBundle:Pending:downloadExcel , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html 

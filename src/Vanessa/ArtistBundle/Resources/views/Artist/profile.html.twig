@@ -4,7 +4,12 @@
 
 {% block stylesheets %}
     <link href="{{ asset('/css/polaroid.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-lightbox.min.css') }}" rel="stylesheet">
 {% endblock %}
+    
+{% block javascripts %}
+    <script src="{{ asset('/js/bootstrap-lightbox.min.js') }}"></script>
+{% endblock %}   
 
 {% block body %}
 <div class="row">
@@ -32,20 +37,9 @@
                 {% include "VanessaArtistBundle:Artist:Form/form.show.html.twig" %}
             </div>     
             <div class="span4">
-                <div class="polaroid">
-                        {% if file_exists(web_path~asset('uploads/artists/'~artist.getImageName()~'.'~artist.path)) %}
-                            <img  class="photo" src="{{ asset('uploads/artists/'~artist.getImageName()~'.'~artist.path) }}" width="400px" height="120px" title="profile picture" class="img-polaroid" />
-                        {% else %}
-                            <img  class="photo" src="{{ asset('img/assets/mic_'~rand(1,4)~'.jpg') }}" width="400px" height="120px" title="profile picture" class="img-polaroid" />
-                        {% endif%} 
-
-                        <div class="title">{{artist.stageName}}</div>
-                        <div class="byline">Alias {{artist.firstName}} {{artist.lastName}}</div>
-                        <div class="shadow"></div>
-                </div>
-                
+                {% include "VanessaArtistBundle:Artist:Image/show.html.twig" with { 'artist':artist}  %}
             </div> 
         </div>
-   </div>    
+   </div> 
 </div>
 {% endblock body %}

@@ -12,3 +12,25 @@ parameters:
     mailer_password:   ~
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    site_url: 'http://dev.mobigospel.co.za/'
+    website_name: dev.mobigospel.co.za
+    contact_email: email@example.com
+    contact_number: '+27 00 000 4125'
+    error_email: support@example.com
+    error_subject: 'Local: mobigospel.co.za'
+    recaptcha_public_key: XXXXXXXX
+    recaptcha_private_key: XXXC
+    rabbitmq_host: localhost
+    rabbitmq_user: XXXXXX
+    rabbitmq_password: XXXXX
+    rabbitmq_virtual_host: "/mobigospel-development"
+
+    audio_preview_sample_rate: 96
+    audio_preview_start_offset: 00:00:30
+    audio_preview_length: 00:01:00
+    
+    audio_full_sample_rate: 128
+    
+    #system based libs
+    lib_avnconv: /usr/bin/avconv 

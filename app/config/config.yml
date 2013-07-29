@@ -25,6 +25,15 @@ parameters:
     
     web_path: %kernel.root_dir%/../web
 
+    #audio settings
+    song_preview_sample_rate: %audio_preview_sample_rate%
+    song_preview_start_offset: %audio_preview_start_offset%
+    song_preview_length: %audio_preview_length%    
+    song_full_sample_rate: %audio_full_sample_rate%
+    
+    #libs
+    env_lib_avconv: %lib_avnconv%    
+
 framework:
     #esi:             ~
     #translator:      { fallback: %locale% }
@@ -256,4 +265,98 @@ stfalcon_tinymce:
             remove_linebreaks: false
             inline_styles: false
             convert_fonts_to_spans: false
+            
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:      %rabbitmq_host%
+            port:      5672
+            user:      %rabbitmq_user%
+            password:  %rabbitmq_password%
+            vhost:     %rabbitmq_virtual_host%
+    producers:
+        song_preview_encode:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_preview_encode
+                durable: true  
+                routing_keys: 
+                          - song.preview.encode
+                          
+        song_full_encode:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_full_encode
+                durable: true  
+                routing_keys: 
+                          - song.full.encode
+            
+        song_preview_tag:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_preview_tag
+                durable: true
+                routing_keys: 
+                          - song.preview.tag
+                          
+        song_full_tag:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_full_tag
+                durable: true
+                routing_keys: 
+                          - song.full.tag
+                          
+        song_error:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_error
+                durable: true
+                routing_keys: 
+                          - song.error
  
+    consumers:
+        song_preview_encode:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_preview_encode
+                durable: true  
+                routing_keys: 
+                          - song.preview.encode
+            callback: 'song.preview.encode.consumer'
+        
+        song_full_encode:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_full_encode
+                durable: true  
+                routing_keys: 
+                          - song.full.encode   
+            callback: 'song.full.encode.consumer'                          
+        
+        song_preview_tag:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_preview_tag
+                durable: true
+                routing_keys: 
+                          - song.preview.tag
+            callback: 'song.preview.tag.consumer'
+            
+        song_full_tag:
+            connection: default
+            exchange_options: {name: 'song', type: direct , durable: true}
+            queue_options: 
+                name: q_song_full_tag
+                durable: true
+                routing_keys: 
+                          - song.full.tag
+            callback: 'song.full.tag.consumer'

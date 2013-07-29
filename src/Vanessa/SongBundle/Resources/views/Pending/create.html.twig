@@ -1,0 +1,47 @@
+{% extends "VanessaSongBundle::layout.html.twig" %}
+
+{% block title %}Add a song{% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Add a song</h3>
+        <div class="span3">
+           {% set vars = {'action': 'Add'} %}
+           {% include 'VanessaSongBundle::breadcrumb.pending.html.twig' with vars  %}
+            </div>
+    </div>
+    <div class="span12 pull-right">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_song_list')}}.html" title="View active songs." >Active Songs</a></li>
+                    <li class="active"><a href="{{ path('vanessa_pending_list')}}.html" title="View pending songs." >Pending Songs</a></li>
+                </ul>            
+            </div>
+            {% if isIpad %}
+            <div class="span12 pull-right">
+                <div class="alert alert-info">
+                    <button class="close" data-dismiss="alert">×</button>
+                    <h4 class="alert-heading">Notice!</h4>
+                    We have detected that you are currently using an Ipad, Please note that you will not be able to
+                    upload artist images since the Ipad will not allow access to local files such as images
+                    or mp3s. We apologize for the inconvenience but there is nothing we can do at this point.
+                </div>
+            </div>        
+           {% endif %} 
+            <div class="span8">
+                {% include "VanessaSongBundle:Pending:Form/form.create.html.twig" %} 
+            </div> 
+            <div class="span3 pull-right">
+                {% include "VanessaSongBundle:Pending:Hint/form.create.html.twig" %} 
+            </div>  
+              
+    </div> 
+</div>
+{% endblock body %}
+
+

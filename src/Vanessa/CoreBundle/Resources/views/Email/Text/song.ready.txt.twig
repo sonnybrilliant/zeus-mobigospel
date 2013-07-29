@@ -1,0 +1,12 @@
+{% extends "::base.mail.txt.twig" %}
+{% block body %}
+Hi {{ fullName }},
+
+Your song has been approved.
+
+{{song.title}} by {{song.artist.stageName}}
+
+Follow the link to view more details..
+{{ link }}
+
+{% endblock %}

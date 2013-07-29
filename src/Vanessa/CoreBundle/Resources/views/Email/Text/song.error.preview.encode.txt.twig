@@ -1,0 +1,11 @@
+{% extends "::base.mail.txt.twig" %}
+{% block body %}
+Hi {{ fullName }},
+
+There was an error encoding preview.
+
+{{song.title}} by {{song.artist.stageName}}
+
+ Please check queue system for the error message.
+
+{% endblock %}

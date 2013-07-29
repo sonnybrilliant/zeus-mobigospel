@@ -10,4 +10,5 @@
 /composer.json~
 /vendor/
 composer.lock
+/composer.lock
 /bin/

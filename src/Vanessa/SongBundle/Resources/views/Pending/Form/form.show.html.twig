@@ -1,0 +1,107 @@
+<div>
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}    
+<form class="display helpers form-horizontal" action="{{ path('vanessa_pending_update', {'slug':song.slug}) }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="song">Play</label>
+        <div class="controls">
+                  {% set songId = song.id %}
+                  <div class='flashPlayer' style="display: none">
+                    <object type="application/x-shockwave-flash" data="{{ asset('player/dewplayer-vol.swf?mp3=/uploads/songs/tmp/'~ songId ~'.mp3') }}" width="240" height="20" id="dewplayer-vol">
+                        <param name="wmode" value="transparent">
+                        
+                        <param name="movie" value="{{ asset('player/dewplayer-vol.swf?mp3=/uploads/songs/tmp/'~songId~'.mp3') }}">
+                    </object>
+                  </div> 
+                  <div class='html5Player' style="display: none">
+                    <audio controls="controls">
+                      <source src="{{ asset('uploads/songs/tmp/'~ songId~'.mp3') }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                    </audio>
+                  </div>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.artist) %} error {% endif %}">
+        <label class="control-label" for="artist">{{ form_label(form.artist) }}</label>
+        <div class="controls">
+          {{ form_widget(form.artist) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song artist."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.artist)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.title) %} error {% endif %}">
+        <label class="control-label" for="title">{{ form_label(form.title) }}</label>
+        <div class="controls">
+          {{ form_widget(form.title) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song title."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.title)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.featuredArtist) %} error {% endif %}">
+        <label class="control-label" for="featured_artist">{{ form_label(form.featuredArtist) }}</label>
+        <div class="controls">
+          {{ form_widget(form.featuredArtist) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Featured artist."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.featuredArtist)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.genres) %} error {% endif %}">
+        <label class="control-label" for="genres">{{ form_label(form.genres) }}</label>
+        <div class="controls">
+          {{ form_widget(form.genres) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song genres."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.genres)}}</span>  
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.status) %} error {% endif %}">
+        <label class="control-label" for="status">{{ form_label(form.status) }}</label>
+        <div class="controls">
+          {{ form_widget(form.status) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song status."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.status)}}</span>  
+        </div>
+      </div>       
+      <div class="control-group">
+        <label class="control-label" for="uploaded_by">Uploaded by:</label>
+        <div class="controls">
+          <input type="text" class="span4" value="{{song.createdBy.getFullName}} " disabled="disabled" />
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song uploaded by who ?"><i class="icon-info-sign"></i></a></span>  
+        </div>
+      </div>       
+      <div class="control-group">
+        <label class="control-label" for="uploaded_at">Uploaded at:</label>
+        <div class="controls">
+          <input type="text" class="span4" value="{{song.createdAt|date('Y-m-d H:i A')}}  " disabled="disabled" />  
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song uploaded at what time ?"><i class="icon-info-sign"></i></a></span>  
+        </div>
+      </div>       
+      <div class="control-group">
+        <label class="control-label" for="updated_at">Updated at:</label>
+        <div class="controls">
+          <input type="text" class="span4" value="{{song.updatedAt|date('Y-m-d H:i A')}}  " disabled="disabled" />  
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song updated at what time ?"><i class="icon-info-sign"></i></a></span>  
+        </div>
+      </div>  
+      {% if song.status.name == 'Rejected' %}
+      <div class="control-group">
+        <label class="control-label" for="rejected_by">Rejected by:</label>
+        <div class="controls">
+          <input type="text" class="span4" value="{{song.rejectedBy.getFullName}}" disabled="disabled" />  
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song rejected by who ?"><i class="icon-info-sign"></i></a></span>  
+        </div>
+      </div>  
+      <div class="control-group">
+        <label class="control-label" for="rejected_at">Rejected at:</label>
+        <div class="controls">
+          <input type="text" class="span4" value="{{song.rejectedAt|date('Y-m-d H:i A')}}  " disabled="disabled" />  
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song rejected at what time ?"><i class="icon-info-sign"></i></a></span>  
+        </div>
+      </div>  
+      {% endif %}    
+      {{ form_rest(form) }}       
+  </fieldset>
+</form>
+</div>        
+     

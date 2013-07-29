@@ -1,0 +1,55 @@
+vanessa_code_list:
+    pattern:  /code/list.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html
+        
+vanessa_code_new:
+    pattern:  /code/new.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:new , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html        
+        
+vanessa_code_create:
+    pattern:  /code/create.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:create , _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html        
+
+vanessa_code_edit:
+    pattern:  /code/edit/{code}.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:edit , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html   
+
+vanessa_code_update:
+    pattern:  /code/update/{code}.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:update , _format: html}        
+    requirements:
+        _method: GET|POST 
+        _format: html   
+
+vanessa_code_disable:
+    pattern:  /code/disable/{code}.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:disable , _format: html}        
+    requirements:
+        _method: GET
+        _format: html   
+
+vanessa_code_activate:
+    pattern:  /code/activate/{code}.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:activate , _format: html}        
+    requirements:
+        _method: GET
+        _format: html   
+        
+vanessa_code_list_download_excel:
+    pattern:  /code/download/excel/list.{_format}
+    defaults: { _controller: VanessaCodeBundle:Code:downloadExcel , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html         

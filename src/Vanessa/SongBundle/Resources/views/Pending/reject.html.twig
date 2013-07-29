@@ -1,0 +1,43 @@
+{% extends "VanessaSongBundle::layout.html.twig" %}
+
+{% block title %}Reject - {{song.title}} by {{song.artist.stageName}} {% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Reject - {{song.title}} <small> by {{song.artist.stageName}}</small></h3>
+        <div class="span3">
+           {% set vars = {'action': 'Reject'} %}
+           {% include 'VanessaSongBundle::breadcrumb.pending.html.twig' with vars  %}
+            </div>
+    </div>
+    <div class="span12 pull-right">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_song_list')}}.html" title="View active songs." >Active Songs</a></li>
+                    <li class="active"><a href="{{ path('vanessa_pending_list')}}.html" title="View pending songs." >Pending Songs</a></li>
+                </ul>            
+            </div>
+            <div class="span12 pull-right">
+                <div class="alert alert-warning">
+                    <button class="close" data-dismiss="alert">×</button>
+                    <h4 class="alert-heading">Notice!</h4>
+                    You are about to reject the song <span class="label label-inverse">Title: {{song.title}}</span>, please state a reason for the rejection.
+                </div>
+            </div>        
+            <div class="span8">
+                {% include "VanessaSongBundle:Pending:Form/form.reject.html.twig" %} 
+            </div> 
+            <div class="span3 pull-right">
+                {% include "VanessaSongBundle:Pending:Hint/form.reject.html.twig" %} 
+            </div>  
+              
+    </div> 
+</div>
+{% endblock body %}
+
+

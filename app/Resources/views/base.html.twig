@@ -80,6 +80,8 @@
         <!-- Le javascript
                 ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script src="{{ asset('/js/bootstrap.min.js') }}"></script>            
         <script src="{{ asset('/js/jqBootstrapValidation.js') }}"></script>            
         <script src="{{ asset('/js/jquery.scrollUp.min.js') }}"></script>            
@@ -89,5 +91,40 @@
         <script src="{{ asset('/js/main.js') }}"></script>         
         {% block javascripts %}{% endblock %}
         {% include "::javascript.alert.html.twig" %}
+        
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}       
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+        setInterval(function() {
+            $.ajax({
+                type: "GET",
+                url: Routing.generate('vanessa_alert_get_messages'),
+                dataType: "json",
+                success: function(response) {
+                    var count = response.count;
+                    if(count > 0){
+                        var messages = response.messages;
+                        for(var x=0; x < count; x++){
+                            if(messages[x]['type'] == '1'){
+                              alertify.log(messages[x]['content'],'',0);  
+                            }else if(messages[x]['type'] == '2'){
+                              alertify.log(messages[x]['content'],'error',0);  
+                            }else if(messages[x]['type'] == '3'){
+                              alertify.log(messages[x]['content'],'error',0);  
+                            }else if(messages[x]['type'] == '4'){
+                              alertify.log(messages[x]['content'],'success',0);  
+                            }else if(messages[x]['type'] == '5'){
+                              alertify.log(messages[x]['content'],'',0);  
+                            } 
+                        }    
+                    }   
+                }
+            });
+        }, 60000); //1 minute
+        });
+        </script>    
+        {% endif %}
+     
     </body>
 </html>

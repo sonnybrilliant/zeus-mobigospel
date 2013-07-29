@@ -23,6 +23,8 @@
                     <li><a href="{{ path('vanessa_agency_content_owner_account_status_show',{'slug': contentOwner.slug })}}.html" title="View content owner account status." >Account status</a></li>
                     <li><a href="{{ path('vanessa_agency_content_owner_list_members',{'slug': contentOwner.slug })}}.html" title="Member list">Members</a></li>
                     <li><a href="{{ path('vanessa_agency_content_owner_list_artists',{'slug': contentOwner.slug })}}.html" title="Artist list">Artists</a></li>
+                    <li><a href="{{ path('vanessa_agency_content_owner_list_songs',{'slug': contentOwner.slug })}}.html" title="Song list">Songs</a></li>
+                    <li><a href="{{ path('vanessa_agency_content_owner_list_codes',{'slug': contentOwner.slug })}}.html" title="Song list">Codes</a></li>
                 </ul>            
             </div>
             {% include "VanessaAgencyBundle:ContentOwner:Form/form.profile.html.twig" %}   

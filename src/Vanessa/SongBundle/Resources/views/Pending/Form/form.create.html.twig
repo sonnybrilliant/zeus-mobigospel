@@ -1,0 +1,56 @@
+<div>
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}    
+<form class="display helpers form-horizontal" action="{{ path('vanessa_pending_create') }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><span class="label label-important">Info</span> <small>All song fields are required.</small></legend>
+      <div class="control-group {% if form_errors(form.artist) %} error {% endif %}">
+        <label class="control-label" for="artist">{{ form_label(form.artist) }}</label>
+        <div class="controls">
+          {{ form_widget(form.artist) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song artist."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.artist)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.title) %} error {% endif %}">
+        <label class="control-label" for="title">{{ form_label(form.title) }}</label>
+        <div class="controls">
+          {{ form_widget(form.title) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song title."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.title)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.featuredArtist) %} error {% endif %}">
+        <label class="control-label" for="featured_artist">{{ form_label(form.featuredArtist) }}</label>
+        <div class="controls">
+          {{ form_widget(form.featuredArtist) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Featured artist."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.featuredArtist)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.genres) %} error {% endif %}">
+        <label class="control-label" for="genres">{{ form_label(form.genres) }}</label>
+        <div class="controls">
+          {{ form_widget(form.genres) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song genres."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.genres)}}</span>  
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.song) %} error {% endif %}">
+        <label class="control-label" for="song">{{ form_label(form.song) }}</label>
+        <div class="controls">
+          {{ form_widget(form.song) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Song file."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.song)}}</span>  
+        </div>
+      </div>       
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Add &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('vanessa_pending_list') }}.html" class="btn">Cancel</a>
+      </div> 
+      {{ form_rest(form) }}       
+  </fieldset>
+</form>
+</div>        
+     

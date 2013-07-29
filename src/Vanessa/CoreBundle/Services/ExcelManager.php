@@ -402,7 +402,244 @@ final class ExcelManager
         $sheet->setTitle('Artist listing');
         return;
     }
+    
+    /**
+     * Create pending song sheet
+     * 
+     * @param array $songs
+     * @param integer $index
+     * @return void
+     */
+    private function pendingSongSheet($songs,$index = 0)
+    {
+        $sheet = $this->excel->excelObj->createSheet($index);
+        
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(10);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('K')->setWidth(20);
+        $sheet->getColumnDimension('L')->setWidth(20);
+        $sheet->getColumnDimension('M')->setWidth(20);
+        $sheet->getColumnDimension('N')->setWidth(20);
+        $sheet->getColumnDimension('O')->setWidth(20);
+        $sheet->getColumnDimension('P')->setWidth(20);
 
+        $this->excel->excelObj->setActiveSheetIndex($index)
+            ->setCellValue('A1', "#Id")
+            ->setCellValue('B1', "Title")
+            ->setCellValue('C1', "Slug")
+            ->setCellValue('D1', "Artist")
+            ->setCellValue('E1', "Featured Artist")
+            ->setCellValue('F1', "Agency")
+            ->setCellValue('G1', "Status")
+            ->setCellValue('H1', "Genres")
+            ->setCellValue('I1', "Is Deleted")
+            ->setCellValue('J1', "Is Active")
+            ->setCellValue('K1', "Uploaded By")
+            ->setCellValue('L1', "Created At")
+            ->setCellValue('M1', "Updated At")
+            ->setCellValue('N1', "Rejected Message")
+            ->setCellValue('O1', "Rejected By")
+            ->setCellValue('P1', "Rejected At");
+        $sheet->getStyle('A1:B1')->getFont()->setBold(true);
+        $sheet->getStyle('C1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('E1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('G1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('I1:J1')->getFont()->setBold(true);
+        $sheet->getStyle('K1:L1')->getFont()->setBold(true);
+        $sheet->getStyle('M1:N1')->getFont()->setBold(true);
+        $sheet->getStyle('O1:P1')->getFont()->setBold(true);
+        $counter = 2;
+        foreach ($songs as $song) {
+            $genres = "";
+            foreach($song->getGenres() as $genre){
+               $genres .= '['.$genre->getName().']'; 
+            }
+            $this->excel->excelObj->setActiveSheetIndex($index)
+                ->setCellValue('A' . $counter, $song->getId())
+                ->setCellValue('B' . $counter, $song->getTitle())                
+                ->setCellValue('C' . $counter, $song->getSlug())
+                ->setCellValue('D' . $counter, $song->getArtist()->getStageName())
+                ->setCellValue('E' . $counter, $song->getFeaturedArtist())
+                ->setCellValue('F' . $counter, $song->getAgency()->getName())
+                ->setCellValue('G' . $counter, $song->getStatus()->getName())
+                ->setCellValue('H' . $counter, $genres)
+                ->setCellValue('I' . $counter, $song->getIsDeleted())
+                ->setCellValue('J' . $counter, $song->getIsActive())
+                ->setCellValue('K' . $counter, $song->getCreatedBy()->getFullName())
+                ->setCellValue('L' . $counter, $song->getCreatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('M' . $counter, $song->getUpdatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('N' . $counter, $song->getRejectMessage())
+                ->setCellValue('O' . $counter, $song->getRejectedBy() ? $song->getRejectedBy()->getFullName():'')
+                ->setCellValue('P' . $counter, $song->getRejectedAt()? $song->getRejectedAt()->format('Y-m-d H:i A') : '');
+            $counter++;
+        }
+
+        $sheet->setTitle('Pending songs listing');
+        return;
+    }    
+    
+    /**
+     * Create active song sheet
+     * 
+     * @param array $songs
+     * @param integer $index
+     * @return void
+     */
+    private function activeSongSheet($songs,$index = 0)
+    {
+        $sheet = $this->excel->excelObj->createSheet($index);
+        
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(10);
+        $sheet->getColumnDimension('J')->setWidth(10);
+        $sheet->getColumnDimension('K')->setWidth(20);
+        $sheet->getColumnDimension('L')->setWidth(20);
+        $sheet->getColumnDimension('M')->setWidth(20);
+        $sheet->getColumnDimension('N')->setWidth(20);
+        $sheet->getColumnDimension('O')->setWidth(20);
+        $sheet->getColumnDimension('P')->setWidth(20);
+
+        $this->excel->excelObj->setActiveSheetIndex($index)
+            ->setCellValue('A1', "#Id")
+            ->setCellValue('B1', "Title")
+            ->setCellValue('C1', "Slug")
+            ->setCellValue('D1', "Artist")
+            ->setCellValue('E1', "Featured Artist")
+            ->setCellValue('F1', "Agency")
+            ->setCellValue('G1', "Status")
+            ->setCellValue('H1', "Genres")
+            ->setCellValue('I1', "Is Deleted")
+            ->setCellValue('J1', "Is Active")
+            ->setCellValue('K1', "Uploaded By")
+            ->setCellValue('L1', "Created At")
+            ->setCellValue('M1', "Updated At")
+            ->setCellValue('N1', "");
+        $sheet->getStyle('A1:B1')->getFont()->setBold(true);
+        $sheet->getStyle('C1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('E1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('G1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('I1:J1')->getFont()->setBold(true);
+        $sheet->getStyle('K1:L1')->getFont()->setBold(true);
+        $sheet->getStyle('M1:N1')->getFont()->setBold(true);
+        $counter = 2;
+        foreach ($songs as $song) {
+            $genres = "";
+            foreach($song->getGenres() as $genre){
+               $genres .= '['.$genre->getName().']'; 
+            }
+            $this->excel->excelObj->setActiveSheetIndex($index)
+                ->setCellValue('A' . $counter, $song->getId())
+                ->setCellValue('B' . $counter, $song->getTitle())                
+                ->setCellValue('C' . $counter, $song->getSlug())
+                ->setCellValue('D' . $counter, $song->getArtist()->getStageName())
+                ->setCellValue('E' . $counter, $song->getSongTemp()->getFeaturedArtist())
+                ->setCellValue('F' . $counter, $song->getAgency()->getName())
+                ->setCellValue('G' . $counter, $song->getStatus()->getName())
+                ->setCellValue('H' . $counter, $genres)
+                ->setCellValue('I' . $counter, $song->getIsDeleted())
+                ->setCellValue('J' . $counter, $song->getIsActive())
+                ->setCellValue('K' . $counter, $song->getCreatedBy()->getFullName())
+                ->setCellValue('L' . $counter, $song->getCreatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('M' . $counter, $song->getUpdatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('N' . $counter, "");
+            $counter++;
+        }
+
+        $sheet->setTitle('Active songs listing');
+        return;
+    }    
+    
+    /**
+     * Create active code sheet
+     * 
+     * @param array $codes
+     * @param integer $index
+     * @return void
+     */
+    private function codesSheet($codes,$index = 0)
+    {
+        $sheet = $this->excel->excelObj->createSheet($index);
+        
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(10);
+        $sheet->getColumnDimension('J')->setWidth(10);
+        $sheet->getColumnDimension('K')->setWidth(20);
+        $sheet->getColumnDimension('L')->setWidth(20);
+        $sheet->getColumnDimension('M')->setWidth(20);
+        $sheet->getColumnDimension('N')->setWidth(20);
+        $sheet->getColumnDimension('O')->setWidth(20);
+        $sheet->getColumnDimension('P')->setWidth(20);
+
+        $this->excel->excelObj->setActiveSheetIndex($index)
+            ->setCellValue('A1', "#Id")
+            ->setCellValue('B1', "Code")
+            ->setCellValue('C1', "Song")
+            ->setCellValue('D1', "Artist")
+            ->setCellValue('E1', "Featured Artist")
+            ->setCellValue('F1', "Agency")
+            ->setCellValue('G1', "Status")
+            ->setCellValue('H1', "Downloads")
+            ->setCellValue('I1', "Is Deleted")
+            ->setCellValue('J1', "Is Active")
+            ->setCellValue('K1', "Created By")
+            ->setCellValue('L1', "Created At")
+            ->setCellValue('L1', "Updated At")
+            ->setCellValue('M1', "Disabled By")
+            ->setCellValue('N1', "Disabled At");
+        $sheet->getStyle('A1:B1')->getFont()->setBold(true);
+        $sheet->getStyle('C1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('E1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('G1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('I1:J1')->getFont()->setBold(true);
+        $sheet->getStyle('K1:L1')->getFont()->setBold(true);
+        $sheet->getStyle('M1:N1')->getFont()->setBold(true);
+        $counter = 2;
+        foreach ($codes as $code) {
+            $this->excel->excelObj->setActiveSheetIndex($index)
+                ->setCellValue('A' . $counter, $code->getId())
+                ->setCellValue('B' . $counter, $code->getCode())                
+                ->setCellValue('C' . $counter, $code->getSong()->getTitle())                
+                ->setCellValue('D' . $counter, $code->getSong()->getArtist()->getStageName())                
+                ->setCellValue('E' . $counter, $code->getSong()->getFeaturedArtist())                
+                ->setCellValue('F' . $counter, $code->getAgency()->getName())                
+                ->setCellValue('G' . $counter, $code->getStatus()->getName())
+                ->setCellValue('H' . $counter, $code->getDownloadCounter())
+                ->setCellValue('I' . $counter, $code->getIsDeleted())
+                ->setCellValue('J' . $counter, $code->getIsActive())
+                ->setCellValue('K' . $counter, $code->getCreatedBy()->getFullName())
+                ->setCellValue('L' . $counter, $code->getCreatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('M' . $counter, $code->getUpdatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('N' . $counter, $code->getDisabledBy()? $code->getDisabledBy()->getFullName():"")
+                ->setCellValue('O' . $counter, $code->getDisabledAt()? $code->getDisabledAt()->format('Y-m-d H:i A'):"");
+            $counter++;
+        }
+
+        $sheet->setTitle('Codes listing');
+        return;
+    }    
+    
     /**
      * Excel member list
      * 
@@ -518,5 +755,94 @@ final class ExcelManager
         $response->headers->set('Cache-Control', 'maxage=1');
         return $response;
     }
+
+    /**
+     * Excel pending song list
+     * 
+     * @param array $songs
+     * @return Response
+     */
+    public function pendingSongList($songs)
+    {
+        $this->excel->excelObj->getProperties()->setTitle($this->container->getParameter('site_name') . " Pending songs listing")
+            ->setSubject(" Pending songs Listing")
+            ->setDescription("A deatiled list of all pending songs loaded on " . $this->container->getParameter('site_name'))
+            ->setKeywords("")
+            ->setCategory("List");
+
+        $fileName = 'pending-songs-list-' . date('Y-m-d') . '-' . sizeof($songs) . '.xlsx';
+
+        $this->pendingSongSheet($songs, 0);
+        
+        //create the response
+        $response = $this->excel->getResponse();
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $fileName);
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
+    }
+    
+
+    /**
+     * Excel active song list
+     * 
+     * @param array $songs
+     * @return Response
+     */
+    public function activeSongList($songs)
+    {
+        $this->excel->excelObj->getProperties()->setTitle($this->container->getParameter('site_name') . " Active songs listing")
+            ->setSubject(" Active songs Listing")
+            ->setDescription("A deatiled list of all active songs loaded on " . $this->container->getParameter('site_name'))
+            ->setKeywords("")
+            ->setCategory("List");
+
+        $fileName = 'active-songs-list-' . date('Y-m-d') . '-' . sizeof($songs) . '.xlsx';
+
+        $this->activeSongSheet($songs, 0);
+        
+        //create the response
+        $response = $this->excel->getResponse();
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $fileName);
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
+    }    
+    
+
+    /**
+     * Excel codes list
+     * 
+     * @param array $codes
+     * @return Response
+     */
+    public function codesList($codes)
+    {
+        $this->excel->excelObj->getProperties()->setTitle($this->container->getParameter('site_name') . " Codes listing")
+            ->setSubject(" Codes Listing")
+            ->setDescription("A deatiled list of all codes loaded on " . $this->container->getParameter('site_name'))
+            ->setKeywords("")
+            ->setCategory("List");
+
+        $fileName = 'codes-list-' . date('Y-m-d') . '-' . sizeof($codes) . '.xlsx';
+
+        $this->codesSheet($codes, 0);
+        
+        //create the response
+        $response = $this->excel->getResponse();
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $fileName);
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
+    }    
 
 }

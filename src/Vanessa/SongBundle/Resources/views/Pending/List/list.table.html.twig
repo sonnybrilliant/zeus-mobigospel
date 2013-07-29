@@ -1,0 +1,90 @@
+<section class="content">
+   <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Title', 's.title') }}
+                  {% if isDirectionSet == false %}
+                      <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
+                  {% else %}
+                    {% if pagination.isSorted('s.title') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
+                  {% endif %} 
+                </th>
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Artist', 's.artist') }}{% if pagination.isSorted('s.artist') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Agency', 's.agency') }}{% if pagination.isSorted('s.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                {% endif%}
+                <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Status', 's.status') }}{% if pagination.isSorted('s.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Uploaded By', 's.createdBy') }}{% if pagination.isSorted('s.createdBy') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Uploaded At', 's.createdAt') }}{% if pagination.isSorted('s.createdAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for song in pagination %}
+                <tr>
+                    <td><a href="{{ path('vanessa_pending_show', {'slug':song.slug}) }}.html" rel="tooltip" title="{{song.title}}">{{song.title|title|truncate(15)}}</a></td>
+                    <td><a href='{{ path('vanessa_artist_profile', {'slug': song.artist.slug }) }}.html' rel="tooltip" title="{{song.artist.stageName}}">{{song.artist.stageName|title|truncate(15)}}</a></td> 
+                    {% if app.user.isAdmin  %}
+                    <td><a href="{{ path('vanessa_agency_reseller_profile',{'slug':song.agency.slug})}}.html" rel="tooltip" title="{{song.agency.name}}">{{song.agency.name|title|truncate(15)}}</a></td>
+                    {% endif %}
+                    
+                    {% if song.status.name == 'Active'  %}
+                        <td><span class="label label-info">{{song.status.name }}</span></td>
+                    {% elseif song.status.name == 'Completed' %}
+                       <td><span class="label label-success">{{song.status.name }}</span></td>
+                    {% elseif song.status.name == 'Encoding' %}
+                       <td><span class="label label-important">{{song.status.name }}</span></td>
+                    {% elseif song.status.name == 'Rejected' %}
+                       <td><span class="label label-inverse">{{song.status.name }}</span></td>
+                    {% else %}
+                       <td><span class="label">{{song.status.name }}</span></td>
+                    {% endif %}
+                    
+                    
+                    <td><a href="{{ path('vanessa_member_profile',{'slug':song.createdBy.slug})}}.html" rel="tooltip" title="{{song.createdBy.fullName}}">{{song.createdBy.fullName|title|truncate(20)}}</a></td>
+                    <td>{{song.createdAt|date('Y-m-d H:i A')}}</td>
+                    <td>
+                        <small>
+                            <a href="#listen_{{song.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to preview" title="click to preview" class="btn btn-mini btn-warning"><i class="icon-headphones icon-white"></i>&nbsp;<strong>Listen</strong></a>&nbsp;
+                        {% if app.user.isAdmin  %}
+                            {% if song.status.name == 'Pending'  %}
+                               <a href="{{ path('vanessa_pending_edit',{'slug':song.slug})}}.html" rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-edit icon-white"></i>&nbsp;<strong>Edit</strong></a>&nbsp;
+                               <a href='#' rel="tooltip" title="click to approve" class="btn btn-mini btn-primary" onclick="alertify.confirm('Please make sure the song belongs to the artist, or this action will bring legal remification against the company.', function (e) {
+                                    if (e) {
+                                       window.location.href = '{{ url('vanessa_pending_approve', {'slug': song.slug }) }}.html';
+                                    } else {
+                                       return false;
+                                    }
+                                });"><i class="icon-ok icon-white"></i>&nbsp;<strong>Approve</strong></a>&nbsp;
+                               
+                               <a href="{{ path('vanessa_pending_reject',{'slug':song.slug})}}.html" rel="tooltip" title="click to reject" class="btn btn-mini btn-danger"><i class="icon-ban-circle icon-white"></i>&nbsp;<strong>Reject</strong></a>&nbsp;
+                            {% else %}
+                               {% if song.status.name == 'Rejected' %}
+                               <a href="{{ path('vanessa_pending_edit',{'slug':song.slug})}}.html" rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-edit icon-white"></i>&nbsp;<strong>Edit</strong></a>&nbsp;
+                               {% endif %}
+                            {% endif %}
+                        {% else %}
+                               {% if song.status.name == 'Pending'  %}
+                                <span rel="tooltip" title="action not available, you do not have permission."><i class="icon-ok"></i>&nbsp;Approve</span>&nbsp;
+                                <a href="" rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                                <span rel="tooltip" title="action not available, you do not have permission."><i class="icon-ban-circle"></i>&nbsp;Reject</span>&nbsp;
+                               {% else %}
+                                <span rel="tooltip" title="action not available, song is being proccessed"><i class="icon-ok"></i>&nbsp;Approve</span>&nbsp;
+                                <span rel="tooltip" title="action not available, song is being proccessed"><i class="icon-edit"></i>&nbsp;Edit</span>&nbsp;
+                                <span rel="tooltip" title="action not available, song is being proccessed"><i class="icon-ban-circle"></i>&nbsp;Reject</span>&nbsp;
+                               {% endif %}
+                        {% endif %}
+                        </small>       
+                    </td>    
+                </tr>
+          {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation pagination-right">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+</section>
+{% for song in pagination %}
+     {% include "VanessaSongBundle:Pending:preview.html.twig" with { 'song':song}  %}
+{% endfor %}
+

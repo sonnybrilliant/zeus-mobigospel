@@ -4,14 +4,14 @@ $(document).ready(function() {
     });
   
     $('.isGroup').click(function(){
-       var checked = $(this).is(":checked");
+        var checked = $(this).is(":checked");
        
-       if(checked){
-           //hide first, middle  and last name fields
-           isBand();
-       }else{
-           isArtist();
-       }
+        if(checked){
+            //hide first, middle  and last name fields
+            isBand();
+        }else{
+            isArtist();
+        }
        
     });
     
@@ -49,6 +49,14 @@ $(document).ready(function() {
     $(function () {
         $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
     } );
+    
+    if (Modernizr.audio.mp3) {
+        $(".html5Player").show();            
+    }
+    else {            
+        $(".flashPlayer").show();         
+    } 
+    
 });
 
 

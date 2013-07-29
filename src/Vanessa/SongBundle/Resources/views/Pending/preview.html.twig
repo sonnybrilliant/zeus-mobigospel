@@ -1,0 +1,58 @@
+<div class="modal hide fade in" id="listen_{{song.id}}">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Song preview</h3>
+  </div>
+  <div class="modal-body">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span5">
+                <div class="logowrapper">
+                        {% if file_exists(web_path~asset('uploads/artists/'~song.artist.getImageName()~'.'~song.artist.path)) %}
+                           <img  src="{{ asset('uploads/artists/'~song.artist.getImageName()~'.'~song.artist.path) }}" title="profile picture" class="img-polaroid" />
+                        {% else %}
+                            <img  src="{{ asset('img/assets/mic_'~rand(1,4)~'.jpg') }}" title="profile picture" class="img-polaroid" />
+                        {% endif%} 
+                
+                </div>
+            </div> 
+            <div class="span7">
+                <form class="form-horizontal">
+                    <p class="help-block"><strong>Title:</strong> <em>{{song.title|title|truncate(30)}}</em></p>                    
+                    <p class="help-block"><strong>Artist:</strong> <em>{{song.artist.stageName|title|truncate(30)}}</em></p>                    
+                    <p class="help-block"><strong>Genres:</strong> 
+                        <small>
+                        {% for genre in song.genres %}
+                            <span class="label {{ cycle(['label-inverse', 'label-info'], genre.id) }}">{{ genre.name }}</span>
+                        {% endfor%}  
+                        </small>
+                    </p>
+                    {% if song.featuredArtist != '' %}
+                    <p class="help-block"><strong>Featured Artist:</strong> <em>{{song.featuredArtist|title|truncate(30)}}</em></p> 
+                    {% endif %}
+                    <br />                    
+                    {% set songId = song.id %}
+                    <p class='help-block flashPlayer' style="display: none">
+                        <object type="application/x-shockwave-flash" data="{{ asset('player/dewplayer-vol.swf?mp3=/uploads/songs/tmp/'~ songId ~'.mp3') }}" width="240" height="20" id="dewplayer-vol">
+                            <param name="wmode" value="transparent">
+
+                            <param name="movie" value="{{ asset('player/dewplayer-vol.swf?mp3=/uploads/songs/tmp/'~songId~'.mp3') }}">
+                        </object>
+                    </p> 
+                    <p class='help-block html5Player' style="display: none">
+                        <audio controls="controls">
+                          <source src="{{ asset('uploads/songs/tmp/'~ songId~'.mp3') }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                        </audio>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>      
+</div>
+
+

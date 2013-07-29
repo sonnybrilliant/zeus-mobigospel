@@ -12,4 +12,98 @@ use Doctrine\ORM\EntityRepository;
  */
 class SongTempRepository extends EntityRepository
 {
+ 
+    /**
+     * Get all songs query
+     *
+     * @return type
+     */
+    public function getAllQuery($options)
+    {
+        
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 's.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values){
+                $options[$key] = $defaultOptions[$key];
+            }    
+        }
+
+        $qb = null;
+        
+        if ($options['user']->getIsAdmin()) {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s');
+        } else {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.agency = :agency')
+                ->setParameter('agency', $options['user']->getAgency());
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }    
+ 
+    /**
+     * Get all songs query
+     *
+     * @return type
+     */
+    public function getAllSongsQuery($options)
+    {
+        
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 's.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values){
+                $options[$key] = $defaultOptions[$key];
+            }    
+        }
+
+        $qb = null;
+        
+        if ($options['user']->getIsAdmin()) {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.isDeleted = :deleted')
+                ->andWhere('s.status = :status')
+                ->andWhere('s.isActive = :isActive')
+                ->setParameters(array(
+                'deleted' => false,
+                'status' => $options['status'],
+                'isActive' => true    
+                ));
+        } else {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.agency = :agency')
+                ->andWhere('s.isDeleted = :deleted')
+                ->andWhere('s.status = :status')
+                ->setParameters(array(
+                'agency' => $options['user']->getAgency(),
+                'deleted' => false,
+                'status' => $options['status'],
+                'isActive' => true     
+                ));
+        }
+
+        // search
+        if (($options['searchText']) && ($options['searchText'] != 'search..')) {
+
+            $qb->andWhere($qb->expr()->orx(
+                    $qb->expr()->like('s.title', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                ));
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }    
+    
 }

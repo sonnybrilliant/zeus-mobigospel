@@ -1,0 +1,13 @@
+<div class="polaroid">
+        {% if file_exists(web_path~asset('uploads/artists/'~artist.getImageName()~'.'~artist.path)) %}
+            <a data-toggle="lightbox" href="#ProfileLightbox">
+                <img  class="photo" src="{{ asset('uploads/artists/'~artist.getImageName()~'.'~artist.path) }}" width="400px" height="120px" title="profile picture" class="img-polaroid" />
+            </a>    
+        {% else %}
+            <img  class="photo" src="{{ asset('img/assets/mic_'~rand(1,4)~'.jpg') }}" width="400px" height="120px" title="profile picture" class="img-polaroid" />
+        {% endif%} 
+
+        <div class="title">{{artist.stageName}}</div>
+        <div class="byline">Alias {{artist.firstName}} {{artist.lastName}}</div>
+        <div class="shadow"></div>
+</div>

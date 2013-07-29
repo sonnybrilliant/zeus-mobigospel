@@ -12,4 +12,146 @@ use Doctrine\ORM\EntityRepository;
  */
 class SongRepository extends EntityRepository
 {
+
+   /**
+     * Get all songs query
+     *
+     * @return type
+     */
+    public function getAllQuery($options)
+    {
+        
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 's.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values){
+                $options[$key] = $defaultOptions[$key];
+            }    
+        }
+
+        $qb = null;
+        
+        if ($options['user']->getIsAdmin()) {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s');
+        } else {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.agency = :agency')
+                ->setParameter('agency', $options['user']->getAgency());
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }     
+    
+    /**
+     * Get all songs query
+     *
+     * @return type
+     */
+    public function getAllSongsQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 's.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = null;
+
+        if ($options['user']->getIsAdmin()) {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.isDeleted = :deleted')
+                ->andWhere('s.status = :status')
+                ->setParameters(array(
+                'deleted' => false,
+                'status' => $options['status'],
+                ));
+        } else {
+            $qb = $this->createQueryBuilder('s')
+                ->select('s')
+                ->where('s.agency = :agency')
+                ->andWhere('s.isDeleted = :deleted')
+                ->andWhere('s.status = :status')
+                ->setParameters(array(
+                'agency' => $options['user']->getAgency(),
+                'deleted' => false,
+                'status' => $options['status'],
+                ));
+        }
+
+        // search
+        if (($options['searchText']) && ($options['searchText'] != 'search..')) {
+
+            $qb->andWhere($qb->expr()->orx(
+                    $qb->expr()->like('s.title', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                ));
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
+
+    /**
+     * Get all songs by agency query
+     *
+     * @return type
+     */
+    public function getAllByAgencyTypeQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 's.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.agency = :agency')
+            ->andWhere('s.isDeleted = :deleted')
+            ->setParameters(array(
+            'agency' => $options['agency'],
+            'deleted' => false,
+            ));
+        
+        if (isset($options['filterBy'])) {
+            if (isset($options['status'])) {
+                $qb->andWhere('s.status =:status')
+                    ->setParameter('status', $options['status']);
+            }
+        }
+
+        // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('s.title', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                        $qb->expr()->like('s.stageName', $qb->expr()->literal('%' . $options['searchText'] . '%')),                        
+                        $qb->expr()->like('s.featuredArtist', $qb->expr()->literal('%' . $options['searchText'] . '%'))                        
+                    ));
+            }
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }    
+    
 }

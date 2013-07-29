@@ -1,0 +1,35 @@
+#Higate Settings
+higate.username=C7Test01
+higate.password=26ron07
+higate.tag= 0066
+higate.servicecode=C7T01
+higate.server=higate1.integrat.co.za
+higate.port=5081
+higate.mode=LIVE
+
+
+
+#SMS Loggin
+log.path=/home/ronald/www/mobilitate/hermes/version_2/log/
+log.log4j=/home/ronald/www/mobilitate/hermes/version_2/log4j.properties
+
+#activemq
+rabbitmq.server=41.204.204.180
+rabbitmq.username=admin
+rabbitmq.password=4Micha
+#rabbitmq.server=localhost
+#rabbitmq.username=admin
+#rabbitmq.password=admin
+rabbitmq.virtualhost=mobilitate
+rabbitmq.port=5672
+rabbitmq.exchange=SMS
+rabbitmq.queueoutgoing=smsOutgoing
+rabbitmq.queueoutgoingkey=sms.outgoing
+rabbitmq.queueincoming=smsIncoming
+rabbitmq.queueincomingkey=sms.incoming
+rabbitmq.queueincomingalert=smsStatusUpdate
+rabbitmq.queueincomingalertkey=sms.statusUpdate
+
+server.name=pegasus.kaizania.co.za
+server.email=ronald.conco@kaizania.co.za
+

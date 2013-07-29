@@ -31,7 +31,23 @@
     {% else %}
         <li><a href="{{ path('vanessa_artist_list') }}.html" title="Click to view artists.">Artists</a></li>   
     {% endif %}          
-  {% endif %}     
+  {% endif %}   
+        
+  {% if is_granted('ROLE_ADMIN') %}     
+    {% if controller == 'songs'%}
+       <li class="active"><a href="{{ path('vanessa_song_list') }}.html" title="Click to view songs.">Songs</a></li>   
+    {% else %}
+        <li><a href="{{ path('vanessa_song_list') }}.html" title="Click to view songs.">Songs</a></li>    
+    {% endif %}          
+  {% endif %}    
+        
+  {% if is_granted('ROLE_CODE') %}     
+    {% if controller == 'codes'%}
+       <li class="active"><a href="{{ path('vanessa_code_list') }}.html" title="Click to view codes.">Codes</a></li>   
+    {% else %}
+        <li><a href="{{ path('vanessa_code_list') }}.html" title="Click to view codes.">Codes</a></li>    
+    {% endif %}          
+  {% endif %}            
       
 
       

@@ -1,0 +1,73 @@
+#Higate Settings
+higate.username=kaizstg
+higate.password=GJ8Qxw
+higate.tag=333
+higate.servicecode=KAISTG
+higate.server=higate2.integrat.co.za
+higate.port=2775
+higate.mode=LIVE
+
+#SMS Loggin
+log.path=/home/ronald/www/www.mobilitate-java.co.za/server/hermes/trunk/version_2/log/
+log.log4j=/home/ronald/www/www.mobilitate-java.co.za/server/hermes/trunk/version_2/log4j.properties
+
+#activemq
+rabbitmq.server=localhost
+rabbitmq.username=admin
+rabbitmq.password=4Micha
+rabbitmq.virtualhost=mobilitate
+rabbitmq.port=5672
+rabbitmq.exchange=SMS
+rabbitmq.queueoutgoing=smsOutgoing
+rabbitmq.queueoutgoingkey=sms.outgoing
+rabbitmq.queueincoming=smsIncoming
+rabbitmq.queueincomingkey=sms.incoming
+rabbitmq.queueincomingalert=smsStatusUpdate
+rabbitmq.queueincomingalertkey=sms.statusUpdate
+
+server.name=pegasus.kaizania.co.za
+server.email=ronald.conco@kaizania.co.za
+
+
+#
+#server.name=pegasus
+#server.email=ronald.conco@kaizania.co.za
+#Higate Settings
+#higate.username=Kaizatcp
+#higate.password=GkHCVr
+#higate.tag=040
+#higate.servicecode=KAIBULK2
+#higate.server=higate1.integrat.co.za
+#higate.port=5075
+#higate.mode=LIVE
+
+
+#higate.username=kaizatcpip
+#higate.password=sXTxC5
+#higate.tag=0112
+#higate.servicecode=KAITCPIP
+#higate.server=higatesimbox.integrat.co.za
+#higate.port=50101
+#higate.mode=SIM
+
+#SMS Loggin
+#log.path=/home/ronald/Java projects/java/RabbitMQConcurrentClient/log/
+#log.log4j=/home/ronald/Java projects/java/RabbitMQConcurrentClient/log4j.properties
+
+#activemq
+#rabbitmq.server=localhost
+#rabbitmq.username=admin
+#rabbitmq.password=4Micha
+#rabbitmq.virtualhost=mobilitate
+#rabbitmq.port=5672
+#rabbitmq.exchange=SMS
+#rabbitmq.queueoutgoing=smsOutgoing
+#rabbitmq.queueoutgoingkey=sms.outgoing
+#rabbitmq.queueincoming=smsIncoming
+#rabbitmq.queueincomingkey=sms.incoming
+#rabbitmq.queueincomingalert=smsStatusUpdate
+#rabbitmq.queueincomingalertkey=sms.statusUpdate
+#
+#server.name=pegasus.kaizania.co.za
+#server.email=ronald.conco@kaizania.co.za
+#

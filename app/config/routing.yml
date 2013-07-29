@@ -1,3 +1,11 @@
+vanessa_code:
+    resource: "@VanessaCodeBundle/Resources/config/routing.yml"
+    prefix:   /
+
+vanessa_song:
+    resource: "@VanessaSongBundle/Resources/config/routing.yml"
+    prefix:   /
+
 vanessa_artist:
     resource: "@VanessaArtistBundle/Resources/config/routing.yml"
     prefix:   /
@@ -17,3 +25,6 @@ vanessa_core:
 _welcome:
     pattern:  /
     defaults: { _controller: VanessaCoreBundle:Site:index }
+    
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    

@@ -148,6 +148,96 @@ class ContentOwnerController extends Controller
     }
 
     /**
+     * List all available content owner songs
+     * 
+     * @param string $slug
+     * @param integer $page
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
+     */
+    public function listSongsAction($slug, $page = 1)
+    {
+        $this->get('logger')->info('list all content owner songs');
+
+        try {
+            $isDirectionSet = $this->get('request')->query->get('direction', false);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 's.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->container->get('song.manager')->listAgencySongs($options), $this->getRequest()->query->get('page', $page), 10);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        return $this->render('VanessaAgencyBundle:ContentOwner:list.songs.html.twig', array(
+                'pagination' => $pagination,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet,
+                'contentOwner' => $contentOwner
+            ));
+    }
+
+    /**
+     * List all available content owner codes
+     * 
+     * @param string $slug
+     * @param integer $page
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEMBER")
+     */
+    public function listCodesAction($slug, $page = 1)
+    {
+        $this->get('logger')->info('list all content owner codes');
+
+        try {
+            $isDirectionSet = $this->get('request')->query->get('direction', false);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'c.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->container->get('code.manager')->listAgencyCodes($options), $this->getRequest()->query->get('page', $page), 10);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        return $this->render('VanessaAgencyBundle:ContentOwner:list.codes.html.twig', array(
+                'pagination' => $pagination,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet,
+                'contentOwner' => $contentOwner
+            ));
+    }
+
+    /**
      * Create a new content owner
      * 
      * @return Response
@@ -481,7 +571,7 @@ class ContentOwnerController extends Controller
     }
     
     /**
-     * Download list of all available memberw
+     * Download list of all available member
      * 
      * @param string $slug
      * @return Response
@@ -509,6 +599,78 @@ class ContentOwnerController extends Controller
             $members = $this->get('member.manager')->listAgencyMembers($options);
             $excel = $this->get('excel.manager');
             $response = $excel->memberList($members);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * Download list of all available songs
+     * 
+     * @param string $slug
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function downloadSongsExcelAction($slug)
+    {
+        $this->get('logger')->info('Download list of all available songs for content owner:'.$slug);
+
+        try {
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 's.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $songs = $this->get('song.manager')->listAgencySongs($options);
+            $excel = $this->get('excel.manager');
+            $response = $excel->activeSongList($songs);
+        } catch (\Exception $e) {
+            $this->get('logger')->warn($e->getMessage());
+            return $this->createNotFoundException($e->getMessage());
+        }
+        return $response;
+    }
+    
+    /**
+     * Download list of all available codes
+     * 
+     * @param string $slug
+     * @return Response
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function downloadCodesExcelAction($slug)
+    {
+        $this->get('logger')->info('Download list of all available codes for content owner:'.$slug);
+
+        try {
+            $contentOwner = $this->get('content.owner.manager')->getBySlug($slug);
+
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'c.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+            $filterBy = $this->get('request')->query->get('filterBy', 0);
+
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'filterBy' => $filterBy,
+                'agency' => $contentOwner
+            );
+
+            $codes = $this->get('code.manager')->listAgencyCodes($options);
+            $excel = $this->get('excel.manager');
+            $response = $excel->codesList($codes);
         } catch (\Exception $e) {
             $this->get('logger')->warn($e->getMessage());
             return $this->createNotFoundException($e->getMessage());

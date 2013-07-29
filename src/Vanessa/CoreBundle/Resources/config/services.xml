@@ -10,8 +10,14 @@
         <parameter key="email_manager.class">Vanessa\CoreBundle\Services\EmailerManager</parameter>          
         <parameter key="excel_manager.class">Vanessa\CoreBundle\Services\ExcelManager</parameter>  
         <parameter key="utility_manager.class">Vanessa\CoreBundle\Services\UtilityManager</parameter>         
+        <parameter key="alert_manager.class">Vanessa\CoreBundle\Services\AlertManager</parameter>         
         <parameter key="agency_type_manager.class">Vanessa\CoreBundle\Services\AgencyTypeManager</parameter>         
-        <parameter key="twig_extension.class">Vanessa\CoreBundle\Services\Extension\TwigExtension</parameter>     
+        <parameter key="message_type_manager.class">Vanessa\CoreBundle\Services\MessageTypeManager</parameter>         
+        <parameter key="twig_extension.class">Vanessa\CoreBundle\Services\Extension\TwigExtension</parameter> 
+        <parameter key="song.preview.tag.class">Vanessa\CoreBundle\Services\Consumers\SongPreviewTagConsumer</parameter>            
+        <parameter key="song.preview.encode.class">Vanessa\CoreBundle\Services\Consumers\SongPreviewEncodeConsumer</parameter>     
+        <parameter key="song.full.encode.class">Vanessa\CoreBundle\Services\Consumers\SongFullEncodeConsumer</parameter>     
+        <parameter key="song.full.tag.class">Vanessa\CoreBundle\Services\Consumers\SongFullTagConsumer</parameter>     
     </parameters>
     <services>
         <service id="status.manager" class="%status_manager.class%">
@@ -25,6 +31,7 @@
         <service id="email.manager" class="%email_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
+            <argument type="service" id="router" />
         </service>                      
         <service id="excel.manager" class="%excel_manager.class%">
             <argument type="service" id="service_container" />
@@ -34,7 +41,31 @@
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>                            
+        <service id="alert.manager" class="%alert_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                            
         <service id="agency.type.manager" class="%agency_type_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="message.type.manager" class="%message_type_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="song.preview.encode.consumer" class="%song.preview.encode.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="song.preview.tag.consumer" class="%song.preview.tag.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>          
+        <service id="song.full.encode.consumer" class="%song.full.encode.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="song.full.tag.consumer" class="%song.full.tag.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>  

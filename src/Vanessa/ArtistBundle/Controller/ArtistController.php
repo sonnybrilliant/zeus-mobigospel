@@ -10,6 +10,14 @@ use Vanessa\ArtistBundle\Form\ArtistCreateType;
 use Vanessa\ArtistBundle\Form\ArtistShowType;
 use Vanessa\ArtistBundle\Form\AccountStatusUpdateType;
 
+/**
+ * Artist manager 
+ * 
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
+ * @package VanessaArtistBundle
+ * @subpackage Controller
+ * @version 0.0.1
+ */
 class ArtistController extends Controller
 {
 

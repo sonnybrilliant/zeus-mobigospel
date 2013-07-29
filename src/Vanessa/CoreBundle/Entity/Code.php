@@ -11,9 +11,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Vanessa\CoreBundle\Entity\Code
  *
- * @ORM\Table(name="code")
+ * @ORM\Table(name="code",
+ *          indexes={@ORM\Index(name="search_context", columns={"code","search_artist","search_agency","search_song"})}
+ * )
+ * 
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\CodeRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @Gedmo\Loggable
  * 
  * @DoctrineAssert\UniqueEntity(fields={"code"}, message="The code you have chosen is already in use, please try another one.")
  * 
@@ -72,9 +77,20 @@ class Code
      * @Assert\MaxLength(limit= 10, message="Song code has a limit of {{ limit }} characters.")
      *
      * @ORM\Column(name="code", type="string", length=20 , unique=true)
+     * @Gedmo\Versioned
      * 
      */
     protected $code;
+    
+    /**
+     * @var Status
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Status")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * })
+     */
+    protected $status;       
 
     /**
      * @var string
@@ -135,6 +151,7 @@ class Code
     /**
      *
      * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member", inversedBy="uploadSongs" )
+     * @Gedmo\Versioned
      */
     protected $createdBy;
 
@@ -153,6 +170,22 @@ class Code
      * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;
+    
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member" )
+     * @Gedmo\Versioned
+     */
+    protected $disabledBy;
+
+    /**
+     * @var datetime $disabledAt
+     *
+     * @ORM\Column(name="disabled_at", type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $disabledAt;    
 
     public function __construct()
     {
@@ -495,5 +528,74 @@ class Code
     public function getDownloadCounter()
     {
         return $this->downloadCounter;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Vanessa\CoreBundle\Entity\Status $status
+     * @return Code
+     */
+    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Vanessa\CoreBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set disabledAt
+     *
+     * @param \DateTime $disabledAt
+     * @return Code
+     */
+    public function setDisabledAt($disabledAt)
+    {
+        $this->disabledAt = $disabledAt;
+
+        return $this;
+    }
+
+    /**
+     * Get disabledAt
+     *
+     * @return \DateTime 
+     */
+    public function getDisabledAt()
+    {
+        return $this->disabledAt;
+    }
+
+    /**
+     * Set disabledBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $disabledBy
+     * @return Code
+     */
+    public function setDisabledBy(\Vanessa\CoreBundle\Entity\Member $disabledBy = null)
+    {
+        $this->disabledBy = $disabledBy;
+
+        return $this;
+    }
+
+    /**
+     * Get disabledBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getDisabledBy()
+    {
+        return $this->disabledBy;
     }
 }

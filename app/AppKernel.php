@@ -28,10 +28,14 @@ class AppKernel extends Kernel
             new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(), 
             new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Vanessa\CoreBundle\VanessaCoreBundle(),
             new Vanessa\MemberBundle\VanessaMemberBundle(),
             new Vanessa\AgencyBundle\VanessaAgencyBundle(),
             new Vanessa\ArtistBundle\VanessaArtistBundle(),
+            new Vanessa\SongBundle\VanessaSongBundle(),
+            new Vanessa\CodeBundle\VanessaCodeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

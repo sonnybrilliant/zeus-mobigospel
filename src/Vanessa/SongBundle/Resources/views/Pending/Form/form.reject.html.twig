@@ -1,0 +1,23 @@
+<div>
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}    
+<form class="display helpers form-horizontal" action="{{ path('vanessa_pending_reject', {'slug':song.slug}) }}.html" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <div class="control-group {% if form_errors(form.message) %} error {% endif %}">
+        <label class="control-label" for="message">{{ form_label(form.message) }}</label>
+        <div class="controls">
+          {{ form_widget(form.message) }} 
+          <span class="help-inline">{{form_errors(form.message)}}</span>  
+        </div>
+      </div> 
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Reject &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('vanessa_pending_list') }}.html" class="btn">Cancel</a>
+      </div> 
+      {{ form_rest(form) }}       
+  </fieldset>
+</form>
+</div>  
+{{ tinymce_init() }}
+     

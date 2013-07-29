@@ -11,9 +11,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Vanessa\CoreBundle\Entity\Song
  *
- * @ORM\Table(name="song")
+ * @ORM\Table(name="song",
+ *      indexes={@ORM\Index(name="search_context", columns={"title","featured_artist","stage_name"})}
+ * )
+ * 
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\SongRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * @Gedmo\Loggable
  * 
  * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
  * @package VanessaCoreBundle
@@ -31,7 +36,7 @@ class Song
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-    
+
     /**
      * @var Vanessa\CoreBundle\Entity\SongTemp
      * 
@@ -40,7 +45,7 @@ class Song
      * @ORM\JoinColumn(name="song_temp_id", referencedColumnName="id")
      * 
      */
-    protected $songTemp;    
+    protected $songTemp;
 
     /**
      * @var string
@@ -50,6 +55,7 @@ class Song
      * @Assert\MaxLength(limit= 100, message="Song title has a limit of {{ limit }} characters.")
      *
      * @ORM\Column(name="title", type="string", length=100)
+     * @Gedmo\Versioned
      * 
      */
     protected $title;
@@ -59,31 +65,26 @@ class Song
      * @ORM\Column(name="slug" , length=150)
      * 
      */
-    protected $slug;    
-    
+    protected $slug;
+
     /**
      * @var string
      *
      * @ORM\Column(name="stage_name", type="string", length=255 , nullable=true)
      * 
      */
-    protected $stageName;    
-    
+    protected $stageName;
+
     /**
      * @var string
      *
-     * @ORM\Column(name="full_version", type="string", length=255 , nullable=true)
-     * 
-     */
-    protected $fullVersion;    
-    
-    /**
-     * @var string
+     * @Assert\MinLength(limit= 2, message="Featured artist must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Featured artist has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="preview_version", type="string", length=255 , nullable=true)
-     * 
+     * @ORM\Column(name="featured_artist", type="string", length=100 , nullable=true)
+     * @Gedmo\Versioned
      */
-    protected $previewVersion;    
+    protected $featuredArtist;         
     
     /**
      * @var Vanessa\CoreBundle\Entity\Agency
@@ -91,7 +92,7 @@ class Song
      *
      * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Agency")
      * @ORM\JoinColumn(name="agency_id", referencedColumnName="id")
-     * 
+     * @Gedmo\Versioned
      */
     protected $agency;
 
@@ -117,36 +118,30 @@ class Song
     protected $genres;
 
     /**
+     * @var Status
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Status")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * })
+     */
+    protected $status;    
+    
+    /**
      * @var boolean
      *
      * @ORM\Column(name="is_deleted", type="boolean")
-     * 
+     * @Gedmo\Versioned
      */
     protected $isDeleted = false;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_active", type="boolean")
-     * 
+     * @Gedmo\Versioned
      */
-    protected $isActive = true;  
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_ready", type="boolean")
-     * 
-     */
-    protected $isReady = false;    
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_notification_sent", type="boolean")
-     * 
-     */
-    protected $isNotificationSent = false;    
+    protected $isActive = true;
 
     /**
      * @var datetime $createdAt
@@ -188,7 +183,7 @@ class Song
     public function getId()
     {
         return $this->id;
-    } 
+    }
 
     /**
      * Set title
@@ -199,7 +194,7 @@ class Song
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -222,7 +217,7 @@ class Song
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    
+
         return $this;
     }
 
@@ -237,52 +232,6 @@ class Song
     }
 
     /**
-     * Set fullVersion
-     *
-     * @param string $fullVersion
-     * @return Song
-     */
-    public function setFullVersion($fullVersion)
-    {
-        $this->fullVersion = $fullVersion;
-    
-        return $this;
-    }
-
-    /**
-     * Get fullVersion
-     *
-     * @return string 
-     */
-    public function getFullVersion()
-    {
-        return $this->fullVersion;
-    }
-
-    /**
-     * Set previewVersion
-     *
-     * @param string $previewVersion
-     * @return Song
-     */
-    public function setPreviewVersion($previewVersion)
-    {
-        $this->previewVersion = $previewVersion;
-    
-        return $this;
-    }
-
-    /**
-     * Get previewVersion
-     *
-     * @return string 
-     */
-    public function getPreviewVersion()
-    {
-        return $this->previewVersion;
-    }
-
-    /**
      * Set isDeleted
      *
      * @param boolean $isDeleted
@@ -291,7 +240,7 @@ class Song
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    
+
         return $this;
     }
 
@@ -314,7 +263,7 @@ class Song
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
@@ -329,52 +278,6 @@ class Song
     }
 
     /**
-     * Set isReady
-     *
-     * @param boolean $isReady
-     * @return Song
-     */
-    public function setIsReady($isReady)
-    {
-        $this->isReady = $isReady;
-    
-        return $this;
-    }
-
-    /**
-     * Get isReady
-     *
-     * @return boolean 
-     */
-    public function getIsReady()
-    {
-        return $this->isReady;
-    }
-
-    /**
-     * Set isNotificationSent
-     *
-     * @param boolean $isNotificationSent
-     * @return Song
-     */
-    public function setIsNotificationSent($isNotificationSent)
-    {
-        $this->isNotificationSent = $isNotificationSent;
-    
-        return $this;
-    }
-
-    /**
-     * Get isNotificationSent
-     *
-     * @return boolean 
-     */
-    public function getIsNotificationSent()
-    {
-        return $this->isNotificationSent;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -383,7 +286,7 @@ class Song
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -406,7 +309,7 @@ class Song
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
@@ -429,7 +332,7 @@ class Song
     public function setSongTemp(\Vanessa\CoreBundle\Entity\SongTemp $songTemp = null)
     {
         $this->songTemp = $songTemp;
-    
+
         return $this;
     }
 
@@ -452,7 +355,7 @@ class Song
     public function setAgency(\Vanessa\CoreBundle\Entity\Agency $agency = null)
     {
         $this->agency = $agency;
-    
+
         return $this;
     }
 
@@ -475,7 +378,7 @@ class Song
     public function setArtist(\Vanessa\CoreBundle\Entity\Artist $artist = null)
     {
         $this->artist = $artist;
-    
+
         return $this;
     }
 
@@ -498,7 +401,7 @@ class Song
     public function addGenre(\Vanessa\CoreBundle\Entity\Genre $genres)
     {
         $this->genres[] = $genres;
-    
+
         return $this;
     }
 
@@ -531,7 +434,7 @@ class Song
     public function setCreatedBy(\Vanessa\CoreBundle\Entity\Member $createdBy = null)
     {
         $this->createdBy = $createdBy;
-    
+
         return $this;
     }
 
@@ -554,7 +457,7 @@ class Song
     public function setStageName($stageName)
     {
         $this->stageName = $stageName;
-    
+
         return $this;
     }
 
@@ -566,5 +469,52 @@ class Song
     public function getStageName()
     {
         return $this->stageName;
+    }
+
+
+    /**
+     * Set featuredArtist
+     *
+     * @param string $featuredArtist
+     * @return Song
+     */
+    public function setFeaturedArtist($featuredArtist)
+    {
+        $this->featuredArtist = $featuredArtist;
+
+        return $this;
+    }
+
+    /**
+     * Get featuredArtist
+     *
+     * @return string 
+     */
+    public function getFeaturedArtist()
+    {
+        return $this->featuredArtist;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Vanessa\CoreBundle\Entity\Status $status
+     * @return Song
+     */
+    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Vanessa\CoreBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

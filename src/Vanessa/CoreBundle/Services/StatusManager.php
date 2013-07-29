@@ -42,11 +42,11 @@ final class StatusManager
      * @return void 
      */
     public function __construct(
-    ContainerInterface $container , Logger $logger)
+    ContainerInterface $container, Logger $logger)
     {
         $this->setContainer($container);
         $this->setLogger($logger);
-        $this->setEm($container->get('doctrine')->getEntityManager('default'));
+        $this->setEm($container->get('doctrine')->getManager('default'));
         return;
     }
 
@@ -89,11 +89,11 @@ final class StatusManager
      */
     public function getStatusByName($statusName)
     {
-        $this->logger->info('get ' . $statusName.' status');
+        $this->logger->info('get ' . $statusName . ' status');
 
         $status = $this->em
-                ->getRepository('VanessaCoreBundle:Status')
-                ->getStatus($statusName);
+            ->getRepository('VanessaCoreBundle:Status')
+            ->getStatus($statusName);
 
         if (!$status) {
             $this->logger->err('Failed to get ' . $statusName . ' status');
@@ -122,7 +122,7 @@ final class StatusManager
         $this->logger->info('get pending status');
         return $this->getStatusByName('Pending');
     }
-    
+
     /**
      * get deleted status
      * @return object 
@@ -131,8 +131,8 @@ final class StatusManager
     {
         $this->logger->info('get deleted status');
         return $this->getStatusByName('Deleted');
-    } 
-    
+    }
+
     /**
      * get enconding status
      * @return object 
@@ -141,8 +141,8 @@ final class StatusManager
     {
         $this->logger->info('get encoding status');
         return $this->getStatusByName('Encoding');
-    }    
-    
+    }
+
     /**
      * get completed status
      * @return object 
@@ -151,16 +151,46 @@ final class StatusManager
     {
         $this->logger->info('get completed status');
         return $this->getStatusByName('Completed');
-    }    
-    
+    }
+
     /**
-     * get completed status
+     * get locked status
      * @return object 
      */
     public function locked()
     {
         $this->logger->info('get locked status');
         return $this->getStatusByName('Locked');
-    }    
-    
+    }
+
+    /**
+     * get rejected status
+     * @return object 
+     */
+    public function rejected()
+    {
+        $this->logger->info('get rejected status');
+        return $this->getStatusByName('Rejected');
+    }
+
+    /**
+     * get approved status
+     * @return object 
+     */
+    public function approved()
+    {
+        $this->logger->info('get approved status');
+        return $this->getStatusByName('Approved');
+    }
+
+    /**
+     * get disabled status
+     * @return object 
+     */
+    public function disabled()
+    {
+        $this->logger->info('get disabled status');
+        return $this->getStatusByName('Disabled');
+    }
+
 }

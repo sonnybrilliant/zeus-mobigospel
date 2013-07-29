@@ -11,9 +11,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Vanessa\CoreBundle\Entity\SongTemp
  *
- * @ORM\Table(name="song_temp")
+ * @ORM\Table(name="song_temp",
+ *      indexes={@ORM\Index(name="search_context", columns={"title","featured_artist"})}
+ * )
+ * 
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\SongTempRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
  * @Gedmo\Loggable
  * 
  * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
@@ -41,9 +45,28 @@ class SongTemp
      * @Assert\MaxLength(limit= 100, message="Song title has a limit of {{ limit }} characters.")
      *
      * @ORM\Column(name="title", type="string", length=100)
+     * @Gedmo\Versioned
      */
     protected $title;
 
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="slug" , length=150)
+     * 
+     */
+    protected $slug;  
+
+    /**
+     * @var string
+     *
+     * @Assert\MinLength(limit= 2, message="Featured artist must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Featured artist has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="featured_artist", type="string", length=100 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $featuredArtist;      
+    
     /**
      * @var Vanessa\CoreBundle\Entity\Agency
      * 
@@ -82,31 +105,55 @@ class SongTemp
      * })
      */
     protected $status;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     * @Gedmo\Versioned
+     */
+    protected $isActive = true; 
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_deleted", type="boolean")
+     * @Gedmo\Versioned
      */
-    protected $isDeleted;
-
+    protected $isDeleted = false;
+    
     /**
-     * Is preview song created
-     * 
      * @var boolean
      *
      * @ORM\Column(name="is_preview_version_done", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $isPreviewVersionDone;
-
+    
     /**
-     * Is full song created
      * @var boolean
      *
      * @ORM\Column(name="is_full_version_done", type="boolean")
+     * @Gedmo\Versioned
      */
     protected $isFullVersionDone;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="full_version", type="string", length=255 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $fullVersion;    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="preview_version", type="string", length=255 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $previewVersion;      
+    
     /**
      * @var string
      * 
@@ -154,12 +201,34 @@ class SongTemp
      */
     protected $createdBy;
 
+    /**
+     * @var string
+     *
+     * 
+     * @Assert\MinLength(limit= 2, message="Message must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Message has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="reject_message", type="string", length=100 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $rejectMessage;    
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Member", inversedBy="uploadSongs" )
+     */
+    protected $rejectedBy;
+    
+     /**
+     * @var datetime $createdAt
+     *
+     * @ORM\Column(name="rejected_at", type="datetime", nullable=true)
+     */
+    protected $rejectedAt;   
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
-        $this->isDeleted = false;
-        $this->isFullVersionDone = false;
-        $this->isPreviewVersionDone = false;
     }
 
     public function __toString()
@@ -479,6 +548,190 @@ class SongTemp
     }
 
     /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return SongTemp
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set featuredArtist
+     *
+     * @param string $featuredArtist
+     * @return SongTemp
+     */
+    public function setFeaturedArtist($featuredArtist)
+    {
+        $this->featuredArtist = $featuredArtist;
+
+        return $this;
+    }
+
+    /**
+     * Get featuredArtist
+     *
+     * @return string 
+     */
+    public function getFeaturedArtist()
+    {
+        return $this->featuredArtist;
+    }
+
+    /**
+     * Set rejectMessage
+     *
+     * @param string $rejectMessage
+     * @return SongTemp
+     */
+    public function setRejectMessage($rejectMessage)
+    {
+        $this->rejectMessage = $rejectMessage;
+
+        return $this;
+    }
+
+    /**
+     * Get rejectMessage
+     *
+     * @return string 
+     */
+    public function getRejectMessage()
+    {
+        return $this->rejectMessage;
+    }
+
+    /**
+     * Set rejectedAt
+     *
+     * @param \DateTime $rejectedAt
+     * @return SongTemp
+     */
+    public function setRejectedAt($rejectedAt)
+    {
+        $this->rejectedAt = $rejectedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get rejectedAt
+     *
+     * @return \DateTime 
+     */
+    public function getRejectedAt()
+    {
+        return $this->rejectedAt;
+    }
+
+    /**
+     * Set rejectedBy
+     *
+     * @param \Vanessa\CoreBundle\Entity\Member $rejectedBy
+     * @return SongTemp
+     */
+    public function setRejectedBy(\Vanessa\CoreBundle\Entity\Member $rejectedBy = null)
+    {
+        $this->rejectedBy = $rejectedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get rejectedBy
+     *
+     * @return \Vanessa\CoreBundle\Entity\Member 
+     */
+    public function getRejectedBy()
+    {
+        return $this->rejectedBy;
+    }
+
+    /**
+     * Set fullVersion
+     *
+     * @param string $fullVersion
+     * @return SongTemp
+     */
+    public function setFullVersion($fullVersion)
+    {
+        $this->fullVersion = $fullVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get fullVersion
+     *
+     * @return string 
+     */
+    public function getFullVersion()
+    {
+        return $this->fullVersion;
+    }
+
+    /**
+     * Set previewVersion
+     *
+     * @param string $previewVersion
+     * @return SongTemp
+     */
+    public function setPreviewVersion($previewVersion)
+    {
+        $this->previewVersion = $previewVersion;
+
+        return $this;
+    }
+
+    /**
+     * Get previewVersion
+     *
+     * @return string 
+     */
+    public function getPreviewVersion()
+    {
+        return $this->previewVersion;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return SongTemp
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
      * Set isPreviewVersionDone
      *
      * @param boolean $isPreviewVersionDone
@@ -523,6 +776,4 @@ class SongTemp
     {
         return $this->isFullVersionDone;
     }
-    
-    
 }

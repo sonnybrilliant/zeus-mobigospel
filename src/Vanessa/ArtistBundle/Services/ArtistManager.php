@@ -11,7 +11,7 @@ use Vanessa\CoreBundle\Entity\Artist;
  *
  * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
  * @version 0.0.1
- * @package VanessaAgencyBundle
+ * @package VanessaArtistBundle
  * @subpackage Services
  */
 final class ArtistManager

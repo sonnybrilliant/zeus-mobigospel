@@ -1,0 +1,92 @@
+package org.mobilitate.hermes.client;
+
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+
+public class Emailer {
+
+
+    public static void onDisconnect(String serverName) {
+
+        boolean debug = false;
+
+        //Set the host smtp address
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "localhost");
+
+        // create some properties and get the default Session
+        Session session = Session.getDefaultInstance(props, null);
+        session.setDebug(debug);
+
+        // create a message
+        Message msg = new MimeMessage(session);
+
+        String message = "Dear user,\n\n" +
+                "Hermes has died on the server:"+serverName+"\n\n"+
+                "Thank You." ;
+
+        // set the from and to address
+        InternetAddress addressFrom = null;
+        InternetAddress[] addressTo  = new InternetAddress[2];;
+
+        try {
+            addressFrom = new InternetAddress("ronald.conco@kaizania.co.za");
+            msg.setFrom(addressFrom);
+
+            addressTo[0]   = new InternetAddress(Config.email);
+            addressTo[1]   = new InternetAddress("admin@sulehosting.co.za");
+
+            msg.setRecipients(Message.RecipientType.TO,addressTo);
+
+            msg.setSubject("Hermes was disconnected: "+serverName);
+            msg.setContent(message, "text/plain");
+            Transport.send(msg);
+
+
+        } catch (MessagingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+    public static void onStart(String serverName){
+       boolean debug = false;
+
+        //Set the host smtp address
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "localhost");
+
+        // create some properties and get the default Session
+        Session session = Session.getDefaultInstance(props, null);
+        session.setDebug(debug);
+
+        // create a message
+        Message msg = new MimeMessage(session);
+
+        String message = "Dear user,\n\n" +
+                "Hermes has successfully started on server:"+serverName+"\n\n"+
+                "Thank You." ;
+
+        // set the from and to address
+        InternetAddress addressFrom = null;
+        InternetAddress[] addressTo  = new InternetAddress[2];;
+
+        try {
+            addressFrom = new InternetAddress("ronald.conco@kaizania.co.za");
+            msg.setFrom(addressFrom);
+
+            addressTo[0]   = new InternetAddress(Config.email);
+            addressTo[1]   = new InternetAddress("admin@sulehosting.co.za");
+
+            msg.setRecipients(Message.RecipientType.TO,addressTo);
+
+            msg.setSubject("Hermes was started  on server: "+serverName);
+            msg.setContent(message, "text/plain");
+            Transport.send(msg);
+
+
+        } catch (MessagingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+}

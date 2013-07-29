@@ -1,0 +1,59 @@
+{% extends "VanessaSongBundle::layout.html.twig" %}
+
+{% block title %}Profile - {{song.title}} by  {{song.artist.stageName}}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('/css/polaroid.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-lightbox.min.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block javascripts %}
+    <script src="{{ asset('/js/bootstrap-lightbox.min.js') }}"></script>
+    <script src="{{ asset('/js/modernizr-latest.js') }}"></script>
+{% endblock %} 
+
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Profile - {{song.title}} <small>by  {{song.artist.stageName}}</small></h3>
+        <div class="span3">
+           {% set vars = {'action': 'Profile'} %}
+           {% include 'VanessaSongBundle::breadcrumb.pending.html.twig' with vars  %}
+        </div>
+        <div class="span5 pull-right" style="margin-right: -25px">        
+            <a href="{{ path('vanessa_pending_edit',{'slug': song.slug })}}.html" class="btn btn-warning pull-right" title="Edit Song details."><i class="icon-white icon-eye-open"></i>&nbsp;Edit Song</a>
+        </div>        
+    </div>
+    <div class="span12 pull-right">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ path('vanessa_song_list')}}.html" title="View active songs." >Active Songs</a></li>
+                    <li class="active"><a href="{{ path('vanessa_pending_list')}}.html" title="View pending songs." >Pending Songs</a></li>
+                </ul>            
+            </div>
+            {% if song.status.name == 'Rejected' %}
+            <div class="span12 pull-right">
+                <div class="alert alert-error">
+                    <button class="close" data-dismiss="alert">×</button>
+                    <h4 class="alert-heading">Notice!</h4>
+                    This song was rejected by <span class="label label-inverse">{{song.rejectedBy.getFullName}} </span>, see reason stated below: <br /><br />
+                            {{song.rejectMessage}}
+                </div>
+            </div> 
+            {% endif %}
+            <div class="span7">
+                {% include "VanessaSongBundle:Pending:Form/form.show.html.twig" %} 
+            </div> 
+            <div class="span4 pull-right">
+                {% include "VanessaArtistBundle:Artist:Image/show.html.twig" with { 'artist': song.artist}  %}
+            </div>  
+              
+    </div> 
+</div>
+{% endblock body %}
+
+

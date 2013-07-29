@@ -123,6 +123,21 @@ class LoadStatus extends AbstractFixture implements OrderedFixtureInterface
         $encoding->setCode(200);
         $manager->persist($encoding);
 
+        $rejected = new Status();
+        $rejected->setName('Rejected');
+        $rejected->setCode(210);
+        $manager->persist($rejected);
+
+        $approved = new Status();
+        $approved->setName('Approved');
+        $approved->setCode(220);
+        $manager->persist($approved);
+
+        $disabled = new Status();
+        $disabled->setName('Disabled');
+        $disabled->setCode(230);
+        $manager->persist($disabled);
+
 
         $manager->flush();
 

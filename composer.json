@@ -23,12 +23,16 @@
         "knplabs/knp-paginator-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
         "genemu/form-bundle": "2.1.*",
-        "raulfraile/ladybug-bundle": "dev-master",
+        "raulfraile/ladybug-bundle": "v0.61",
         "mobiledetect/mobiledetectlib": "dev-master",
         "suncat/mobile-detect-bundle": "dev-master",
         "egeloen/google-map-bundle": "*",
         "willdurand/geocoder": "*",
-        "liuggio/excelbundle": ">=1.0.4"
+        "liuggio/excelbundle": ">=1.0.4",
+        "friendsofsymfony/jsrouting-bundle": "~1.1",
+        "oldsound/rabbitmq-bundle": "dev-master",
+        "videlalvaro/php-amqplib": "2.1.*",
+        "phansys/getid3": "2.1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

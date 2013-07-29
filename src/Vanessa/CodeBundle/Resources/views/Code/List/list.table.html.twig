@@ -1,0 +1,64 @@
+<section class="content">
+   <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Code', 'c.code') }}
+                  {% if isDirectionSet == false %}
+                      <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
+                  {% else %}
+                    {% if pagination.isSorted('c.cpde') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
+                  {% endif %} 
+                </th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Song', 'c.song') }}{% if pagination.isSorted('c.song') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Artist', 'c.artist') }}{% if pagination.isSorted('c.artist') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Agency', 'c.agency') }}{% if pagination.isSorted('c.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                {% endif%}
+                <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Status', 'c.status') }}{% if pagination.isSorted('c.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Downloads', 'c.downloadCounter') }}{% if pagination.isSorted('c.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Created By', 'c.createdBy') }}{% if pagination.isSorted('c.createdBy') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Created At', 'c.createdAt') }}{% if pagination.isSorted('c.createdAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for code in pagination %}
+                <tr>
+                    <td><a href="" rel="tooltip" title="{{code.code}}">{{code.code}}</a></td>
+                    <td><a href="{{ path('vanessa_pending_show', {'slug':code.song.slug}) }}.html" rel="tooltip" title="{{code.song.title}}">{{code.song.title|title|truncate(15)}}</a></td> 
+                    <td><a href="{{ path('vanessa_artist_profile', {'slug': code.artist.slug }) }}.html" rel="tooltip" title="{{code.song.artist.stageName}}">{{code.song.artist.stageName|title|truncate(15)}}</a></td> 
+                    {% if app.user.isAdmin  %}
+                    <td><a href="{{ path('vanessa_agency_reseller_profile',{'slug':code.agency.slug})}}.html" rel="tooltip" title="{{code.agency.name}}">{{code.agency.name|title|truncate(15)}}</a></td>
+                    {% endif %}
+                    
+                    {% if code.status.name == 'Active'  %}
+                        <td><span class="label label-info">{{code.status.name }}</span></td>
+                    {% else %}
+                        <td><span class="label">{{code.status.name }}</span></td>
+                    {% endif %}
+                    
+                    <td><span class="badge badge-inverse">{{code.downloadCounter}}</span></td> 
+                    <td><a href="{{ path('vanessa_member_profile',{'slug':code.createdBy.slug})}}.html" rel="tooltip" title="{{code.createdBy.fullName}}">{{code.createdBy.fullName|title|truncate(20)}}</a></td>
+                    <td>{{code.createdAt|date('Y-m-d H:i A')}}</td>
+                    <td>
+                        <small>
+                          {% if app.user.isAdmin  %}
+                               <a href="{{ path('vanessa_code_edit',{'code':code})}}.html" rel="tooltip" title="click to edit" class="btn btn-mini btn-warning"><i class="icon-edit icon-white"></i>&nbsp;<strong>Edit</strong></a>&nbsp;
+                               {% if code.status.name == 'Active'  %}                               
+                                <a href="{{ path('vanessa_code_disable',{'code':code})}}.html" rel="tooltip" title="click to disable" class="btn btn-mini btn-danger"><i class="icon-ban-circle icon-white"></i>&nbsp;<strong>Disable</strong></a>&nbsp;
+                               {% else %}
+                                <a href="{{ path('vanessa_code_activate',{'code':code})}}.html" rel="tooltip" title="click to activate" class="btn btn-mini btn-primary"><i class="icon-ok icon-white"></i>&nbsp;<strong>Activate</strong></a>&nbsp;
+                               {% endif %} 
+                          {% endif %}
+                        </small>       
+                    </td>    
+                </tr>
+          {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation pagination-right">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+</section>
+
+

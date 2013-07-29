@@ -1,0 +1,171 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.mobilitate.hermes.client;
+
+import com.google.gson.Gson;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.QueueingConsumer;
+import com.rabbitmq.client.Connection;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.mobilitate.hermes.template.SMSAlert;
+import org.mobilitate.hermes.template.SMSIncoming;
+import org.mobilitate.hermes.template.SMSOutgoing;
+
+/**
+ *
+ * @author ronald
+ */
+public class Producer implements Runnable {
+
+    private Channel channelQincoming;
+    private Channel channelQAlert;
+    private QueueingConsumer consumer;
+    private Connection conn;
+    private Logger logger;
+    public List<String> QOutgoing = new ArrayList<String>();
+    public List<String> QIncoming = new ArrayList<String>();
+    public List<String> QAlert = new ArrayList<String>();
+
+    public Producer() {
+
+        PropertyConfigurator.configure(Config.Log4jPath);
+        logger = Logger.getLogger(Producer.class.getName());
+
+        try {
+            //check connection
+            this.checkConnection();
+
+            channelQincoming.exchangeDeclare(Config.RabbitMQExchange, "direct", true);
+            channelQincoming.queueDeclare(Config.RabbitMQIncomingQueue, true, false, false, null);
+            channelQincoming.queueBind(Config.RabbitMQIncomingQueue, Config.RabbitMQExchange, Config.RabbitMQIncomingKey);
+
+            channelQAlert.exchangeDeclare(Config.RabbitMQExchange, "direct", true);
+            channelQAlert.queueDeclare(Config.RabbitMQIncomingAlertQueue, true, false, false, null);
+            channelQAlert.queueBind(Config.RabbitMQIncomingAlertQueue, Config.RabbitMQExchange, Config.RabbitMQIncomingAlertKey);
+
+
+        } catch (IOException ex) {
+            logger.error("Failed starting Producer");
+            logger.error(ex.getMessage());
+        }
+    }
+
+    private void checkConnection() {
+        Globals.connect();
+        conn = Globals.getConnection();
+        channelQincoming = Globals.getChannel();
+        channelQAlert = Globals.getChannel();
+    }
+
+    public void run() {
+        //check connection
+        this.checkConnection();
+
+        if (Globals.isHigateConnected) {
+            synchronized (this) {
+                if (!Main.QOutgoing.isEmpty()) {
+                    for (int x = 0; x < Main.QOutgoing.size(); x++) {
+                        String msg = Main.QOutgoing.get(x);
+                        logger.info("onRabbitMQPublish message id:" + x);
+                        this.QOutgoing.add(msg);
+                        Main.QOutgoing.remove(x);
+                    }
+                } else {
+                    logger.info("onRabbitMQPublish messages[0]");
+                }
+            }
+
+            //send sms
+            if (!this.QOutgoing.isEmpty()) {
+                for (int i = 0; i < this.QOutgoing.size(); i++) {
+                    Gson gs = new Gson();
+                    SMSOutgoing sms = (SMSOutgoing) gs.fromJson((String) this.QOutgoing.get(i), SMSOutgoing.class);
+
+                    logger.info("onRabbitMQPublish start processing refno:" + sms.getRefNo() + "\tmsisdn:" + sms.getRecipient());
+                    if ((Util.isNumeric(sms.getRecipient())) && (sms.getMessage().length() <= 140) && (sms.getMessage().length() > 10)) {
+                        Globals.higate.sendSMS(sms.getRefNo(), sms.getRecipient(), sms.getMessage());
+                        logger.info("onRabbitMQPublish send to higate Refno:" + sms.getRefNo() + "\tTo:" + sms.getRecipient() + "\tMessage:" + sms.getMessage());
+                    } else {
+                        logger.info("onRabbitMQPublish failed processing Refno:" + sms.getRefNo() + "\tTo:" + sms.getRecipient() + "\tMessage:" + sms.getMessage());
+                    }
+                    logger.info("onRabbitMQPublish done processing refno:" + sms.getRefNo() + "\tmsisdn:" + sms.getRecipient());
+                    QOutgoing.remove(i);
+                }
+            }
+
+            //queue incoming sms
+            synchronized (this) {
+                if (!Main.QIncoming.isEmpty()) {
+                    for (int x = 0; x < Main.QIncoming.size(); x++) {
+                        String msg = Main.QIncoming.get(x);
+                        this.QIncoming.add(msg);
+                        Main.QIncoming.remove(x);
+                    }
+                }
+            }
+
+            if (!this.QIncoming.isEmpty()) {
+                logger.info("onRabbitMQPublish Queue:" + Config.RabbitMQIncomingQueue);
+                for (int i = 0; i < this.QIncoming.size(); i++) {
+                    if (Main.isAmqpConnected) {
+                        String msg = this.QIncoming.get(i);
+
+                        try {
+                            Gson json = new Gson();
+                            SMSIncoming sms = (SMSIncoming) json.fromJson((String) this.QIncoming.get(i), SMSIncoming.class);
+                            channelQincoming.basicPublish(Config.RabbitMQExchange,Config.RabbitMQIncomingKey, null, msg.getBytes());
+                            logger.info("onRabbitMQPublish msisdn:" + sms.getMsisdn() + "\tmessage:" + sms.getContent());
+                        } catch (IOException ex) {
+                            logger.error(ex.getMessage());
+                            break;
+                        }
+                        this.QIncoming.remove(i);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            //queue out sms status
+            synchronized (this) {
+                if (!Main.QAlert.isEmpty()) {
+                    for (int x = 0; x < Main.QAlert.size(); x++) {
+                        String msg = Main.QAlert.get(x);
+                        this.QAlert.add(msg);
+                        Main.QAlert.remove(x);
+                    }
+                }
+            }
+
+            if (!this.QAlert.isEmpty()) {
+                logger.info("onRabbitMQPublish Queue:" + Config.RabbitMQIncomingAlertQueue);
+                for (int i = 0; i < this.QAlert.size(); i++) {
+                    if (Main.isAmqpConnected) {
+                        String msg = this.QAlert.get(i);
+
+                        try {
+                            Gson json = new Gson();
+                            SMSAlert sms = (SMSAlert) json.fromJson((String) this.QAlert.get(i), SMSAlert.class);
+                            channelQAlert.basicPublish(Config.RabbitMQExchange, Config.RabbitMQIncomingAlertKey, null, msg.getBytes());
+                            logger.info("onRabbitMQPublish refno:" + sms.getRefNumber() + "\tstatus:" + sms.getRefCode());
+                        } catch (IOException ex) {
+                            logger.error(ex.getMessage());
+                        }
+                        this.QAlert.remove(i);
+                    }else{
+                        break;
+                    }
+
+                }
+            }
+        }else{
+            logger.error("onRabbitMQPublish Higate is not connected");
+        }
+    }
+}

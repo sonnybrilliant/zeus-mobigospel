@@ -15,7 +15,11 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
  * Vanessa\CoreBundle\Entity\Member
  *
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\MemberRepository")
- * @ORM\Table(name="member")
+ * 
+ * @ORM\Table(name="member",
+ *      indexes={@ORM\Index(name="search_context", columns={"first_name","last_name","mobile_number"})}
+ * )
+ * 
  * @DoctrineAssert\UniqueEntity(fields={"email"}, message="Email address is already being used by another user, please try another one.")
  * @ORM\HasLifecycleCallbacks
  *

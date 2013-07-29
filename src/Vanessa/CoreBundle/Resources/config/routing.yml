@@ -18,3 +18,12 @@ vanessa_core_site_info_roles:
     requirements:
         _method:  GET 
         _format:  html  
+        
+vanessa_alert_get_messages:
+    pattern:  /alert/get/messages.{_format}
+    defaults: { _controller: VanessaCoreBundle:Alert:getMessages , _format: html}     
+    requirements:
+        _method:  GET 
+        _format:  html  
+    options:
+        expose: true
