@@ -2,7 +2,7 @@
    <table id="sortable" class="table display table-striped table-condensed tablesorter">
         <thead>
             <tr>
-                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Code', 'c.code') }}
+                <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Code', 'c.code') }}
                   {% if isDirectionSet == false %}
                       <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
                   {% else %}
@@ -12,7 +12,7 @@
                 <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Song', 'c.song') }}{% if pagination.isSorted('c.song') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Artist', 'c.artist') }}{% if pagination.isSorted('c.artist') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 {% if is_granted('ROLE_ADMIN') %}
-                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Agency', 'c.agency') }}{% if pagination.isSorted('c.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Agency', 'c.agency') }}{% if pagination.isSorted('c.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 {% endif%}
                 <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Status', 'c.status') }}{% if pagination.isSorted('c.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 <th scope="col" width="8%">{{ knp_pagination_sortable(pagination,'Downloads', 'c.downloadCounter') }}{% if pagination.isSorted('c.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
@@ -26,9 +26,9 @@
                 <tr>
                     <td><a href="" rel="tooltip" title="{{code.code}}">{{code.code}}</a></td>
                     <td><a href="{{ path('vanessa_pending_show', {'slug':code.song.slug}) }}.html" rel="tooltip" title="{{code.song.title}}">{{code.song.title|title|truncate(15)}}</a></td> 
-                    <td><a href="{{ path('vanessa_artist_profile', {'slug': code.artist.slug }) }}.html" rel="tooltip" title="{{code.song.artist.stageName}}">{{code.song.artist.stageName|title|truncate(15)}}</a></td> 
+                    <td><a href="{{ path('vanessa_artist_profile', {'slug': code.artist.slug }) }}.html" rel="tooltip" title="{{code.song.artist.stageName}}">{{code.song.artist.stageName|title|truncate(12)}}</a></td> 
                     {% if app.user.isAdmin  %}
-                    <td><a href="{{ path('vanessa_agency_reseller_profile',{'slug':code.agency.slug})}}.html" rel="tooltip" title="{{code.agency.name}}">{{code.agency.name|title|truncate(15)}}</a></td>
+                    <td><a href="{{ path('vanessa_agency_reseller_profile',{'slug':code.agency.slug})}}.html" rel="tooltip" title="{{code.agency.name}}">{{code.agency.name|title|truncate(12)}}</a></td>
                     {% endif %}
                     
                     {% if code.status.name == 'Active'  %}
