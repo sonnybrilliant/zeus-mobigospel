@@ -901,7 +901,6 @@ class ArtistControllerTest extends WebTestCase
         
     }    
     
-    
     /**
      * Test create download list artist "/artist/download/excel/list.html"
      */

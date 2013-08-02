@@ -110,16 +110,46 @@ final class NotificationsManager
 
         if ($members) {
             foreach ($members as $member) {
-                if ($member->getId() != $this->container->get('member.manager')->getActiveUser()->getId()) {
-                    //send alerts
-                    $this->container->get('alert.manager')->info($alertMessage, $member);
 
-                    //send email
-                    $this->container->get('email.manager')->songPending(array(
-                        'member' => $member,
-                        'song' => $song
-                    ));
-                }
+                //send alerts
+                $this->container->get('alert.manager')->info($alertMessage, $member);
+
+                //send email
+                $this->container->get('email.manager')->songPending(array(
+                    'member' => $member,
+                    'song' => $song
+                ));
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * Notifify admins about song upload
+     * 
+     * @param VanessaCoreBundle:SongTemp $song
+     * @return void
+     */
+    public function smsIncoming($message)
+    {
+        $this->logger->info("notification sms incoiming ");
+
+        $members = $this->getContainer()->get('member.manager')->getAllAdmin();
+
+        $alertMessage = 'Error, The was an error with an incoming sms. Please check your email.';
+
+        if ($members) {
+            foreach ($members as $member) {
+
+                //send alerts
+                $this->container->get('alert.manager')->error($alertMessage, $member);
+
+                //send email
+                $this->container->get('email.manager')->incomingSMS(array(
+                    'member' => $member,
+                    'message' => $message
+                ));
             }
         }
 

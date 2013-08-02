@@ -1545,12 +1545,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "e798c5689ff63edfb22df2b65d5094485c0e6bd2"
+                "reference": "2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/e798c5689ff63edfb22df2b65d5094485c0e6bd2",
-                "reference": "e798c5689ff63edfb22df2b65d5094485c0e6bd2",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/2.3.3",
+                "reference": "2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -1595,7 +1595,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2013-04-23 07:46:41"
+            "time": "2013-07-30 20:36:09"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1726,12 +1726,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "a2987b5942301d0a10125018a2bb94f1d6f3ad50"
+                "reference": "2.6.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/a2987b5942301d0a10125018a2bb94f1d6f3ad50",
-                "reference": "a2987b5942301d0a10125018a2bb94f1d6f3ad50",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/2.6.4",
+                "reference": "2.6.4",
                 "shasum": ""
             },
             "require": {
@@ -1764,30 +1764,30 @@
                 "mobile detector",
                 "php mobile detect"
             ],
-            "time": "2013-07-09 09:03:14"
+            "time": "2013-07-28 13:14:05"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1.5.0"
+                "reference": "1.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.5.0",
-                "reference": "1.5.0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.6.0",
+                "reference": "1.6.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "psr/log": ">=1.0,<2.0"
+                "psr/log": "~1.0"
             },
             "require-dev": {
                 "doctrine/couchdb": "dev-master",
                 "mlehner/gelf-php": "1.0.*",
-                "raven/raven": "0.3.*"
+                "raven/raven": "0.5.*"
             },
             "suggest": {
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
@@ -1799,7 +1799,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -1826,7 +1826,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-04-23 10:09:48"
+            "time": "2013-07-28 22:38:30"
         },
         {
             "name": "oldsound/rabbitmq-bundle",
@@ -2253,12 +2253,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stfalcon/TinymceBundle.git",
-                "reference": "v0.2.1"
+                "reference": "v0.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/v0.2.1",
-                "reference": "v0.2.1",
+                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/v0.3.0",
+                "reference": "v0.3.0",
                 "shasum": ""
             },
             "require": {
@@ -2302,7 +2302,7 @@
                 "tinymce",
                 "wysiwyg"
             ],
-            "time": "2013-07-22 06:59:21"
+            "time": "2013-07-30 07:59:56"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -2373,12 +2373,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/suncat2000/MobileDetectBundle.git",
-                "reference": "7b7eed9884585edaf94bd7d4a30fdab34ae334bb"
+                "reference": "d99209be075f61ebdfd6cabd3c3f9fef10a5492b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/suncat2000/MobileDetectBundle/zipball/7b7eed9884585edaf94bd7d4a30fdab34ae334bb",
-                "reference": "7b7eed9884585edaf94bd7d4a30fdab34ae334bb",
+                "url": "https://api.github.com/repos/suncat2000/MobileDetectBundle/zipball/d99209be075f61ebdfd6cabd3c3f9fef10a5492b",
+                "reference": "d99209be075f61ebdfd6cabd3c3f9fef10a5492b",
                 "shasum": ""
             },
             "require": {
@@ -2412,7 +2412,7 @@
                 "mobile view managing",
                 "symfony mobile"
             ],
-            "time": "2013-07-19 14:13:57"
+            "time": "2013-07-25 08:00:17"
         },
         {
             "name": "swiftmailer/swiftmailer",

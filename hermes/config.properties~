@@ -1,35 +1,29 @@
-#Higate Settings
 higate.username=C7Test01
 higate.password=26ron07
 higate.tag= 0066
-higate.servicecode=C7T01
+higate.servicecode=C7T01 
 higate.server=higate1.integrat.co.za
 higate.port=5081
 higate.mode=LIVE
 
-
+rabbitmq.server=localhost
+rabbitmq.username=mobigospel
+rabbitmq.password=15270
+rabbitmq.virtualhost=/mobigospel-development
+rabbitmq.port=5672
+rabbitmq.exchange=sms
+rabbitmq.queueerror=q_sms_error
+rabbitmq.queueerrorkey=sms.error
+rabbitmq.queueoutgoing=q_sms_outgoing
+rabbitmq.queueoutgoingkey=sms.outgoing
+rabbitmq.queueincomingalert=q_sms_status_update
+rabbitmq.queueincomingalertkey=sms.status
 
 #SMS Loggin
-log.path=/home/ronald/www/mobilitate/hermes/version_2/log/
-log.log4j=/home/ronald/www/mobilitate/hermes/version_2/log4j.properties
-
-#activemq
-rabbitmq.server=41.204.204.180
-rabbitmq.username=admin
-rabbitmq.password=4Micha
-#rabbitmq.server=localhost
-#rabbitmq.username=admin
-#rabbitmq.password=admin
-rabbitmq.virtualhost=mobilitate
-rabbitmq.port=5672
-rabbitmq.exchange=SMS
-rabbitmq.queueoutgoing=smsOutgoing
-rabbitmq.queueoutgoingkey=sms.outgoing
-rabbitmq.queueincoming=smsIncoming
-rabbitmq.queueincomingkey=sms.incoming
-rabbitmq.queueincomingalert=smsStatusUpdate
-rabbitmq.queueincomingalertkey=sms.statusUpdate
+log.path=/home/ronald/www/dev.mobigospel.co.za/app/logs/
+log.log4j=log4j.properties
 
 server.name=pegasus.kaizania.co.za
-server.email=ronald.conco@kaizania.co.za
+server.email=ronald.conco@mobigospel.co.za
+server.url=http://dev.mobigospel.co.za/app_dev.php/api/get/sms
 

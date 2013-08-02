@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new Vanessa\ArtistBundle\VanessaArtistBundle(),
             new Vanessa\SongBundle\VanessaSongBundle(),
             new Vanessa\CodeBundle\VanessaCodeBundle(),
+            new Vanessa\ApiBundle\VanessaApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

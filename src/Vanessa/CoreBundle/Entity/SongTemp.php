@@ -125,7 +125,7 @@ class SongTemp
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_preview_version_done", type="boolean")
+     * @ORM\Column(name="is_preview_version_done", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $isPreviewVersionDone;
@@ -133,7 +133,7 @@ class SongTemp
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_full_version_done", type="boolean")
+     * @ORM\Column(name="is_full_version_done", type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     protected $isFullVersionDone;

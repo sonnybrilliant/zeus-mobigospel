@@ -322,6 +322,43 @@ final class EmailerManager
         $this->sendMail($options);
         return;
     }
+    
+    /**
+     * Error with incoming sms
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function incomingSMS($params)
+    {
+        $this->logger->info('sending incoming sms error email');
+        $message = $params['message'];
+
+        $options['subject'] = "Mobigospel: Error SMS " . $message->msisdn . ' -  ' . $message->content;
+
+        $member = $params['member'];
+
+        $arguments = array(
+            'fullName' => $member->getFullName(),
+            'message' => $message
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'VanessaCoreBundle:Email/Html:sms.incoming.error.html.twig', $arguments
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'VanessaCoreBundle:Email/Text:sms.incoming.error.txt.twig', $arguments
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $member->getEmail();
+        $options['fullName'] = $member->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
 
     /**
      * Song ready

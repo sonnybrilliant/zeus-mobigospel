@@ -4,7 +4,7 @@ dir
 7894
 svn://svn.kaizania.co.za/mobilitate/trunk/messanger/hermes/trunk/version_2/src/main/java/org/mobilitate
 svn://svn.kaizania.co.za/mobilitate
-
+delete
 
 
 2012-05-31T13:44:57.487374Z
@@ -28,4 +28,8 @@ ronald
 
 hermes
 dir
+
+
+
+delete
 

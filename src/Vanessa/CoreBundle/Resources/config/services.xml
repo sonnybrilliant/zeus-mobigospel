@@ -18,6 +18,7 @@
         <parameter key="song.preview.encode.class">Vanessa\CoreBundle\Services\Consumers\SongPreviewEncodeConsumer</parameter>     
         <parameter key="song.full.encode.class">Vanessa\CoreBundle\Services\Consumers\SongFullEncodeConsumer</parameter>     
         <parameter key="song.full.tag.class">Vanessa\CoreBundle\Services\Consumers\SongFullTagConsumer</parameter>     
+        <parameter key="rxqueue_manager.class">Vanessa\CoreBundle\Services\RxqueueManager</parameter>     
     </parameters>
     <services>
         <service id="status.manager" class="%status_manager.class%">
@@ -66,6 +67,10 @@
             <argument type="service" id="logger" />
         </service>
         <service id="song.full.tag.consumer" class="%song.full.tag.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="rxqueue.manager" class="%rxqueue_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>  

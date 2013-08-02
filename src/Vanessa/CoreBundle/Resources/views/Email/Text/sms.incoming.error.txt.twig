@@ -1,0 +1,13 @@
+{% extends "::base.mail.txt.twig" %}
+{% block body %}
+Hi {{ fullName }},
+
+There was an error with an incoming sms, please have a look.
+
+Msisdn: {{message.msisdn}}
+
+Content: {{message.content}}
+
+Error: {{message.error}}
+
+{% endblock %}

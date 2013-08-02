@@ -4,7 +4,7 @@ dir
 7894
 svn://svn.kaizania.co.za/mobilitate/trunk/messanger/hermes/trunk/version_2/src/test/java/org/mobilitate/hermes/rabbitmqconcurrentclient
 svn://svn.kaizania.co.za/mobilitate
-
+delete
 
 
 2011-09-26T11:38:46.169769Z
@@ -31,7 +31,7 @@ file
 
 
 
-
+delete
 2012-05-31T14:51:41.035999Z
 eb86a2fcb8e3493c0555ea0fe66bf7f3
 2011-09-26T11:38:46.169769Z

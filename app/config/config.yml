@@ -319,6 +319,24 @@ old_sound_rabbit_mq:
                 durable: true
                 routing_keys: 
                           - song.error
+                          
+        sms_error:
+            connection: default
+            exchange_options: {name: 'sms', type: direct , durable: true}
+            queue_options: 
+                name: q_sms_error
+                durable: true
+                routing_keys: 
+                          - sms.error
+                          
+        sms_incoming:
+            connection: default
+            exchange_options: {name: 'sms', type: direct , durable: true}
+            queue_options: 
+                name: q_sms_incoming
+                durable: true
+                routing_keys: 
+                          - song.incoming
  
     consumers:
         song_preview_encode:

@@ -11,7 +11,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Vanessa\CoreBundle\Entity\Rxqueue
  *
- * @ORM\Table(name="rxqueue")
+ * @ORM\Table(name="rxqueue",
+ *  indexes={@ORM\Index(name="search_context", columns={"msisdn","seqno"})} 
+ * )
+ * 
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\RxqueueRepository")
  * @ORM\HasLifecycleCallbacks
  * 
@@ -39,6 +42,14 @@ class Rxqueue
      * 
      */
     protected $msisdn;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="to_address", type="string", length=20)
+     * 
+     */
+    protected $toAddress;
 
     /**
      * @var string
@@ -51,34 +62,21 @@ class Rxqueue
     /**
      * @var string
      *
-     * @ORM\Column(name="service", type="string", length=20)
-     * 
-     */
-    protected $service;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="amount", type="integer", length=9)
-     * 
-     */
-    protected $amount;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="network", type="integer", length=5, nullable=true)
      * 
      */
     protected $network;
-
+    
     /**
-     * @var string
+     * @var Status
      *
-     * @ORM\Column(name="address", type="string", length=20)
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Status")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * })
      * 
      */
-    protected $address;
+    protected $status;    
 
     /**
      * @var string
@@ -87,30 +85,6 @@ class Rxqueue
      * 
      */
     protected $seqno;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sent_at", type="string", length=20)
-     * 
-     */
-    protected $sentAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="payload", type="text")
-     * 
-     */
-    protected $payload;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_queued", type="boolean")
-     * 
-     */
-    protected $isQueued = false;
 
     /**
      * @var datetime $createdAt
@@ -162,6 +136,29 @@ class Rxqueue
     }
 
     /**
+     * Set toAddress
+     *
+     * @param string $toAddress
+     * @return Rxqueue
+     */
+    public function setToAddress($toAddress)
+    {
+        $this->toAddress = $toAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get toAddress
+     *
+     * @return string 
+     */
+    public function getToAddress()
+    {
+        return $this->toAddress;
+    }
+
+    /**
      * Set body
      *
      * @param string $body
@@ -185,72 +182,26 @@ class Rxqueue
     }
 
     /**
-     * Set service
+     * Set network
      *
-     * @param string $service
+     * @param integer $network
      * @return Rxqueue
      */
-    public function setService($service)
+    public function setNetwork($network)
     {
-        $this->service = $service;
+        $this->network = $network;
 
         return $this;
     }
 
     /**
-     * Get service
-     *
-     * @return string 
-     */
-    public function getService()
-    {
-        return $this->service;
-    }
-
-    /**
-     * Set amount
-     *
-     * @param integer $amount
-     * @return Rxqueue
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Get amount
+     * Get network
      *
      * @return integer 
      */
-    public function getAmount()
+    public function getNetwork()
     {
-        return $this->amount;
-    }
-
-    /**
-     * Set address
-     *
-     * @param string $address
-     * @return Rxqueue
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string 
-     */
-    public function getAddress()
-    {
-        return $this->address;
+        return $this->network;
     }
 
     /**
@@ -274,29 +225,6 @@ class Rxqueue
     public function getSeqno()
     {
         return $this->seqno;
-    }
-
-    /**
-     * Set sentAt
-     *
-     * @param string $sentAt
-     * @return Rxqueue
-     */
-    public function setSentAt($sentAt)
-    {
-        $this->sentAt = $sentAt;
-
-        return $this;
-    }
-
-    /**
-     * Get sentAt
-     *
-     * @return string 
-     */
-    public function getSentAt()
-    {
-        return $this->sentAt;
     }
 
     /**
@@ -346,72 +274,25 @@ class Rxqueue
     }
 
     /**
-     * Set network
+     * Set status
      *
-     * @param integer $network
+     * @param \Vanessa\CoreBundle\Entity\Status $status
      * @return Rxqueue
      */
-    public function setNetwork($network)
+    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
     {
-        $this->network = $network;
+        $this->status = $status;
 
         return $this;
     }
 
     /**
-     * Get network
+     * Get status
      *
-     * @return integer 
+     * @return \Vanessa\CoreBundle\Entity\Status 
      */
-    public function getNetwork()
+    public function getStatus()
     {
-        return $this->network;
-    }
-
-    /**
-     * Set payload
-     *
-     * @param string $payload
-     * @return Rxqueue
-     */
-    public function setPayload($payload)
-    {
-        $this->payload = $payload;
-
-        return $this;
-    }
-
-    /**
-     * Get payload
-     *
-     * @return string 
-     */
-    public function getPayload()
-    {
-        return $this->payload;
-    }
-
-
-    /**
-     * Set isQueued
-     *
-     * @param boolean $isQueued
-     * @return Rxqueue
-     */
-    public function setIsQueued($isQueued)
-    {
-        $this->isQueued = $isQueued;
-    
-        return $this;
-    }
-
-    /**
-     * Get isQueued
-     *
-     * @return boolean 
-     */
-    public function getIsQueued()
-    {
-        return $this->isQueued;
+        return $this->status;
     }
 }
