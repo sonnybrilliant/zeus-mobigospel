@@ -1,0 +1,12 @@
+vanessa_api_incoming:
+    pattern:  /api/get/sms/incoming/{msisdn}/{message}/{network}/{toAddress}/{seqno}
+    defaults: { _controller: VanessaApiBundle:Higate:incoming}        
+    requirements:
+        _method: GET 
+        
+vanessa_api_purchase:
+    pattern:  /api/get/sms/purchase/{rxqueue}/{msisdn}/{message}
+    defaults: { _controller: VanessaApiBundle:Higate:purchase , rxqueue: 1 , msisdn: 0732564758 , message: 'purchase'}        
+    requirements:
+        _method: GET 
+
