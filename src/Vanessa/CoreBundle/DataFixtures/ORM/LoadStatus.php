@@ -137,6 +137,31 @@ class LoadStatus extends AbstractFixture implements OrderedFixtureInterface
         $disabled->setName('Disabled');
         $disabled->setCode(230);
         $manager->persist($disabled);
+        
+        $queued = new Status();
+        $queued->setName('Queued');
+        $queued->setCode(240);
+        $manager->persist($queued);
+        
+        $submitted = new Status();
+        $submitted->setName('Submitted');
+        $submitted->setCode(250);
+        $manager->persist($submitted);
+        
+        $acknowledged = new Status();
+        $acknowledged->setName('Acknowledged');
+        $acknowledged->setCode(260);
+        $manager->persist($acknowledged);
+        
+        $receipted = new Status();
+        $receipted->setName('Receipted');
+        $receipted->setCode(270);
+        $manager->persist($receipted);
+        
+        $expired = new Status();
+        $expired->setName('Expired');
+        $expired->setCode(280);
+        $manager->persist($expired);
 
 
         $manager->flush();

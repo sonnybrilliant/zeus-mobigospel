@@ -15,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="Vanessa\CoreBundle\Repository\TxqueueRepository")
  * @ORM\HasLifecycleCallbacks
  * 
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@mobigospel.co.za>
  * @package VanessaCoreBundle
  * @subpackage Entity
  * @version 0.0.1
@@ -59,28 +59,15 @@ class Txqueue
     protected $body;
 
     /**
-     * @var string
+     * @var Status
      *
-     * @ORM\Column(name="status", type="string", length=20, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Vanessa\CoreBundle\Entity\Status")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * })
      * 
      */
-    protected $status;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="outgoing_payload", type="text" , nullable=true)
-     * 
-     */
-    protected $outgoingPayload;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="incoming_payload", type="text" , nullable=true)
-     * 
-     */
-    protected $incomingPayload;
+    protected $status;   
 
     /**
      * @var boolean
@@ -91,20 +78,20 @@ class Txqueue
     protected $isValid = true;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_sent", type="boolean")
-     * 
-     */
-    protected $isSent = true;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="seqno", type="string", length=20, nullable=true)
      * 
      */
     protected $seqno;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="refcode", type="string", length=10, nullable=true)
+     * 
+     */
+    protected $refcode;
 
     /**
      * @var string
@@ -149,7 +136,7 @@ class Txqueue
     public function setMsisdn($msisdn)
     {
         $this->msisdn = $msisdn;
-    
+
         return $this;
     }
 
@@ -172,7 +159,7 @@ class Txqueue
     public function setBody($body)
     {
         $this->body = $body;
-    
+
         return $this;
     }
 
@@ -187,75 +174,6 @@ class Txqueue
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
-     * @return Txqueue
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string 
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set outgoingPayload
-     *
-     * @param string $outgoingPayload
-     * @return Txqueue
-     */
-    public function setOutgoingPayload($outgoingPayload)
-    {
-        $this->outgoingPayload = $outgoingPayload;
-    
-        return $this;
-    }
-
-    /**
-     * Get outgoingPayload
-     *
-     * @return string 
-     */
-    public function getOutgoingPayload()
-    {
-        return $this->outgoingPayload;
-    }
-
-    /**
-     * Set incomingPayload
-     *
-     * @param string $incomingPayload
-     * @return Txqueue
-     */
-    public function setIncomingPayload($incomingPayload)
-    {
-        $this->incomingPayload = $incomingPayload;
-    
-        return $this;
-    }
-
-    /**
-     * Get incomingPayload
-     *
-     * @return string 
-     */
-    public function getIncomingPayload()
-    {
-        return $this->incomingPayload;
-    }
-
-    /**
      * Set isValid
      *
      * @param boolean $isValid
@@ -264,7 +182,7 @@ class Txqueue
     public function setIsValid($isValid)
     {
         $this->isValid = $isValid;
-    
+
         return $this;
     }
 
@@ -279,29 +197,6 @@ class Txqueue
     }
 
     /**
-     * Set isSent
-     *
-     * @param boolean $isSent
-     * @return Txqueue
-     */
-    public function setIsSent($isSent)
-    {
-        $this->isSent = $isSent;
-    
-        return $this;
-    }
-
-    /**
-     * Get isSent
-     *
-     * @return boolean 
-     */
-    public function getIsSent()
-    {
-        return $this->isSent;
-    }
-
-    /**
      * Set seqno
      *
      * @param string $seqno
@@ -310,7 +205,7 @@ class Txqueue
     public function setSeqno($seqno)
     {
         $this->seqno = $seqno;
-    
+
         return $this;
     }
 
@@ -333,7 +228,7 @@ class Txqueue
     public function setNetwork($network)
     {
         $this->network = $network;
-    
+
         return $this;
     }
 
@@ -356,7 +251,7 @@ class Txqueue
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -379,7 +274,7 @@ class Txqueue
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
@@ -402,7 +297,7 @@ class Txqueue
     public function setRxqueue(\Vanessa\CoreBundle\Entity\Rxqueue $rxqueue = null)
     {
         $this->rxqueue = $rxqueue;
-    
+
         return $this;
     }
 
@@ -414,5 +309,51 @@ class Txqueue
     public function getRxqueue()
     {
         return $this->rxqueue;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Vanessa\CoreBundle\Entity\Status $status
+     * @return Txqueue
+     */
+    public function setStatus(\Vanessa\CoreBundle\Entity\Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Vanessa\CoreBundle\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set refcode
+     *
+     * @param string $refcode
+     * @return Txqueue
+     */
+    public function setRefcode($refcode)
+    {
+        $this->refcode = $refcode;
+
+        return $this;
+    }
+
+    /**
+     * Get refcode
+     *
+     * @return string 
+     */
+    public function getRefcode()
+    {
+        return $this->refcode;
     }
 }

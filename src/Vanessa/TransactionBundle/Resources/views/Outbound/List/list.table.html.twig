@@ -1,0 +1,69 @@
+<section class="content">
+   <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+            <tr>
+                <th scope="col" width="6%">{{ knp_pagination_sortable(pagination,'#Id', 't.id') }}
+                  {% if isDirectionSet == false %}
+                      <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />  
+                  {% else %}
+                    {% if pagination.isSorted('t.id') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
+                  {% endif %} 
+                </th>
+                <th scope="col" width="11%">{{ knp_pagination_sortable(pagination,'Msisdn', 't.msisdn') }}{% if pagination.isSorted('t.msisdn') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="9%">{{ knp_pagination_sortable(pagination,'Seqno', 't.seqno') }}{% if pagination.isSorted('t.seqno') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'#Rxqueue', 't.rxqueue') }}{% if pagination.isSorted('t.rxqueue') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="9%">{{ knp_pagination_sortable(pagination,'Payload', 't.body') }}{% if pagination.isSorted('t.body') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="9%">{{ knp_pagination_sortable(pagination,'Network', 't.network') }}{% if pagination.isSorted('t.network') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="9%">{{ knp_pagination_sortable(pagination,'Status', 't.status') }}{% if pagination.isSorted('t.status') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Created At', 't.createdAt') }}{% if pagination.isSorted('t.createdAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Updated At', 't.updatedAt') }}{% if pagination.isSorted('t.updatedAt') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for txqueue in pagination %}
+                <tr>
+                    <td>{{ txqueue.id }}</td>
+                    <td>{{ txqueue.msisdn }}</td> 
+                    <td>{{ txqueue.seqno }}</td> 
+                    <td>{{ txqueue.rxqueue.id }}</td> 
+                    <td><a href="#payload_{{txqueue.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to preview" title="click to preview" class="btn btn-mini btn-warning"><i class="icon-file icon-white"></i>&nbsp;<strong>View</strong></a>&nbsp;</td>
+                    {% if txqueue.network == 1 %}
+                        <td>Vodacom</td>
+                    {% elseif txqueue.network == 2 %}
+                        <td>MTN</td>
+                    {% elseif txqueue.network == 3 %}
+                        <td>Cell-c</td>
+                    {% else %}
+                        <td>Other</td>
+                    {% endif %}     
+                        
+                        
+                    {% if txqueue.status.name == 'Expired' %}
+                        <td><span class="label label-inverse">{{txqueue.status.name }}</span></td>
+                    {% elseif txqueue.status.name == 'Receipted' %}
+                        <td><span class="label label-success">{{txqueue.status.name }}</span></td>                        
+                    {% elseif txqueue.status.name == 'Error' %}
+                        <td><span class="label label-important">{{txqueue.status.name }}</span></td>
+                    {% else %}
+                        <td><span class="label">{{txqueue.status.name }}</span></td>
+                    {% endif %}         
+                    <td>{{txqueue.createdAt|date('Y-m-d H:i A')}}</td>
+                    <td>{{txqueue.updatedAt|date('Y-m-d H:i A')}}</td>
+                    <td>
+                        <small>
+                            
+                        </small>       
+                    </td>    
+                </tr>
+          {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation pagination-right">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+</section>
+{% for txqueue in pagination %}
+     {% include "VanessaTransactionBundle:Outbound:payload.html.twig" with { 'txqueue':txqueue }  %}
+{% endfor %}
+

@@ -336,7 +336,15 @@ old_sound_rabbit_mq:
                 name: q_sms_incoming
                 durable: true
                 routing_keys: 
-                          - song.incoming
+                          - sms.incoming
+        sms_outgoing:
+            connection: default
+            exchange_options: {name: 'sms', type: direct , durable: true}
+            queue_options: 
+                name: q_sms_outgoing
+                durable: true
+                routing_keys: 
+                          - sms.outgoing
  
     consumers:
         song_preview_encode:

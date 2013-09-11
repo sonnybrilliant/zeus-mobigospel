@@ -60,7 +60,7 @@ class LoadMediaPartners extends AbstractFixture implements OrderedFixtureInterfa
             'email' => 'manager.media@sulehosting.co.za',
             'mobile' => '27713264129',
             'password' => '654321',
-            'agency' => $this->getReference('agency-media-partner'),
+            'agency' => $this->getReference('agency-internal'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-media-manager'),

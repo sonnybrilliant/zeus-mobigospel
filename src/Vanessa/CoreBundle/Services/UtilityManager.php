@@ -134,5 +134,15 @@ final class UtilityManager
         $this->session->getFlashBag()->add('alert-'.$type,$message);
         return;
     }
+    
+    public function generateToken()
+    {
+        return base_convert(bin2hex($this->getRandomNumber()) , 16 , 36);
+    }
+
+    private function getRandomNumber()
+    {
+        return hash('sha256' , uniqid(mt_rand() , true) , true);
+    }    
 
 }

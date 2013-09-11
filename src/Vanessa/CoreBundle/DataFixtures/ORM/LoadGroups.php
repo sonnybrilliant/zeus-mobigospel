@@ -41,7 +41,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $admin->addRole($this->getReference('role-code')) ;
         $manager->persist($admin) ;
         
-        $labelAdmin = new Group('Record label') ;
+        $labelAdmin = new Group('Content owner administrator') ;
         $labelAdmin->setDescription('Record label/Content Owner, Creates and shares content with media partner.');
         $labelAdmin->addRole($this->getReference('role-member-manager')) ;
         $labelAdmin->addRole($this->getReference('role-member-observer')) ;
@@ -57,7 +57,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $labelAdmin->addRole($this->getReference('role-code')) ;
         $manager->persist($labelAdmin) ;
    
-        $mediaAdmin = new Group('Media partner') ;
+        $mediaAdmin = new Group('Media partner administrator') ;
         $mediaAdmin->setDescription('Media partner, Consumes content but cannot create it.');
         $mediaAdmin->addRole($this->getReference('role-member-manager')) ;
         $mediaAdmin->addRole($this->getReference('role-member-observer')) ;
@@ -72,7 +72,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($mediaAdmin) ;        
         
         
-        $labelManager = new Group('Record label content loader') ;
+        $labelManager = new Group('Content owner moderator') ;
         $labelManager->setDescription('Record label content loader, has access to artists and songs upload , as well as download code manager');
         $labelManager->addRole($this->getReference('role-artist-manager')) ;
         $labelManager->addRole($this->getReference('role-artist-observer')) ;
@@ -82,7 +82,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $labelManager->addRole($this->getReference('role-download')) ;
         $manager->persist($labelManager) ;
         
-        $mediaManager = new Group('Media content manager') ;
+        $mediaManager = new Group('Media partner moderator') ;
         $mediaManager->setDescription('Media content manager, has access to view artists and songs but cannot create them, as well as download code manager');
         $mediaManager->addRole($this->getReference('role-artist-observer')) ;
         $mediaManager->addRole($this->getReference('role-song-observer')) ;

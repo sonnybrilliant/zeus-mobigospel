@@ -9,7 +9,7 @@
                     {% if pagination.isSorted('s.title') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}
                   {% endif %} 
                 </th>
-                <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Artist', 's.artist') }}{% if pagination.isSorted('s.artist') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
+                <th scope="col" width="12%">{{ knp_pagination_sortable(pagination,'Artist', 's.artist') }}{% if pagination.isSorted('s.artist') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 {% if is_granted('ROLE_ADMIN') %}
                 <th scope="col" width="10%">{{ knp_pagination_sortable(pagination,'Agency', 's.agency') }}{% if pagination.isSorted('s.agency') %} {% if direction == 'asc'%} <img src="{{ asset('/img/assets/icons/asc.png') }}" title="sort ascending" class="pull-right" />{% else %}<img src="{{ asset('/img/assets/icons/desc.png') }}" title="sort descending" class="pull-right" />{% endif %}</i>{% endif %}</th>
                 {% endif%}
