@@ -58,6 +58,18 @@ class SongUpdateType extends AbstractType
                     
                     )
             ))
+            ->add('isrc', 'text', array(
+                'label' => 'ISRC:',
+                'attr' => array(
+                    'class' => 'span4',
+                    'placeholder' => 'ISRC',
+                    'minlength' => 2,
+                    'data-validation-minlength-message' => 'Song ISRC must have at least 2 characters.',
+                    'maxlength' => 10,
+                    'data-validation-maxlength-message' => 'Song ISRC has a limit of 10 characters.',
+                    
+                    )
+            ))                
             ->add('featuredArtist', 'text', array(
                 'label' => 'Featured artist:',
                 'required' => false,

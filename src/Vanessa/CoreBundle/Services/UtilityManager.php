@@ -137,7 +137,7 @@ final class UtilityManager
     
     public function generateToken()
     {
-        return base_convert(bin2hex($this->getRandomNumber()) , 16 , 36);
+        return base_convert(bin2hex($this->getRandomNumber()) , 16 , 20);
     }
 
     private function getRandomNumber()

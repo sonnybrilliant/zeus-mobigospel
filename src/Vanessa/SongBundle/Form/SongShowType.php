@@ -34,6 +34,10 @@ class SongShowType extends AbstractType
                 'label' => 'Title:',
                 'attr' => array('class' => 'span4' , 'disabled' => 'disabled')
             ))
+            ->add('isrc', 'text', array(
+                'label' => 'ISRC:',
+                'attr' => array('class' => 'span4' , 'disabled' => 'disabled')
+            ))
             ->add('featuredArtist', 'text', array(
                 'label' => 'Featured artist:',
                 'required' => false,

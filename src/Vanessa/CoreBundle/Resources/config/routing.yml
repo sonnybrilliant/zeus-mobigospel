@@ -27,3 +27,10 @@ vanessa_alert_get_messages:
         _format:  html  
     options:
         expose: true
+        
+vanessa_core_download: 
+    pattern:  /vfg/{code}.{_format}
+    defaults: { _controller: VanessaCoreBundle:Download:pull , _format: dlg}     
+    requirements:
+        _method:  GET 
+        _format:  dlg         

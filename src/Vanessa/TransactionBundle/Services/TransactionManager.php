@@ -115,8 +115,8 @@ final class TransactionManager
                 //update download counter
                 if ($this->getContainer()->hasParameter('site_detail_url')) {
                     $arguments->body = "Follow link to download song, ";
-                    $arguments->body .= $this->getContainer()->getParameter('site_detail_url');
-                    $arguments->body .= $download->getToken();
+                    $arguments->body .= $this->getContainer()->getParameter('site_detail_url').'vfg/';
+                    $arguments->body .= $download->getToken().'.dlg';
                 }
 
                 $txqueue = $this->getContainer()->get('txqueue.manager')->saveNew($arguments);
