@@ -222,7 +222,7 @@ class ResellerController extends Controller
      * @return Response
      * @throws createNotFoundException
      * 
-     * @Secure(roles="ROLE_ADMIN")
+     * @Secure(roles="ROLE_ADMIN,ROLE_MEDIA_MANAGER")
      */
     public function profileAction($slug)
     {

@@ -114,6 +114,16 @@ final class StatusManager
     }
 
     /**
+     * get error status
+     * @return object 
+     */
+    public function error()
+    {
+        $this->logger->info('get error status');
+        return $this->getStatusByName('Error');
+    }
+
+    /**
      * get pending status
      * @return object 
      */
@@ -191,6 +201,72 @@ final class StatusManager
     {
         $this->logger->info('get disabled status');
         return $this->getStatusByName('Disabled');
+    }
+
+    /**
+     * get Successful status
+     * 
+     * @return object 
+     */
+    public function successful()
+    {
+        $this->logger->info('get Successful status');
+        return $this->getStatusByName('Successful');
+    }
+
+    /**
+     * get Queued status
+     * 
+     * @return object 
+     */
+    public function queued()
+    {
+        $this->logger->info('get Queued status');
+        return $this->getStatusByName('Queued');
+    }
+
+    /**
+     * get Submitted status
+     * 
+     * @return object 
+     */
+    public function submitted()
+    {
+        $this->logger->info('get Submitted status');
+        return $this->getStatusByName('Submitted');
+    }
+
+    /**
+     * get Acknowledged status
+     * 
+     * @return object 
+     */
+    public function acknowledged()
+    {
+        $this->logger->info('get Acknowledged status');
+        return $this->getStatusByName('Acknowledged');
+    }
+
+    /**
+     * get Receipted status
+     * 
+     * @return object 
+     */
+    public function receipted()
+    {
+        $this->logger->info('get Receipted status');
+        return $this->getStatusByName('Receipted');
+    }
+
+    /**
+     * get Expired status
+     * 
+     * @return object 
+     */
+    public function expired()
+    {
+        $this->logger->info('get Expired status');
+        return $this->getStatusByName('Expired');
     }
 
 }

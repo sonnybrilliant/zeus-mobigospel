@@ -1,0 +1,30 @@
+vanessa_transaction_inbound_list:
+    pattern:  /sms/inbound/list.{_format}
+    defaults: { _controller: VanessaTransactionBundle:Inbound:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html
+        
+vanessa_transaction_inbound_show:
+    pattern:  /sms/inbound/show/{id}.{_format}
+    defaults: { _controller: VanessaTransactionBundle:Inbound:show , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html
+
+vanessa_transaction_inbound_download_excel:
+    pattern:  /sms/inbound/download/excel/list.{_format}
+    defaults: { _controller: VanessaTransactionBundle:Inbound:downloadExcel , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html 
+        
+vanessa_transaction_outbound_list:
+    pattern:  /sms/outbound/list.{_format}
+    defaults: { _controller: VanessaTransactionBundle:Outbound:list , _format: html}        
+    requirements:
+        _method: GET 
+        _format: html
+
+
+        

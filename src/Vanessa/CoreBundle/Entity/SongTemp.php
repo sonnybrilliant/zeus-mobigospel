@@ -55,6 +55,17 @@ class SongTemp
      * 
      */
     protected $slug;  
+    
+    /**
+     * @var string
+     *
+     * @Assert\MinLength(limit= 2, message="Song ISRC must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 10, message="Song ISRC has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="isrc", type="string", length=11 , nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $isrc;     
 
     /**
      * @var string
@@ -775,5 +786,28 @@ class SongTemp
     public function getIsFullVersionDone()
     {
         return $this->isFullVersionDone;
+    }
+
+    /**
+     * Set isrc
+     *
+     * @param string $isrc
+     * @return SongTemp
+     */
+    public function setIsrc($isrc)
+    {
+        $this->isrc = $isrc;
+
+        return $this;
+    }
+
+    /**
+     * Get isrc
+     *
+     * @return string 
+     */
+    public function getIsrc()
+    {
+        return $this->isrc;
     }
 }

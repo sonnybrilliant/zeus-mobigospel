@@ -5,8 +5,14 @@ vanessa_api_incoming:
         _method: GET 
         
 vanessa_api_purchase:
-    pattern:  /api/get/sms/purchase/{rxqueue}/{msisdn}/{message}
+    pattern:  /api/get/sms/update/{rxqueue}/{msisdn}/{message}
     defaults: { _controller: VanessaApiBundle:Higate:purchase , rxqueue: 1 , msisdn: 0732564758 , message: 'purchase'}        
+    requirements:
+        _method: GET 
+        
+vanessa_api_sms_update:
+    pattern:  /api/get/sms/status/{refno}/{seqno}/{subcode}
+    defaults: { _controller: VanessaApiBundle:Higate:statusUpdate , refno: 1 , seqno: 64758 , subcode: 3}        
     requirements:
         _method: GET 
 

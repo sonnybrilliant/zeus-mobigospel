@@ -99,7 +99,7 @@ class Download
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=50)
+     * @ORM\Column(name="token", type="string", length=100)
      * 
      */
     protected $token;

@@ -638,6 +638,77 @@ final class ExcelManager
 
         $sheet->setTitle('Codes listing');
         return;
+    } 
+    
+    /**
+     * Create active inbound sheet
+     * 
+     * @param array $inbounds
+     * @param integer $index
+     * @return void
+     */
+    private function inboundsSheet($inbounds,$index = 0)
+    {
+        $sheet = $this->excel->excelObj->createSheet($index);
+        
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(20);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $this->excel->excelObj->setActiveSheetIndex($index)
+            ->setCellValue('A1', "#Id")
+            ->setCellValue('B1', "Msisdn")
+            ->setCellValue('C1', "To Address")
+            ->setCellValue('D1', "Payload")
+            ->setCellValue('E1', "Network")
+            ->setCellValue('F1', "Seqno")
+            ->setCellValue('G1', "Status")
+            ->setCellValue('H1', "Created At")
+            ->setCellValue('I1', "Updated At")
+            ->setCellValue('J1', "");
+        $sheet->getStyle('A1:B1')->getFont()->setBold(true);
+        $sheet->getStyle('C1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('E1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('G1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('I1:J1')->getFont()->setBold(true);
+        $counter = 2;
+        foreach ($inbounds as $rxqueue) {
+            
+            $network = 0;
+            
+            if($rxqueue->getNetwork() == 1){
+              $network = "Vodacom";  
+            }elseif($rxqueue->getNetwork() == 2){
+              $network = "MTN";   
+            }elseif($rxqueue->getNetwork() == 3){
+              $network = "Cell C";  
+            }else{
+              $network = "Other";  
+            }
+            
+            
+            $this->excel->excelObj->setActiveSheetIndex($index)
+                ->setCellValue('A' . $counter, $rxqueue->getId())
+                ->setCellValue('B' . $counter, $rxqueue->getMsisdn())                
+                ->setCellValue('C' . $counter, $rxqueue->getToAddress())                
+                ->setCellValue('D' . $counter, $rxqueue->getBody())                
+                ->setCellValue('E' . $counter, $network)                
+                ->setCellValue('F' . $counter, $rxqueue->getSeqno())                
+                ->setCellValue('G' . $counter, $rxqueue->getStatus()->getName())
+                ->setCellValue('H' . $counter, $rxqueue->getCreatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('I' . $counter, $rxqueue->getUpdatedAt()->format('Y-m-d H:i A'))
+                ->setCellValue('J' . $counter, "");
+            $counter++;
+        }
+
+        $sheet->setTitle('Inbound sms listing');
+        return;
     }    
     
     /**
@@ -833,6 +904,36 @@ final class ExcelManager
         $fileName = 'codes-list-' . date('Y-m-d') . '-' . sizeof($codes) . '.xlsx';
 
         $this->codesSheet($codes, 0);
+        
+        //create the response
+        $response = $this->excel->getResponse();
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $fileName);
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
+    }    
+    
+
+    /**
+     * Excel inbound sms list
+     * 
+     * @param array $inbounds
+     * @return Response
+     */
+    public function inboundList($inbounds)
+    {
+        $this->excel->excelObj->getProperties()->setTitle($this->container->getParameter('site_name') . " Inbound sms listing")
+            ->setSubject(" Inbound sms Listing")
+            ->setDescription("A deatiled list of all inbound sms loaded on " . $this->container->getParameter('site_name'))
+            ->setKeywords("")
+            ->setCategory("List");
+
+        $fileName = 'inbound-sms-' . date('Y-m-d') . '-' . sizeof($inbounds) . '.xlsx';
+
+        $this->inboundsSheet($inbounds, 0);
         
         //create the response
         $response = $this->excel->getResponse();

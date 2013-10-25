@@ -46,7 +46,7 @@ class ResellerProfileType extends AbstractType
              ->add('description', 'textarea' , array (
                   'label' => 'Description:' ,
                   'required' => false,
-                  'attr' => array ('class' => 'tinymce span2' ,'data-theme' => 'simple','disabled'=>'disabled')
+                  'attr' => array ('class' => 'tinymce span4' ,'data-theme' => 'simple','disabled'=>'disabled')
                             
                 ))           
               ->add('contactPerson', 'text', array (

@@ -22,7 +22,7 @@ class SongController extends Controller
      * 
      * @param integer $page
      * @return Response
-     * @Secure(roles="ROLE_ADMIN,ROLE_SONG")
+     * @Secure(roles="ROLE_ADMIN,ROLE_SONG_OBSERVER,ROLE_SONG_MANAGER")
      */
     public function listAction($page = 1)
     {
@@ -57,7 +57,7 @@ class SongController extends Controller
      * 
      * @param integer $page
      * @return Response
-     * @Secure(roles="ROLE_ADMIN,ROLE_SONG")
+     * @Secure(roles="ROLE_ADMIN,ROLE_SONG_OBSERVER,ROLE_SONG_MANAGER")
      */
     public function downloadExcelAction()
     {

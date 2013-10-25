@@ -1,3 +1,7 @@
+vanessa_transaction:
+    resource: "@VanessaTransactionBundle/Resources/config/routing.yml"
+    prefix:   /
+
 vanessa_api:
     resource: "@VanessaApiBundle/Resources/config/routing.yml"
     prefix:   /

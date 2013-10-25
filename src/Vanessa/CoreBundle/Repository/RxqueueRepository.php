@@ -12,4 +12,74 @@ use Doctrine\ORM\EntityRepository;
  */
 class RxqueueRepository extends EntityRepository
 {
+
+
+    /**
+     * Get all codes query
+     *
+     * @return type
+     */
+    public function getAllQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'r.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('r')
+            ->select('r');
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }    
+    
+    /**
+     * Get all rxqueue query
+     *
+     * @return type
+     */
+    public function getAllRxqueueQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'r.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('r')
+            ->select('r');
+
+        if (isset($options['status'])) {
+            $qb->andWhere('r.status = :status')
+                ->setParameter('status', $options['status']);
+        }
+
+        // search
+        if (($options['searchText']) && ($options['searchText'] != 'search..')) {
+
+            $qb->andWhere($qb->expr()->orx(
+                    $qb->expr()->like('r.msisdn;', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                    $qb->expr()->like('r.body', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                    $qb->expr()->like('r.seqno', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                    $qb->expr()->like('r.toAddress', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                ));
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
 }

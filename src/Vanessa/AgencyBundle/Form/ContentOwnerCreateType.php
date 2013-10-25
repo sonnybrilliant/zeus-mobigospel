@@ -54,7 +54,7 @@ class ContentOwnerCreateType extends AbstractType
              ->add('description', 'textarea' , array (
                   'label' => 'Description:' ,
                   'required' => false,
-                  'attr' => array ('class' => 'tinymce span2' ,'data-theme' => 'simple')
+                  'attr' => array ('class' => 'tinymce span4' ,'data-theme' => 'simple')
                             
                 ))           
               ->add('contactPerson', 'text', array (

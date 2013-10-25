@@ -1,10 +1,18 @@
-higate.username=C7Test01
-higate.password=26ron07
-higate.tag= 0066
-higate.servicecode=C7T01 
-higate.server=higate1.integrat.co.za
-higate.port=5081
-higate.mode=LIVE
+#higate.username=C7Test01
+#higate.password=26ron07
+#higate.tag= 0066
+#higate.servicecode=C7T01 
+#higate.server=higate1.integrat.co.za
+#higate.port=5081
+#higate.mode=LIVE
+
+higate.username=mylovewalksim
+higate.password=JRwegL
+higate.tag= 526
+higate.servicecode=MLWTCP 
+higate.server=higatesimbox.integrat.co.za
+higate.port=50101
+higate.mode=SIM
 
 rabbitmq.server=localhost
 rabbitmq.username=mobigospel
@@ -12,8 +20,8 @@ rabbitmq.password=15270
 rabbitmq.virtualhost=/mobigospel-development
 rabbitmq.port=5672
 rabbitmq.exchange=sms
-rabbitmq.queueerror=q_sms_error
-rabbitmq.queueerrorkey=sms.error
+rabbitmq.queueerror=q_sms_higate_error
+rabbitmq.queueerrorkey=sms.higate.error
 rabbitmq.queueoutgoing=q_sms_outgoing
 rabbitmq.queueoutgoingkey=sms.outgoing
 rabbitmq.queueincomingalert=q_sms_status_update

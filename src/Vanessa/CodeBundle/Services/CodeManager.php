@@ -139,7 +139,7 @@ final class CodeManager
                 if ($status) {
                     $options['status'] = $status;
                 }
-            } 
+            }
         }
 
         $member = $this->getContainer()->get('member.manager')->getActiveUser();
@@ -149,7 +149,6 @@ final class CodeManager
         return $this->em
                 ->getRepository('VanessaCoreBundle:Code')
                 ->getAllCodesQuery($options);
-
     }
 
     /**
@@ -192,9 +191,8 @@ final class CodeManager
         return $this->em
                 ->getRepository('VanessaCoreBundle:Code')
                 ->getAllByAgencyTypeQuery($options);
-    }      
-    
-    
+    }
+
     /**
      * Create new code
      * 
@@ -228,12 +226,12 @@ final class CodeManager
     public function internalCode($song)
     {
         $this->logger->info('create internal');
-                
+
         $str = "MOB";
-        $str .= str_pad((int) $song->getId(), 5, "0", STR_PAD_LEFT); 
-        
+        $str .= str_pad((int) $song->getId(), 5, "0", STR_PAD_LEFT);
+
         $agency = $this->getContainer()->get('reseller.manager')->getById(1);
-        
+
         $code = new Code();
         $code->setAgency($agency);
         $code->setSearchAgency($agency->getName());
@@ -258,15 +256,15 @@ final class CodeManager
     public function newCodeAuto($song)
     {
         $this->logger->info('create a new code');
-        
+
         $agency = $song->getAgency()->getName();
-        $artist = $song->getArtist()->getStageName();        
-        
+        $artist = $song->getArtist()->getStageName();
+
         $str = "";
         $str .= $agency[0];
         $str .= $artist[0];
-        $str .= str_pad((int) $song->getId(), 5, "0", STR_PAD_LEFT); 
-        
+        $str .= str_pad((int) $song->getId(), 5, "0", STR_PAD_LEFT);
+
         $code = new Code();
         $code->setAgency($song->getAgency());
         $code->setSearchAgency($song->getAgency()->getName());
@@ -281,7 +279,7 @@ final class CodeManager
         $this->em->flush();
         return;
     }
-    
+
     /**
      * Update new code
      * 
@@ -304,8 +302,8 @@ final class CodeManager
         $this->em->persist($code);
         $this->em->flush();
         return;
-    }    
-    
+    }
+
     /**
      * disable code
      * 
@@ -321,8 +319,8 @@ final class CodeManager
         $this->em->persist($code);
         $this->em->flush();
         return;
-    }    
-    
+    }
+
     /**
      * activate code
      * 
@@ -334,10 +332,28 @@ final class CodeManager
         $this->logger->info('activate code');
         $code->setStatus($this->container->get('status.manager')->active());
         $code->setDisabledBy(null);
-        $code->setDisabledAt(null);        
+        $code->setDisabledAt(null);
         $this->em->persist($code);
         $this->em->flush();
         return;
-    }    
+    }
+
+    /**
+     * update code
+     * 
+     * @param VanessaCoreBundle:Code $code
+     * @return void
+     */
+    public function updateCounter($code)
+    {
+        $this->logger->info("update download counter:" . $code->getCode());
+
+        $counter = $code->getDownloadCounter();
+        $code->setDownloadCounter($counter + 1);
+        $code->setCanEdit(false);
+        $this->em->persist($code);
+        $this->em->flush();
+        return;
+    }
 
 }

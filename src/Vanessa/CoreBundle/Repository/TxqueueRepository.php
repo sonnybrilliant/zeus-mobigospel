@@ -12,4 +12,46 @@ use Doctrine\ORM\EntityRepository;
  */
 class TxqueueRepository extends EntityRepository
 {
+
+    /**
+     * Get all txqueue query
+     *
+     * @return type
+     */
+    public function getAllTxqueueQuery($options)
+    {
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 't.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+        $qb = $this->createQueryBuilder('t')
+            ->select('t');
+
+        if (isset($options['status'])) {
+            $qb->andWhere('t.status = :status')
+                ->setParameter('status', $options['status']);
+        }
+
+        // search
+        if (($options['searchText']) && ($options['searchText'] != 'search..')) {
+
+            $qb->andWhere($qb->expr()->orx(
+                    $qb->expr()->like('t.msisdn;', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                    $qb->expr()->like('t.body', $qb->expr()->literal('%' . $options['searchText'] . '%')), 
+                    $qb->expr()->like('t.seqno', $qb->expr()->literal('%' . $options['searchText'] . '%'))                   
+                ));
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }    
+    
 }

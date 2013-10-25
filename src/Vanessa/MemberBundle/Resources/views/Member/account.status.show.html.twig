@@ -11,7 +11,7 @@
            {% include 'VanessaMemberBundle::breadcrumb.html.twig' with vars  %}
         </div>
         <div class="span5 pull-right" style="margin-right: -25px">        
-            <a href="{{ path('vanessa_member_account_status_edit',{'slug': member.slug })}}.html" class="btn btn-warning pull-right" title="Edit member details."><i class="icon-white icon-edit"></i>&nbsp;Edit member</a>
+            <a href="{{ path('vanessa_member_account_status_edit',{'slug': member.slug })}}.html" class="btn btn-warning pull-right" title="Edit user details."><i class="icon-white icon-edit"></i>&nbsp;Edit user</a>
         </div>
         <div class="span12">
             {% block alert %}
@@ -19,7 +19,7 @@
             {% endblock %}
             <div class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
-                    <li><a href="{{ path('vanessa_member_profile',{'slug': member.slug})}}.html" title="Member details" >Member details</a></li>
+                    <li><a href="{{ path('vanessa_member_profile',{'slug': member.slug})}}.html" title="Member details" >User details</a></li>
                     <li class="active"><a href="{{ path('vanessa_member_account_status_show',{'slug': member.slug})}}.html" title="Account status">Account status</a></li>
                 </ul>            
             </div>

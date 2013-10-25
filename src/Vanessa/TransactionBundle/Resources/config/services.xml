@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="rxqueue_manager.class">Vanessa\TransactionBundle\Services\RxqueueManager</parameter>     
+        <parameter key="txqueue_manager.class">Vanessa\TransactionBundle\Services\TxqueueManager</parameter>     
+        <parameter key="transaction_manager.class">Vanessa\TransactionBundle\Services\TransactionManager</parameter>     
+        <parameter key="download_manager.class">Vanessa\TransactionBundle\Services\DownloadManager</parameter>     
+    </parameters>
+    <services>
+        <service id="rxqueue.manager" class="%rxqueue_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="txqueue.manager" class="%txqueue_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="transaction.manager" class="%transaction_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+        <service id="download.manager" class="%download_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>  
+    </services>
+</container>

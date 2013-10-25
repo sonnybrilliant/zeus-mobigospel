@@ -29,6 +29,14 @@
           <span class="help-inline">{{form_errors(form.featuredArtist)}}</span>  
         </div>
       </div> 
+      <div class="control-group {% if form_errors(form.isrc) %} error {% endif %}">
+        <label class="control-label" for="isrc">{{ form_label(form.isrc) }}</label>
+        <div class="controls">
+          {{ form_widget(form.isrc) }} 
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="ISRC code."><i class="icon-info-sign"></i></a></span>  
+          <span class="help-inline">{{form_errors(form.isrc)}}</span>  
+        </div>
+      </div> 
       <div class="control-group {% if form_errors(form.genres) %} error {% endif %}">
         <label class="control-label" for="genres">{{ form_label(form.genres) }}</label>
         <div class="controls">

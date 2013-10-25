@@ -1,0 +1,30 @@
+{% extends "VanessaTransactionBundle::layout.html.twig" %}
+
+{% block title %}Show Inbound - #{{rxqueue.id}}{% endblock %}
+
+
+{% block body %}
+<div class="row">
+    <div class="span12">
+        <h3 class="align_header">Show Inbound - #{{rxqueue.id}}</h3>
+        <div class="span3">
+           {% set vars = {'action': 'Show'} %}
+           {% include 'VanessaTransactionBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+    </div>
+    <div class="span12 pull-right">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+            <div class="span8">
+                {% include "VanessaTransactionBundle:Inbound:Form/form.show.html.twig" %} 
+            </div> 
+            <div class="span3 pull-right">
+                {# include "VanessaCodeBundle:Code:Hint/form.create.html.twig" #} 
+            </div>  
+              
+    </div> 
+</div>
+{% endblock body %}
+
+
